@@ -4,24 +4,17 @@
 #include "StatsDisplayWidget.h"
 #include "ui_StatsDisplayWidget.h"
 
-StatsDisplayWidget::StatsDisplayWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::StatsDisplayWidget)
+StatsDisplayWidget::StatsDisplayWidget(QWidget* parent)
+    : QWidget(parent), ui(new Ui::StatsDisplayWidget)
 {
     ui->setupUi(this);
 }
 
-StatsDisplayWidget::~StatsDisplayWidget()
-{
-    delete ui;
-}
+StatsDisplayWidget::~StatsDisplayWidget() { delete ui; }
 
-void StatsDisplayWidget::updateStatDisplay(QDateTime time,
-                                           int packetsSent,
-                                           int packetsLost,
-                                           int avgReturnTime,
-                                           int min,
-                                           int max)
+void StatsDisplayWidget::updateStatDisplay(QDateTime time, int packetsSent,
+                                           int packetsLost, int avgReturnTime,
+                                           int min, int max)
 {
     ui->timeLabelValue->setText(time.toString(Constants::displayTimeFormat()));
     ui->packetsSentValue->setText(QString::number(packetsSent));

@@ -5,7 +5,8 @@
 
 class HostChecker;
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -14,14 +15,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent = 0);
 
     virtual ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
 
-    ///Host chekcer object.
+    /// Host chekcer object.
     HostChecker* hostChecker_;
 
 private slots:
@@ -37,4 +38,4 @@ signals:
     void configUpdated(int);
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

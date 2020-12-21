@@ -1,10 +1,11 @@
 #ifndef STATSDISPLAYWIDGET_H
 #define STATSDISPLAYWIDGET_H
 
-#include <QWidget>
 #include <QDateTime>
+#include <QWidget>
 
-namespace Ui {
+namespace Ui
+{
 class StatsDisplayWidget;
 }
 
@@ -13,14 +14,14 @@ class StatsDisplayWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit StatsDisplayWidget(QWidget *parent = 0);
+    explicit StatsDisplayWidget(QWidget* parent = 0);
 
     virtual ~StatsDisplayWidget();
 
 private:
     Q_DISABLE_COPY(StatsDisplayWidget)
 
-    Ui::StatsDisplayWidget *ui;
+    Ui::StatsDisplayWidget* ui;
 
 private slots:
     /**
@@ -32,12 +33,8 @@ private slots:
      * @param min minimum reply time.
      * @param max maksimum reply time.
      */
-    void updateStatDisplay(QDateTime time,
-                           int packetsSent,
-                           int packetsLost,
-                           int avgReturnTime,
-                           int min,
-                           int max);
+    void updateStatDisplay(QDateTime time, int packetsSent, int packetsLost,
+                           int avgReturnTime, int min, int max);
 };
 
-#endif // STATSDISPLAYWIDGET_H
+#endif  // STATSDISPLAYWIDGET_H

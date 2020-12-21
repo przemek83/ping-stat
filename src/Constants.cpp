@@ -14,48 +14,19 @@ const int Constants::maxPlotItems_ = 50;
 
 const int Constants::minPlotItemsToResize_ = 10;
 
-Constants::Constants()
-{
+Constants::Constants() {}
 
-}
+Constants::~Constants() {}
+int Constants::minPlotItemsToResize() { return minPlotItemsToResize_; }
 
-Constants::~Constants()
-{
+int Constants::maxPlotItems() { return maxPlotItems_; }
 
-}
-int Constants::minPlotItemsToResize()
-{
-    return minPlotItemsToResize_;
-}
+int Constants::maxTimeout() { return maxTimeout_; }
 
+const char* Constants::displayTimeFormat() { return displayTimeFormat_; }
 
-int Constants::maxPlotItems()
-{
-    return maxPlotItems_;
-}
+const char* Constants::logTimeFormat() { return logTimeFormat_; }
 
-int Constants::maxTimeout()
-{
-    return maxTimeout_;
-}
+const char* Constants::logPrefix() { return logPrefix_; }
 
-
-const char* Constants::displayTimeFormat()
-{
-    return displayTimeFormat_;
-}
-
-const char* Constants::logTimeFormat()
-{
-    return logTimeFormat_;
-}
-
-const char* Constants::logPrefix()
-{
-    return logPrefix_;
-}
-
-const char* Constants::dateFormat()
-{
-    return logDateFormat_;
-}
+const char* Constants::dateFormat() { return logDateFormat_; }

@@ -1,8 +1,8 @@
 #ifndef HOSTCHECKER_H
 #define HOSTCHECKER_H
 
-#include <QObject>
 #include <QDateTime>
+#include <QObject>
 #include <QProcess>
 
 class QTimerEvent;
@@ -10,7 +10,7 @@ class QTimerEvent;
 /**
  * @brief The HostChecker class used for pinging given host.
  */
-class HostChecker: public QObject
+class HostChecker : public QObject
 {
     Q_OBJECT
 public:
@@ -55,36 +55,29 @@ private:
      * @param endIndex remember last end index.
      * @return extracted value or 0 if not found.
      */
-    int getValue(QString& resultString,
-                 QString valueName,
-                 int fromIndex,
+    int getValue(QString& resultString, QString valueName, int fromIndex,
                  int& endIndex);
 
-    ///Timer id.
+    /// Timer id.
     int timerId_;
 
-    ///Host IP.
+    /// Host IP.
     QString host_;
 
-    ///Timeout value.
+    /// Timeout value.
     int timeout_;
 
 private slots:
     /**
      * @brief called when ping is finished. Uses output of ping.
      */
-    void pingFinished(int,QProcess::ExitStatus);
+    void pingFinished(int, QProcess::ExitStatus);
 
 signals:
     /**
      * @brief Signal used to update display with new values.
      */
-    void updateStatDisplay(QDateTime,
-                           int,
-                           int,
-                           int,
-                           int,
-                           int);
+    void updateStatDisplay(QDateTime, int, int, int, int, int);
 
     /**
      * @brief signal used to update plot using avg value and time.
@@ -92,4 +85,4 @@ signals:
     void updatePlotWidget(int, QDateTime);
 };
 
-#endif // HOSTCHECKER_H
+#endif  // HOSTCHECKER_H

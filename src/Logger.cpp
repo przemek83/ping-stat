@@ -1,26 +1,21 @@
 #include <QDate>
 #include <QTextStream>
 
-#include "Logger.h"
 #include "Constants.h"
+#include "Logger.h"
 
-Logger::Logger()
+Logger::Logger() : logDate_(QDate::currentDate())
 {
-    logDate_ = QDate::currentDate();
-
     logFile_.setFileName(Constants::logPrefix() +
                          logDate_.toString(Constants::dateFormat()));
 }
 
-Logger::~Logger()
-{
-    logFile_.close();
-}
+Logger::~Logger() { logFile_.close(); }
 
 bool Logger::logFileReady(QDate currentDate)
 {
-    //Change log file if new day.
-    if(currentDate != logDate_)
+    // Change log file if new day.
+    if (currentDate != logDate_)
     {
         logFile_.close();
         logFile_.setFileName(Constants::logPrefix() +
@@ -28,8 +23,8 @@ bool Logger::logFileReady(QDate currentDate)
         logDate_ = currentDate;
     }
 
-    //Open if needed.
-    if(false == logFile_.isOpen())
+    // Open if needed.
+    if (false == logFile_.isOpen())
     {
         return logFile_.open(QIODevice::WriteOnly | QIODevice::Append);
     }
@@ -45,7 +40,7 @@ Logger* Logger::getInstance()
 
 void Logger::log(QDateTime time, QString msg)
 {
-    if(true == logFileReady(time.date()))
+    if (true == logFileReady(time.date()))
     {
         static QTextStream outStream(&logFile_);
         outStream << msg;

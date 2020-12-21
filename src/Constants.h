@@ -28,26 +28,26 @@ private:
     virtual ~Constants();
     Q_DISABLE_COPY(Constants)
 
-    ///Format of date for log file name.
+    /// Format of date for log file name.
     static const char* logDateFormat_;
 
-    ///Prefix for log files name.
+    /// Prefix for log files name.
     static const char* logPrefix_;
 
-    ///Time format used in log files.
+    /// Time format used in log files.
     static const char* logTimeFormat_;
 
-    ///Format of time used in display.
+    /// Format of time used in display.
     static const char* displayTimeFormat_;
 
-    ///Max timeout which can be set.
+    /// Max timeout which can be set.
     static const int maxTimeout_;
 
-    ///Max items in plot.
+    /// Max items in plot.
     static const int maxPlotItems_;
 
-    ///Used for unfreezing plot (when nr hit).
+    /// Used for unfreezing plot (when nr hit).
     static const int minPlotItemsToResize_;
 };
 
-#endif // CONSTANTS_H
+#endif  // CONSTANTS_H

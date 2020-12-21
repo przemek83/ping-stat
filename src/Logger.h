@@ -1,8 +1,9 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <QObject>
+#include <QDate>
 #include <QFile>
+#include <QObject>
 
 /**
  * @brief The Logger class for logging ping results for given host.
@@ -35,11 +36,11 @@ private:
      */
     bool logFileReady(QDate currentDate);
 
-    ///Current log date.
+    /// Current log date.
     QDate logDate_;
 
-    ///Log file.
+    /// Log file.
     QFile logFile_;
 };
 
-#endif // LOGGER_H
+#endif  // LOGGER_H
