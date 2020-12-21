@@ -6,8 +6,8 @@
 
 Logger::Logger() : logDate_(QDate::currentDate())
 {
-    logFile_.setFileName(Constants::logPrefix() +
-                         logDate_.toString(Constants::dateFormat()));
+    logFile_.setFileName(Constants::logPrefix +
+                         logDate_.toString(Constants::logDateFormat));
 }
 
 Logger::~Logger() { logFile_.close(); }
@@ -18,8 +18,8 @@ bool Logger::logFileReady(QDate currentDate)
     if (currentDate != logDate_)
     {
         logFile_.close();
-        logFile_.setFileName(Constants::logPrefix() +
-                             logDate_.toString(Constants::dateFormat()));
+        logFile_.setFileName(Constants::logPrefix +
+                             logDate_.toString(Constants::logDateFormat));
         logDate_ = currentDate;
     }
 

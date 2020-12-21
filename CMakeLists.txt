@@ -27,7 +27,6 @@ set(${PROJECT_NAME}_SOURCES
     src/HostChecker.h
     src/Logger.cpp
     src/Logger.h
-    src/Constants.cpp
     src/Constants.h
     )
 

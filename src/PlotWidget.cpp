@@ -134,14 +134,14 @@ int PlotWidget::getItemWidth()
     // and margin from plot to end.
     int plotAreaWidth = width() - 3 * marginSize_;
 
-    static const int minItemToResize = Constants::minPlotItemsToResize();
+    static const int minItemToResize = Constants::minPlotItemsToResize;
     return (dataSize > minItemToResize ? (plotAreaWidth) / dataSize
                                        : (plotAreaWidth) / minItemToResize);
 }
 
 void PlotWidget::updatePlotWidget(int value, QDateTime time)
 {
-    static int maxItems = Constants::maxPlotItems();
+    static int maxItems = Constants::maxPlotItems;
     if (data_.size() >= maxItems)
     {
         data_.pop_front();
@@ -175,7 +175,7 @@ bool PlotWidget::event(QEvent* event)
             tooltip.append("\n");
             tooltip.append(tr("Time: "));
             tooltip.append(
-                timeData_[item].toString(Constants::displayTimeFormat()));
+                timeData_[item].toString(Constants::displayTimeFormat));
 
             QToolTip::showText(helpEvent->globalPos(), tooltip);
         }

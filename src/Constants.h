@@ -2,49 +2,20 @@
 
 #include <QObject>
 
-/**
- * @brief The Constants class with values defined for whole app.
- */
-class Constants
+namespace Constants
 {
-public:
-    static const char* dateFormat();
+const QString logDateFormat{"yyyy-MM-dd"};
 
-    static const char* logPrefix();
+const QString logPrefix{"log_"};
 
-    static const char* logTimeFormat();
+const QString logTimeFormat{"HH:mm:ss"};
 
-    static const char* displayTimeFormat();
+const QString displayTimeFormat{"HH:mm:ss dd.MM.yyyy"};
 
-    static int maxTimeout();
+const int maxTimeout{1000};
 
-    static int maxPlotItems();
+const int maxPlotItems{50};
 
-    static int minPlotItemsToResize();
+const int minPlotItemsToResize{10};
 
-private:
-    Constants();
-    virtual ~Constants();
-    Q_DISABLE_COPY(Constants)
-
-    /// Format of date for log file name.
-    static const char* logDateFormat_;
-
-    /// Prefix for log files name.
-    static const char* logPrefix_;
-
-    /// Time format used in log files.
-    static const char* logTimeFormat_;
-
-    /// Format of time used in display.
-    static const char* displayTimeFormat_;
-
-    /// Max timeout which can be set.
-    static const int maxTimeout_;
-
-    /// Max items in plot.
-    static const int maxPlotItems_;
-
-    /// Used for unfreezing plot (when number hit).
-    static const int minPlotItemsToResize_;
-};
+}  // namespace Constants

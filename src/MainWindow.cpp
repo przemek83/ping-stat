@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     // Set timeout validator.
     QIntValidator* timeoutValidator =
-        new QIntValidator(0, Constants::maxTimeout(), ui->timeoutLineEdit);
+        new QIntValidator(0, Constants::maxTimeout, ui->timeoutLineEdit);
     ui->timeoutLineEdit->setValidator(timeoutValidator);
 
     StatsDisplayWidget* stats = new StatsDisplayWidget(this);
