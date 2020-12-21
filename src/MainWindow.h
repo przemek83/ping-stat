@@ -24,6 +24,8 @@ private:
     /// Host checker object.
     HostChecker* hostChecker_;
 
+    static const int maxTimeout_{1000};
+
 private slots:
     /**
      * @brief on start/stop button clicked.

@@ -64,6 +64,10 @@ private:
      */
     int getItemWidth();
 
+    static const int maxPlotItems_{50};
+
+    static const int minPlotItemsToResize_{10};
+
 private slots:
     /**
      * @brief add new value for plotting.

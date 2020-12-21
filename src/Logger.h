@@ -40,4 +40,8 @@ private:
 
     /// Log file.
     QFile logFile_;
+
+    const QString logDateFormat_{"yyyy-MM-dd"};
+
+    const QString logPrefix_{"log_"};
 };

@@ -66,6 +66,8 @@ private:
     /// Timeout value.
     int timeout_;
 
+    const QString logTimeFormat_{"HH:mm:ss"};
+
 private slots:
     /**
      * @brief called when ping is finished. Uses output of ping.

@@ -65,7 +65,7 @@ void HostChecker::pingFinished(int, QProcess::ExitStatus)
     QDateTime time = QDateTime::currentDateTime();
     QString logMsg;
     QTextStream out(&logMsg);
-    out << time.toString(Constants::logTimeFormat) << ",";
+    out << time.toString(logTimeFormat_) << ",";
 
     if (NULL == ping)
     {

@@ -134,15 +134,14 @@ int PlotWidget::getItemWidth()
     // and margin from plot to end.
     int plotAreaWidth = width() - 3 * marginSize_;
 
-    static const int minItemToResize = Constants::minPlotItemsToResize;
-    return (dataSize > minItemToResize ? (plotAreaWidth) / dataSize
-                                       : (plotAreaWidth) / minItemToResize);
+    return (dataSize > minPlotItemsToResize_
+                ? (plotAreaWidth) / dataSize
+                : (plotAreaWidth) / minPlotItemsToResize_);
 }
 
 void PlotWidget::updatePlotWidget(int value, QDateTime time)
 {
-    static int maxItems = Constants::maxPlotItems;
-    if (data_.size() >= maxItems)
+    if (data_.size() >= maxPlotItems_)
     {
         data_.pop_front();
         timeData_.pop_front();
