@@ -1,5 +1,4 @@
-#ifndef HOSTCHECKER_H
-#define HOSTCHECKER_H
+#pragma once
 
 #include <QDateTime>
 #include <QObject>
@@ -84,5 +83,3 @@ signals:
      */
     void updatePlotWidget(int, QDateTime);
 };
-
-#endif  // HOSTCHECKER_H

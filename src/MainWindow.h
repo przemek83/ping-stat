@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -37,5 +36,3 @@ signals:
      */
     void configUpdated(int);
 };
-
-#endif  // MAINWINDOW_H

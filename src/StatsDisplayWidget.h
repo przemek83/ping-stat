@@ -1,5 +1,4 @@
-#ifndef STATSDISPLAYWIDGET_H
-#define STATSDISPLAYWIDGET_H
+#pragma once
 
 #include <QDateTime>
 #include <QWidget>
@@ -36,5 +35,3 @@ private slots:
     void updateStatDisplay(QDateTime time, int packetsSent, int packetsLost,
                            int avgReturnTime, int min, int max);
 };
-
-#endif  // STATSDISPLAYWIDGET_H

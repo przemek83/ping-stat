@@ -1,5 +1,4 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#pragma once
 
 #include <QObject>
 
@@ -49,5 +48,3 @@ private:
     /// Used for unfreezing plot (when number hit).
     static const int minPlotItemsToResize_;
 };
-
-#endif  // CONSTANTS_H

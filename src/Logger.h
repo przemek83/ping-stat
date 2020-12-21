@@ -1,5 +1,4 @@
-#ifndef LOGGER_H
-#define LOGGER_H
+#pragma once
 
 #include <QDate>
 #include <QFile>
@@ -42,5 +41,3 @@ private:
     /// Log file.
     QFile logFile_;
 };
-
-#endif  // LOGGER_H

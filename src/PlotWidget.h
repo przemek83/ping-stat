@@ -1,5 +1,4 @@
-#ifndef PLOTWIDGET_H
-#define PLOTWIDGET_H
+#pragma once
 
 #include <QDateTime>
 #include <QWidget>
@@ -79,5 +78,3 @@ private slots:
      */
     void configUpdated(int newTimeoutValue);
 };
-
-#endif  // PLOTWIDGET_H
