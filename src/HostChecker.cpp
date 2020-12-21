@@ -110,7 +110,7 @@ void HostChecker::pingFinished(int, QProcess::ExitStatus)
         max = timeout_;
     }
 
-    // Udpate GUI.
+    // Update GUI.
     emit updateStatDisplay(time, packetsSent, packetsLost, avgReturnTime, min,
                            max);
     emit updatePlotWidget(avgReturnTime, time);
