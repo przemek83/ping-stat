@@ -58,13 +58,13 @@ private:
                  int& endIndex);
 
     /// Timer id.
-    int timerId_;
+    int timerId_{0};
 
     /// Host IP.
     QString host_;
 
     /// Timeout value.
-    int timeout_;
+    int timeout_{0};
 
     const QString logTimeFormat_{QStringLiteral("HH:mm:ss")};
 

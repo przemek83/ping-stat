@@ -5,10 +5,7 @@
 #include "HostChecker.h"
 #include "Logger.h"
 
-HostChecker::HostChecker(QObject* parent)
-    : QObject(parent), timerId_(0), host_(""), timeout_(0)
-{
-}
+HostChecker::HostChecker(QObject* parent) : QObject(parent) {}
 
 HostChecker::~HostChecker() {}
 
