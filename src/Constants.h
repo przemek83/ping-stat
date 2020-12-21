@@ -4,5 +4,5 @@
 
 namespace Constants
 {
-const QString displayTimeFormat{"HH:mm:ss dd.MM.yyyy"};
+const QString displayTimeFormat{QStringLiteral("HH:mm:ss dd.MM.yyyy")};
 }  // namespace Constants

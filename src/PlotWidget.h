@@ -78,7 +78,7 @@ private slots:
 
     /**
      * @brief update timeout.
-     * @param new timeout.
+     * @param newTimeoutValue new timeout.
      */
     void configUpdated(int newTimeoutValue);
 };

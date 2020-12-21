@@ -41,7 +41,7 @@ private:
     /// Log file.
     QFile logFile_;
 
-    const QString logDateFormat_{"yyyy-MM-dd"};
+    const QString logDateFormat_{QStringLiteral("yyyy-MM-dd")};
 
-    const QString logPrefix_{"log_"};
+    const QString logPrefix_{QStringLiteral("log_")};
 };

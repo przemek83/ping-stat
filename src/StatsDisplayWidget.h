@@ -13,7 +13,7 @@ class StatsDisplayWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit StatsDisplayWidget(QWidget* parent = 0);
+    explicit StatsDisplayWidget(QWidget* parent = nullptr);
 
     virtual ~StatsDisplayWidget();
 

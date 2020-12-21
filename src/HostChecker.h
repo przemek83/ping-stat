@@ -13,7 +13,7 @@ class HostChecker : public QObject
 {
     Q_OBJECT
 public:
-    explicit HostChecker(QObject* parent = 0);
+    explicit HostChecker(QObject* parent = nullptr);
 
     virtual ~HostChecker();
 
@@ -66,7 +66,7 @@ private:
     /// Timeout value.
     int timeout_;
 
-    const QString logTimeFormat_{"HH:mm:ss"};
+    const QString logTimeFormat_{QStringLiteral("HH:mm:ss")};
 
 private slots:
     /**
