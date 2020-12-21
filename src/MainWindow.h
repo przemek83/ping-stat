@@ -22,7 +22,7 @@ public:
 private:
     Ui::MainWindow* ui;
 
-    /// Host chekcer object.
+    /// Host checker object.
     HostChecker* hostChecker_;
 
 private slots:
@@ -33,7 +33,7 @@ private slots:
 
 signals:
     /**
-     * @brief propagate new config value.
+     * @brief propagate new configuration value.
      */
     void configUpdated(int);
 };

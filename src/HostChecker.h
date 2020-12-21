@@ -21,7 +21,7 @@ public:
     /**
      * @brief start host checker using giving parameters.
      * @param interval time between calls of ping.
-     * @param timeout maksimum time ping wits for reply.
+     * @param timeout maximum time ping wits for reply.
      * @param host IP of host.
      */
     void start(int interval, int timeout, QString host);
@@ -51,7 +51,7 @@ private:
      * @brief Get value from ping results  string.
      * @param resultString output of ping.
      * @param valueName substring to find.
-     * @param fromIndex search rusult from index.
+     * @param fromIndex search result from index.
      * @param endIndex remember last end index.
      * @return extracted value or 0 if not found.
      */
@@ -80,7 +80,7 @@ signals:
     void updateStatDisplay(QDateTime, int, int, int, int, int);
 
     /**
-     * @brief signal used to update plot using avg value and time.
+     * @brief signal used to update plot using average value and time.
      */
     void updatePlotWidget(int, QDateTime);
 };

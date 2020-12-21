@@ -31,7 +31,7 @@ private slots:
      * @param packetsLost number of lost packets.
      * @param avgReturnTime Average ping return time.
      * @param min minimum reply time.
-     * @param max maksimum reply time.
+     * @param max maximum reply time.
      */
     void updateStatDisplay(QDateTime time, int packetsSent, int packetsLost,
                            int avgReturnTime, int min, int max);

@@ -18,7 +18,7 @@ public:
     static Logger* getInstance();
 
     /**
-     * @brief log msg in file.
+     * @brief log message in file.
      * @param time timestamp.
      * @param msg message to log.
      */

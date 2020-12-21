@@ -34,7 +34,7 @@ void PlotWidget::paintEvent(QPaintEvent*)
 
     static bool initialized = false;
 
-    // Set olor, pen and brush style.
+    // Set color, pen and brush style.
     static QColor color(127, 0, 127);
     static QBrush brush = QBrush(color);
     static QPen pen;

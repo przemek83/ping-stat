@@ -46,7 +46,7 @@ private:
     /// Max items in plot.
     static const int maxPlotItems_;
 
-    /// Used for unfreezing plot (when nr hit).
+    /// Used for unfreezing plot (when number hit).
     static const int minPlotItemsToResize_;
 };
 
