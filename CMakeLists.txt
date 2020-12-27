@@ -28,6 +28,7 @@ set(${PROJECT_NAME}_SOURCES
     src/Logger.cpp
     src/Logger.h
     src/Constants.h
+    src/Constants.cpp
     )
 
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})

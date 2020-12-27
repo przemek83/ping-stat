@@ -16,7 +16,8 @@ void StatsDisplayWidget::updateStatDisplay(QDateTime time, int packetsSent,
                                            int packetsLost, int avgReturnTime,
                                            int min, int max)
 {
-    ui->timeLabelValue->setText(time.toString(Constants::displayTimeFormat));
+    ui->timeLabelValue->setText(
+        time.toString(Constants::getDisplayTimeFormat()));
     ui->packetsSentValue->setText(QString::number(packetsSent));
     ui->packetsLostValue->setText(QString::number(packetsLost));
     ui->avgTimeValue->setText(QString::number(avgReturnTime) + tr("ms"));

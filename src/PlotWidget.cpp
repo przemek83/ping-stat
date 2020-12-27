@@ -174,7 +174,7 @@ bool PlotWidget::event(QEvent* event)
             tooltip.append("\n");
             tooltip.append(tr("Time: "));
             tooltip.append(
-                timeData_[item].toString(Constants::displayTimeFormat));
+                timeData_[item].toString(Constants::getDisplayTimeFormat()));
 
             QToolTip::showText(helpEvent->globalPos(), tooltip);
         }
