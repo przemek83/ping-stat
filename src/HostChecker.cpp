@@ -7,8 +7,6 @@
 
 HostChecker::HostChecker(QObject* parent) : QObject(parent) {}
 
-HostChecker::~HostChecker() {}
-
 void HostChecker::start(int interval, int timeout, QString host)
 {
     // Stop if already running.

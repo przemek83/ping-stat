@@ -15,7 +15,7 @@ class HostChecker : public QObject
 public:
     explicit HostChecker(QObject* parent = nullptr);
 
-    virtual ~HostChecker();
+    ~HostChecker() = default;
 
     /**
      * @brief start host checker using giving parameters.
@@ -57,24 +57,24 @@ private:
     int getValue(QString& resultString, QString valueName, int fromIndex,
                  int& endIndex);
 
-    /// Timer id.
-    int timerId_{0};
-
     /// Host IP.
     QString host_;
+
+    /// Timer id.
+    int timerId_{0};
 
     /// Timeout value.
     int timeout_{0};
 
     const QString logTimeFormat_{QStringLiteral("HH:mm:ss")};
 
-private slots:
+private Q_SLOTS:
     /**
      * @brief called when ping is finished. Uses output of ping.
      */
     void pingFinished(int, QProcess::ExitStatus);
 
-signals:
+Q_SIGNALS:
     /**
      * @brief Signal used to update display with new values.
      */
