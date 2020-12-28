@@ -17,7 +17,7 @@ public:
 
     virtual ~StatsDisplayWidget();
 
-public slots:
+public Q_SLOTS:
     /**
      * @brief update display widget using value.
      * @param time time of ping.
