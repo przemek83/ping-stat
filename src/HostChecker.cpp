@@ -7,13 +7,12 @@
 
 HostChecker::HostChecker(QObject* parent) : QObject(parent) {}
 
-void HostChecker::start(int interval, int timeout, QString host)
+void HostChecker::start(int interval, int timeout, const QString& host)
 {
     // Stop if already running.
-    if (true == isRunning())
-    {
+    if (isRunning())
         stop();
-    }
+
     host_ = host;
     timeout_ = timeout;
 
@@ -31,14 +30,14 @@ bool HostChecker::isRunning() { return (0 != timerId_); }
 
 void HostChecker::timerEvent(QTimerEvent* /*event*/)
 {
-    if (false == isRunning())
-    {
+    if (!isRunning())
         return;
-    }
 
-    QProcess* pingProcess = new QProcess(this);
-    connect(pingProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this,
-            SLOT(pingFinished(int, QProcess::ExitStatus)));
+    auto pingProcess{new QProcess(this)};
+    connect(pingProcess,
+            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
+                &QProcess::finished),
+            this, &HostChecker::pingFinished);
 
     pingProcess->start(QString("ping.exe -w ") + QString::number(timeout_) +
                        " " + host_);
@@ -56,13 +55,13 @@ int HostChecker::getValue(QString& resultString, QString valueName,
 
 void HostChecker::pingFinished(int, QProcess::ExitStatus)
 {
-    QProcess* ping = qobject_cast<QProcess*>(sender());
-    QDateTime time = QDateTime::currentDateTime();
+    auto ping{qobject_cast<QProcess*>(sender())};
+    QDateTime time{QDateTime::currentDateTime()};
     QString logMsg;
     QTextStream out(&logMsg);
     out << time.toString(logTimeFormat_) << ",";
 
-    if (NULL == ping)
+    if (ping == nullptr)
     {
         out << tr("Error: internal.") << "\n";
         Logger::getInstance()->log(time, logMsg);
@@ -70,12 +69,12 @@ void HostChecker::pingFinished(int, QProcess::ExitStatus)
     }
 
     // Read output and use it for info extraction.
-    QString result = ping->readAllStandardOutput();
-    int fromIndex = 0;
-    int endIndex = 0;
-    int packetsSent = getValue(result, " = ", fromIndex, endIndex);
+    QString result{ping->readAllStandardOutput()};
+    int fromIndex{0};
+    int endIndex{0};
+    int packetsSent{getValue(result, " = ", fromIndex, endIndex)};
 
-    if (0 == packetsSent)
+    if (packetsSent == 0)
     {
         out << tr("Error: wrong return results.") << "\n";
         Logger::getInstance()->log(time, logMsg);
@@ -84,13 +83,13 @@ void HostChecker::pingFinished(int, QProcess::ExitStatus)
     fromIndex = endIndex;
     getValue(result, " = ", fromIndex, endIndex);
     fromIndex = endIndex;
-    int packetsLost = getValue(result, " = ", fromIndex, endIndex);
+    int packetsLost{getValue(result, " = ", fromIndex, endIndex)};
     fromIndex = endIndex;
-    int min = getValue(result, " = ", fromIndex, endIndex);
+    int min{getValue(result, " = ", fromIndex, endIndex)};
     fromIndex = endIndex;
-    int max = getValue(result, " = ", fromIndex, endIndex);
+    int max{getValue(result, " = ", fromIndex, endIndex)};
     fromIndex = endIndex;
-    int avgReturnTime = getValue(result, " = ", fromIndex, endIndex);
+    int avgReturnTime{getValue(result, " = ", fromIndex, endIndex)};
 
     // Log.
     out << host_ << "," << packetsSent << "," << packetsLost << "," << min
@@ -106,7 +105,7 @@ void HostChecker::pingFinished(int, QProcess::ExitStatus)
     }
 
     // Update GUI.
-    emit updateStatDisplay(time, packetsSent, packetsLost, avgReturnTime, min,
-                           max);
-    emit updatePlotWidget(avgReturnTime, time);
+    Q_EMIT updateStatDisplay(time, packetsSent, packetsLost, avgReturnTime, min,
+                             max);
+    Q_EMIT updatePlotWidget(avgReturnTime, time);
 }
