@@ -45,7 +45,7 @@
       <item>
        <widget class="QLineEdit" name="adressLineEdit">
         <property name="text">
-         <string>87.98.239.3</string>
+         <string>212.77.98.9</string>
         </property>
        </widget>
       </item>
