@@ -54,7 +54,7 @@ private:
      * @param endIndex remember last end index.
      * @return extracted value or 0 if not found.
      */
-    int getValue(QString& resultString, QString valueName, int fromIndex,
+    int getValue(QString& resultString, const QString& valueName, int fromIndex,
                  int& endIndex);
 
     /// Host IP.
@@ -72,7 +72,7 @@ private Q_SLOTS:
     /**
      * @brief called when ping is finished. Uses output of ping.
      */
-    void pingFinished(int, QProcess::ExitStatus);
+    void pingFinished(int, QProcess::ExitStatus exitStatus);
 
 Q_SIGNALS:
     /**

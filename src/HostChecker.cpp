@@ -39,21 +39,24 @@ void HostChecker::timerEvent(QTimerEvent* /*event*/)
                 &QProcess::finished),
             this, &HostChecker::pingFinished);
 
-    pingProcess->start(QString("ping.exe -w ") + QString::number(timeout_) +
-                       " " + host_);
+    pingProcess->start(QStringLiteral("ping.exe -w ") +
+                       QString::number(timeout_) + " " + host_);
 }
 
-int HostChecker::getValue(QString& resultString, QString valueName,
+int HostChecker::getValue(QString& resultString, const QString& valueName,
                           int fromIndex, int& endIndex)
 {
     int startIndex = resultString.indexOf(valueName, fromIndex);
     int length = valueName.length();
-    endIndex = resultString.indexOf(QRegExp("\\D"), startIndex + length);
-    return resultString.mid(startIndex + length, endIndex - startIndex - length)
+    endIndex = resultString.indexOf(QRegExp(QStringLiteral("\\D")),
+                                    startIndex + length);
+    return resultString
+        .midRef(startIndex + length, endIndex - startIndex - length)
         .toInt();
 }
 
-void HostChecker::pingFinished(int, QProcess::ExitStatus)
+void HostChecker::pingFinished([[maybe_unused]] int exitCode,
+                               [[maybe_unused]] QProcess::ExitStatus exitStatus)
 {
     auto ping{qobject_cast<QProcess*>(sender())};
     QDateTime time{QDateTime::currentDateTime()};
@@ -69,10 +72,11 @@ void HostChecker::pingFinished(int, QProcess::ExitStatus)
     }
 
     // Read output and use it for info extraction.
-    QString result{ping->readAllStandardOutput()};
+    QString result{QString::fromLatin1(ping->readAllStandardOutput())};
     int fromIndex{0};
     int endIndex{0};
-    int packetsSent{getValue(result, " = ", fromIndex, endIndex)};
+    const QString equalString{QStringLiteral(" = ")};
+    int packetsSent{getValue(result, equalString, fromIndex, endIndex)};
 
     if (packetsSent == 0)
     {
@@ -81,15 +85,15 @@ void HostChecker::pingFinished(int, QProcess::ExitStatus)
         return;
     }
     fromIndex = endIndex;
-    getValue(result, " = ", fromIndex, endIndex);
+    getValue(result, equalString, fromIndex, endIndex);
     fromIndex = endIndex;
-    int packetsLost{getValue(result, " = ", fromIndex, endIndex)};
+    int packetsLost{getValue(result, equalString, fromIndex, endIndex)};
     fromIndex = endIndex;
-    int min{getValue(result, " = ", fromIndex, endIndex)};
+    int min{getValue(result, equalString, fromIndex, endIndex)};
     fromIndex = endIndex;
-    int max{getValue(result, " = ", fromIndex, endIndex)};
+    int max{getValue(result, equalString, fromIndex, endIndex)};
     fromIndex = endIndex;
-    int avgReturnTime{getValue(result, " = ", fromIndex, endIndex)};
+    int avgReturnTime{getValue(result, equalString, fromIndex, endIndex)};
 
     // Log.
     out << host_ << "," << packetsSent << "," << packetsLost << "," << min
