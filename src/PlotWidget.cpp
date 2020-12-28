@@ -31,7 +31,7 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
     static bool initialized = false;
 
     // Set color, pen and brush style.
-    QColor color(127, 0, 127);
+    QColor color(Qt::darkBlue);
     QBrush brush{QBrush(color)};
     QPen pen;
     if (!initialized)
@@ -66,11 +66,12 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
     // Draw items.
     for (int i = 0; i < dataSize; ++i)
     {
-        int x = itemStartX + itemWidth * i;
-        int width = itemWidth - itemSpacing / 2;
-        int itemHeight = plotAreaHeight;
-        int height =
-            itemHeight * (1 - (data_[i] - min) * 1.0 / (timeoutValue_ - min));
+        int x{itemStartX + itemWidth * i};
+        int width{itemWidth - itemSpacing / 2};
+        int itemHeight{plotAreaHeight};
+        float factor{1 - static_cast<float>(data_.at(i) - min) /
+                             static_cast<float>(timeoutValue_ - min)};
+        int height{static_cast<int>(static_cast<float>(itemHeight) * factor)};
         painter.drawRect(x, itemStartY, width, -height);
     }
 }
@@ -158,19 +159,19 @@ bool PlotWidget::event(QEvent* event)
 {
     if (event->type() == QEvent::ToolTip)
     {
-        QHelpEvent* helpEvent = static_cast<QHelpEvent*>(event);
+        auto helpEvent{dynamic_cast<QHelpEvent*>(event)};
 
-        int itemWidth = getItemWidth();
-        int item = (helpEvent->pos().x() - 2 * marginSize_) / itemWidth;
+        int itemWidth{getItemWidth()};
+        int item{(helpEvent->pos().x() - 2 * marginSize_) / itemWidth};
 
         if (item <= data_.size() && item >= 0)
         {
             QString tooltip(tr("Average return time: "));
             tooltip.append(QString::number(data_[item]));
-            tooltip.append("\n");
+            tooltip.append(QStringLiteral("\n"));
             tooltip.append(tr("Time: "));
             tooltip.append(
-                timeData_[item].toString(Constants::getDisplayTimeFormat()));
+                timeData_.at(item).toString(Constants::getDisplayTimeFormat()));
 
             QToolTip::showText(helpEvent->globalPos(), tooltip);
         }
