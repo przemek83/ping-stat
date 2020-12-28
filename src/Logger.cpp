@@ -22,23 +22,21 @@ bool Logger::logFileReady(QDate currentDate)
     }
 
     // Open if needed.
-    if (false == logFile_.isOpen())
-    {
+    if (!logFile_.isOpen())
         return logFile_.open(QIODevice::WriteOnly | QIODevice::Append);
-    }
 
     return true;
 }
 
 Logger* Logger::getInstance()
 {
-    static Logger* instance = new Logger();
+    static auto instance{new Logger()};
     return instance;
 }
 
-void Logger::log(QDateTime time, QString msg)
+void Logger::log(const QDateTime& time, const QString& msg)
 {
-    if (true == logFileReady(time.date()))
+    if (logFileReady(time.date()))
     {
         static QTextStream outStream(&logFile_);
         outStream << msg;

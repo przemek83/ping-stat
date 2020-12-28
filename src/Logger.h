@@ -21,7 +21,7 @@ public:
      * @param time timestamp.
      * @param msg message to log.
      */
-    void log(QDateTime time, QString msg);
+    void log(const QDateTime& time, const QString& msg);
 
 private:
     Logger();
