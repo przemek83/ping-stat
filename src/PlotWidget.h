@@ -11,6 +11,20 @@ public:
 
     virtual ~PlotWidget();
 
+public Q_SLOTS:
+    /**
+     * @brief add new value for plotting.
+     * @param value new average value.
+     * @param time new average value.
+     */
+    void updatePlotWidget(int value, QDateTime time);
+
+    /**
+     * @brief update timeout.
+     * @param newTimeoutValue new timeout.
+     */
+    void configUpdated(int newTimeoutValue);
+
 protected:
     /**
      * @brief overridden paint method for drawing.
@@ -67,18 +81,4 @@ private:
     static const int maxPlotItems_{50};
 
     static const int minPlotItemsToResize_{10};
-
-private slots:
-    /**
-     * @brief add new value for plotting.
-     * @param value new average value.
-     * @param time new average value.
-     */
-    void updatePlotWidget(int value, QDateTime time);
-
-    /**
-     * @brief update timeout.
-     * @param newTimeoutValue new timeout.
-     */
-    void configUpdated(int newTimeoutValue);
 };

@@ -14,56 +14,59 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
 
     // Set IP address validator.
-    QString ipRegexp("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)");
-    ipRegexp.append("{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
-    QRegExpValidator* adressValidator =
-        new QRegExpValidator(QRegExp(ipRegexp), ui->adressLineEdit);
+    QString ipRegexp(
+        QStringLiteral("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)"));
+    ipRegexp.append(
+        QStringLiteral("{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"));
+    auto adressValidator{
+        new QRegExpValidator(QRegExp(ipRegexp), ui->adressLineEdit)};
     ui->adressLineEdit->setValidator(adressValidator);
 
     // Set interval validator.
-    QIntValidator* intervalValidator =
-        new QIntValidator(0, INT_MAX, ui->intervalLineEdit);
+    auto intervalValidator{new QIntValidator(0, INT_MAX, ui->intervalLineEdit)};
     ui->intervalLineEdit->setValidator(intervalValidator);
 
     // Set timeout validator.
-    QIntValidator* timeoutValidator =
-        new QIntValidator(0, maxTimeout_, ui->timeoutLineEdit);
+    auto timeoutValidator{
+        new QIntValidator(0, maxTimeout_, ui->timeoutLineEdit)};
     ui->timeoutLineEdit->setValidator(timeoutValidator);
 
-    StatsDisplayWidget* stats = new StatsDisplayWidget(this);
+    auto stats{new StatsDisplayWidget(this)};
     ui->verticalLayout->addWidget(stats);
 
-    PlotWidget* plot = new PlotWidget(this);
+    auto plot{new PlotWidget(this)};
     ui->verticalLayout->addWidget(plot);
-    connect(this, SIGNAL(configUpdated(int)), plot, SLOT(configUpdated(int)));
+    connect(this, &MainWindow::configUpdated, plot, &PlotWidget::configUpdated);
 
     hostChecker_ = new HostChecker(this);
 
-    connect(hostChecker_, SIGNAL(updatePlotWidget(int, QDateTime)), plot,
-            SLOT(updatePlotWidget(int, QDateTime)));
+    connect(hostChecker_, &HostChecker::updatePlotWidget, plot,
+            &PlotWidget::updatePlotWidget);
 
-    connect(hostChecker_,
-            SIGNAL(updateStatDisplay(QDateTime, int, int, int, int, int)),
-            stats, SLOT(updateStatDisplay(QDateTime, int, int, int, int, int)));
+    connect(hostChecker_, &HostChecker::updateStatDisplay, stats,
+            &StatsDisplayWidget::updateStatDisplay);
+
+    connect(ui->checkAdressButton, &QPushButton::clicked, this,
+            &MainWindow::checkAdressButtonClicked);
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::on_checkAdressButton_clicked()
+void MainWindow::checkAdressButtonClicked()
 {
-    bool checkerRunning = hostChecker_->isRunning();
-    if (true == checkerRunning)
+    bool checkerRunning{hostChecker_->isRunning()};
+    if (checkerRunning)
     {
         hostChecker_->stop();
         ui->checkAdressButton->setText(tr("Check address"));
     }
     else
     {
-        int timeoutValue = ui->timeoutLineEdit->text().toInt();
-        QString host = ui->adressLineEdit->text();
+        int timeoutValue{ui->timeoutLineEdit->text().toInt()};
+        QString host{ui->adressLineEdit->text()};
         hostChecker_->start(ui->intervalLineEdit->text().toInt(), timeoutValue,
                             host);
-        emit configUpdated(timeoutValue);
+        Q_EMIT configUpdated(timeoutValue);
         ui->checkAdressButton->setText(tr("Stop"));
     }
 

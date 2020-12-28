@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget* parent = 0);
+    explicit MainWindow(QWidget* parent = nullptr);
 
     virtual ~MainWindow();
 
@@ -26,13 +26,13 @@ private:
 
     static const int maxTimeout_{1000};
 
-private slots:
+private Q_SLOTS:
     /**
      * @brief on start/stop button clicked.
      */
-    void on_checkAdressButton_clicked();
+    void checkAdressButtonClicked();
 
-signals:
+Q_SIGNALS:
     /**
      * @brief propagate new configuration value.
      */

@@ -17,12 +17,7 @@ public:
 
     virtual ~StatsDisplayWidget();
 
-private:
-    Q_DISABLE_COPY(StatsDisplayWidget)
-
-    Ui::StatsDisplayWidget* ui;
-
-private slots:
+public slots:
     /**
      * @brief update display widget using value.
      * @param time time of ping.
@@ -34,4 +29,9 @@ private slots:
      */
     void updateStatDisplay(QDateTime time, int packetsSent, int packetsLost,
                            int avgReturnTime, int min, int max);
+
+private:
+    Q_DISABLE_COPY(StatsDisplayWidget)
+
+    Ui::StatsDisplayWidget* ui;
 };
