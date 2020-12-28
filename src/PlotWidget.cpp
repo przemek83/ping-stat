@@ -19,15 +19,11 @@ PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent), timeoutValue_(0)
     setMinimumHeight(100);
 }
 
-PlotWidget::~PlotWidget() {}
-
-void PlotWidget::paintEvent(QPaintEvent*)
+void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
 {
-    int dataSize = data_.size();
-    if (0 == dataSize)
-    {
+    int dataSize{data_.size()};
+    if (dataSize == 0)
         return;
-    }
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
@@ -35,10 +31,10 @@ void PlotWidget::paintEvent(QPaintEvent*)
     static bool initialized = false;
 
     // Set color, pen and brush style.
-    static QColor color(127, 0, 127);
-    static QBrush brush = QBrush(color);
-    static QPen pen;
-    if (false == initialized)
+    QColor color(127, 0, 127);
+    QBrush brush{QBrush(color)};
+    QPen pen;
+    if (!initialized)
     {
         pen.setColor(color);
         pen.setWidth(1);
@@ -139,7 +135,7 @@ int PlotWidget::getItemWidth()
                 : (plotAreaWidth) / minPlotItemsToResize_);
 }
 
-void PlotWidget::updatePlotWidget(int value, QDateTime time)
+void PlotWidget::updatePlotWidget(int value, const QDateTime& time)
 {
     if (data_.size() >= maxPlotItems_)
     {

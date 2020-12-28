@@ -7,9 +7,9 @@ class PlotWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlotWidget(QWidget* parent = 0);
+    explicit PlotWidget(QWidget* parent = nullptr);
 
-    virtual ~PlotWidget();
+    ~PlotWidget() = default;
 
 public Q_SLOTS:
     /**
@@ -17,7 +17,7 @@ public Q_SLOTS:
      * @param value new average value.
      * @param time new average value.
      */
-    void updatePlotWidget(int value, QDateTime time);
+    void updatePlotWidget(int value, const QDateTime& time);
 
     /**
      * @brief update timeout.
@@ -54,6 +54,12 @@ private:
      */
     int getMin() const;
 
+    /**
+     * @brief Calculate item width.
+     * @return item width.
+     */
+    int getItemWidth();
+
     /// Container with average values.
     QVector<int> data_;
 
@@ -69,16 +75,10 @@ private:
     /// Size used for axis arrow.
     const static int axisArrowSize_;
 
-    /// Current timeout value.
-    int timeoutValue_;
-
-    /**
-     * @brief Calculate item width.
-     * @return item width.
-     */
-    int getItemWidth();
-
     static const int maxPlotItems_{50};
 
     static const int minPlotItemsToResize_{10};
+
+    /// Current timeout value.
+    int timeoutValue_;
 };
