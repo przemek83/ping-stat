@@ -27,8 +27,9 @@ public Q_SLOTS:
      * @param min minimum reply time.
      * @param max maximum reply time.
      */
-    void updateStatDisplay(QDateTime time, int packetsSent, int packetsLost,
-                           int avgReturnTime, int min, int max);
+    void updateStatDisplay(const QDateTime& time, int packetsSent,
+                           int packetsLost, int avgReturnTime, int min,
+                           int max);
 
 private:
     Q_DISABLE_COPY(StatsDisplayWidget)

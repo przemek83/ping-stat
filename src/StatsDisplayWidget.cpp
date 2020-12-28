@@ -12,9 +12,9 @@ StatsDisplayWidget::StatsDisplayWidget(QWidget* parent)
 
 StatsDisplayWidget::~StatsDisplayWidget() { delete ui; }
 
-void StatsDisplayWidget::updateStatDisplay(QDateTime time, int packetsSent,
-                                           int packetsLost, int avgReturnTime,
-                                           int min, int max)
+void StatsDisplayWidget::updateStatDisplay(const QDateTime& time,
+                                           int packetsSent, int packetsLost,
+                                           int avgReturnTime, int min, int max)
 {
     ui->timeLabelValue->setText(
         time.toString(Constants::getDisplayTimeFormat()));
