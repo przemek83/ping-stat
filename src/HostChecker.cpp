@@ -9,14 +9,10 @@ HostChecker::HostChecker(QObject* parent) : QObject(parent) {}
 
 void HostChecker::start(int interval, int timeout, const QString& host)
 {
-    // Stop if already running.
     if (isRunning())
         stop();
-
     host_ = host;
     timeout_ = timeout;
-
-    // Start timer with given interval.
     timerId_ = startTimer(interval);
 }
 
@@ -26,9 +22,9 @@ void HostChecker::stop()
     timerId_ = 0;
 }
 
-bool HostChecker::isRunning() { return (0 != timerId_); }
+bool HostChecker::isRunning() { return timerId_ != 0; }
 
-void HostChecker::timerEvent(QTimerEvent* /*event*/)
+void HostChecker::timerEvent([[maybe_unused]] QTimerEvent* event)
 {
     if (!isRunning())
         return;
@@ -40,14 +36,14 @@ void HostChecker::timerEvent(QTimerEvent* /*event*/)
             this, &HostChecker::pingFinished);
 
     pingProcess->start(QStringLiteral("ping.exe -w ") +
-                       QString::number(timeout_) + " -n 1 " + host_);
+                       QString::number(timeout_) + " -n 4 " + host_);
 }
 
 int HostChecker::getValue(QString& resultString, const QString& valueName,
                           int fromIndex, int& endIndex)
 {
-    int startIndex = resultString.indexOf(valueName, fromIndex);
-    int length = valueName.length();
+    int startIndex{resultString.indexOf(valueName, fromIndex)};
+    int length{valueName.length()};
     endIndex = resultString.indexOf(QRegExp(QStringLiteral("\\D")),
                                     startIndex + length);
     return resultString
