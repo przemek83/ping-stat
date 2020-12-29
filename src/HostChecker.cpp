@@ -40,7 +40,7 @@ void HostChecker::timerEvent(QTimerEvent* /*event*/)
             this, &HostChecker::pingFinished);
 
     pingProcess->start(QStringLiteral("ping.exe -w ") +
-                       QString::number(timeout_) + " " + host_);
+                       QString::number(timeout_) + " -n 1 " + host_);
 }
 
 int HostChecker::getValue(QString& resultString, const QString& valueName,
