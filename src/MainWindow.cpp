@@ -22,13 +22,12 @@ MainWindow::MainWindow(QWidget* parent)
         new QRegExpValidator(QRegExp(ipRegexp), ui->adressLineEdit)};
     ui->adressLineEdit->setValidator(adressValidator);
 
-    // Set interval validator.
     auto intervalValidator{new QIntValidator(0, INT_MAX, ui->intervalLineEdit)};
     ui->intervalLineEdit->setValidator(intervalValidator);
 
-    // Set timeout validator.
+    const int maxTimeout{1000};
     auto timeoutValidator{
-        new QIntValidator(0, maxTimeout_, ui->timeoutLineEdit)};
+        new QIntValidator(0, maxTimeout, ui->timeoutLineEdit)};
     ui->timeoutLineEdit->setValidator(timeoutValidator);
 
     auto stats{new StatsDisplayWidget(this)};
