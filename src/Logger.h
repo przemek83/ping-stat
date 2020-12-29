@@ -25,7 +25,7 @@ public:
 
 private:
     Logger();
-    virtual ~Logger();
+    ~Logger();
     Q_DISABLE_COPY(Logger)
 
     /**
