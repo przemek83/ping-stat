@@ -5,7 +5,7 @@
 #include <QObject>
 
 /**
- * @brief The Logger class for logging ping results for given host.
+ * @brief The Logger class for logging ping results.
  */
 class Logger
 {
@@ -17,33 +17,21 @@ public:
 
     static Logger& getInstance();
 
-    /**
-     * @brief log message in file.
-     * @param time timestamp.
-     * @param msg message to log.
-     */
-    void log(const QDateTime& time, const QString& msg);
+    void log(const QString& msg);
 
 private:
     Logger();
     ~Logger() = default;
 
-    /**
-     * @brief check if log file is current and open it if needed.
-     * @param currentDate current date for log file.
-     * @return true when file is opened.
-     */
-    bool logFileReady(QDate currentDate);
+    bool isLogFileReady();
 
-    void changeDay(const QDate& currentDate);
+    QString getLogFileName() const;
 
-    /// Current log date.
-    QDate logDate_;
+    void switchLogFileToNewDay();
 
-    /// Log file.
+    bool isNewDay() const;
+
+    QDate currentLogDate_;
+
     QFile logFile_;
-
-    const QString logDateFormat_{QStringLiteral("yyyy-MM-dd")};
-
-    const QString logPrefix_{QStringLiteral("log_")};
 };

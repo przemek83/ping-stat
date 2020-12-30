@@ -4,27 +4,38 @@
 #include "Constants.h"
 #include "Logger.h"
 
-Logger::Logger() : logDate_(QDate::currentDate())
+Logger::Logger() : currentLogDate_(QDate::currentDate())
 {
-    logFile_.setFileName(logPrefix_ + logDate_.toString(logDateFormat_));
+    logFile_.setFileName(getLogFileName());
 }
 
-bool Logger::logFileReady(QDate currentDate)
+bool Logger::isLogFileReady()
 {
-    if (currentDate != logDate_)
-        changeDay(currentDate);
+    if (isNewDay())
+        switchLogFileToNewDay();
 
-    if (!logFile_.isOpen())
-        return logFile_.open(QIODevice::WriteOnly | QIODevice::Append);
+    if (logFile_.isOpen())
+        return true;
 
-    return true;
+    return logFile_.open(QIODevice::WriteOnly | QIODevice::Append);
 }
 
-void Logger::changeDay(const QDate& currentDate)
+QString Logger::getLogFileName() const
+{
+    return QStringLiteral("log_") +
+           currentLogDate_.toString(QStringLiteral("yyyy-MM-dd"));
+}
+
+void Logger::switchLogFileToNewDay()
 {
     logFile_.close();
-    logFile_.setFileName(logPrefix_ + logDate_.toString(logDateFormat_));
-    logDate_ = currentDate;
+    logFile_.setFileName(getLogFileName());
+    currentLogDate_ = QDate::currentDate();
+}
+
+bool Logger::isNewDay() const
+{
+    return QDate::currentDate() != currentLogDate_;
 }
 
 Logger& Logger::getInstance()
@@ -33,11 +44,11 @@ Logger& Logger::getInstance()
     return instance;
 }
 
-void Logger::log(const QDateTime& time, const QString& msg)
+void Logger::log(const QString& msg)
 {
-    if (logFileReady(time.date()))
-    {
-        QTextStream outStream(&logFile_);
-        outStream << msg;
-    }
+    if (!isLogFileReady())
+        return;
+
+    QTextStream outStream(&logFile_);
+    outStream << msg;
 }
