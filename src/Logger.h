@@ -2,7 +2,6 @@
 
 #include <QDate>
 #include <QFile>
-#include <QObject>
 
 /**
  * @brief The Logger class for logging ping results.

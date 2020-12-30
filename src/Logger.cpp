@@ -1,8 +1,6 @@
-#include <QDate>
-#include <QTextStream>
-
-#include "Constants.h"
 #include "Logger.h"
+
+#include <QTextStream>
 
 Logger::Logger() : currentLogDate_(QDate::currentDate())
 {
