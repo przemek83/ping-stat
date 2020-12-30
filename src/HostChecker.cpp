@@ -63,7 +63,7 @@ void HostChecker::pingFinished([[maybe_unused]] int exitCode,
     if (ping == nullptr)
     {
         out << tr("Error: internal.") << "\n";
-        Logger::getInstance()->log(time, logMsg);
+        Logger::getInstance().log(time, logMsg);
         return;
     }
 
@@ -77,7 +77,7 @@ void HostChecker::pingFinished([[maybe_unused]] int exitCode,
     if (packetsSent == 0)
     {
         out << tr("Error: wrong return results.") << "\n";
-        Logger::getInstance()->log(time, logMsg);
+        Logger::getInstance().log(time, logMsg);
         return;
     }
     fromIndex = endIndex;
@@ -94,7 +94,7 @@ void HostChecker::pingFinished([[maybe_unused]] int exitCode,
     // Log.
     out << host_ << "," << packetsSent << "," << packetsLost << "," << min
         << "," << max << "," << avgReturnTime << "\n";
-    Logger::getInstance()->log(time, logMsg);
+    Logger::getInstance().log(time, logMsg);
 
     // If host not found/host down.
     if (packetsSent == packetsLost)

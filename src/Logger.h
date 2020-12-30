@@ -10,11 +10,12 @@
 class Logger
 {
 public:
-    /**
-     * @brief get singleton of class.
-     * @return singleton object of Logger.
-     */
-    static Logger* getInstance();
+    Logger& operator=(const Logger& other) = delete;
+    Logger(const Logger& other) = delete;
+    Logger& operator=(Logger&& other) = delete;
+    Logger(Logger&& other) = delete;
+
+    static Logger& getInstance();
 
     /**
      * @brief log message in file.
@@ -25,8 +26,7 @@ public:
 
 private:
     Logger();
-    ~Logger();
-    Q_DISABLE_COPY(Logger)
+    ~Logger() = default;
 
     /**
      * @brief check if log file is current and open it if needed.
@@ -34,6 +34,8 @@ private:
      * @return true when file is opened.
      */
     bool logFileReady(QDate currentDate);
+
+    void changeDay(const QDate& currentDate);
 
     /// Current log date.
     QDate logDate_;

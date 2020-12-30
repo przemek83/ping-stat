@@ -9,28 +9,27 @@ Logger::Logger() : logDate_(QDate::currentDate())
     logFile_.setFileName(logPrefix_ + logDate_.toString(logDateFormat_));
 }
 
-Logger::~Logger() { logFile_.close(); }
-
 bool Logger::logFileReady(QDate currentDate)
 {
-    // Change log file if new day.
     if (currentDate != logDate_)
-    {
-        logFile_.close();
-        logFile_.setFileName(logPrefix_ + logDate_.toString(logDateFormat_));
-        logDate_ = currentDate;
-    }
+        changeDay(currentDate);
 
-    // Open if needed.
     if (!logFile_.isOpen())
         return logFile_.open(QIODevice::WriteOnly | QIODevice::Append);
 
     return true;
 }
 
-Logger* Logger::getInstance()
+void Logger::changeDay(const QDate& currentDate)
 {
-    static auto instance{new Logger()};
+    logFile_.close();
+    logFile_.setFileName(logPrefix_ + logDate_.toString(logDateFormat_));
+    logDate_ = currentDate;
+}
+
+Logger& Logger::getInstance()
+{
+    static Logger instance;
     return instance;
 }
 
@@ -38,7 +37,7 @@ void Logger::log(const QDateTime& time, const QString& msg)
 {
     if (logFileReady(time.date()))
     {
-        static QTextStream outStream(&logFile_);
+        QTextStream outStream(&logFile_);
         outStream << msg;
     }
 }
