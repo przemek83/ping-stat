@@ -12,8 +12,8 @@ public:
     ~PlotWidget() = default;
 
     /**
-     * @brief update timeout.
-     * @param newTimeoutValue new timeout.
+     * @brief setTimeoutValue timeout.
+     * @param timeoutValue new timeout.
      */
     void setTimeoutValue(int timeoutValue);
 

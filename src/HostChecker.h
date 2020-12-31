@@ -19,7 +19,7 @@ public:
 
     /**
      * @brief start host checker using giving parameters.
-     * @param interval time between calls of ping.
+     * @param intervalInSeconds time between calls of ping.
      * @param timeout maximum time ping wits for reply.
      * @param host IP of host.
      */

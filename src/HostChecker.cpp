@@ -13,7 +13,8 @@ void HostChecker::start(int intervalInSeconds, int timeout, const QString& host)
         stop();
     host_ = host;
     timeout_ = timeout;
-    timerId_ = startTimer(intervalInSeconds * 1000);
+    const int milisecondsInSecond{1000};
+    timerId_ = startTimer(intervalInSeconds * milisecondsInSecond);
 }
 
 void HostChecker::stop()
