@@ -1,8 +1,5 @@
-#include <QIntValidator>
-#include <QRegExpValidator>
-
-#include "Constants.h"
 #include "MainWindow.h"
+
 #include "PlotWidget.h"
 #include "StatsDisplayWidget.h"
 #include "ui_MainWindow.h"
@@ -36,7 +33,6 @@ void MainWindow::setupStatsDisplay()
 {
     auto stats{new StatsDisplayWidget(this)};
     ui->verticalLayout->addWidget(stats);
-
     connect(&hostChecker_, &HostChecker::updateStatDisplay, stats,
             &StatsDisplayWidget::updateStatDisplay);
 }
@@ -46,7 +42,6 @@ void MainWindow::setupPlotWidget()
     auto plot{new PlotWidget(this)};
     ui->verticalLayout->addWidget(plot);
     connect(this, &MainWindow::configUpdated, plot, &PlotWidget::configUpdated);
-
     connect(&hostChecker_, &HostChecker::updatePlotWidget, plot,
             &PlotWidget::updatePlotWidget);
 }
