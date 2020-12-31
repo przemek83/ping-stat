@@ -13,8 +13,8 @@ MainWindow::MainWindow(QWidget* parent)
     setupStatsDisplay();
     setupPlotWidget();
 
-    connect(ui->checkAdressButton, &QPushButton::clicked, this,
-            &MainWindow::checkAdressButtonClicked);
+    connect(ui->pingButton, &QPushButton::clicked, this,
+            &MainWindow::pingButtonClicked);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -46,24 +46,24 @@ void MainWindow::setupPlotWidget()
             &PlotWidget::updatePlotWidget);
 }
 
-void MainWindow::checkAdressButtonClicked()
+void MainWindow::pingButtonClicked()
 {
     bool checkerRunning{hostChecker_.isRunning()};
     if (checkerRunning)
     {
         hostChecker_.stop();
-        ui->checkAdressButton->setText(tr("Check address"));
+        ui->pingButton->setText(tr("Ping"));
     }
     else
     {
-        int timeoutValue{ui->timeout->value()};
+        int timeoutValue{ui->timeoutSpin->value()};
         QString host{ui->adressLineEdit->text()};
-        hostChecker_.start(ui->interval->value(), timeoutValue, host);
+        hostChecker_.start(ui->intervalSpin->value(), timeoutValue, host);
         Q_EMIT configUpdated(timeoutValue);
-        ui->checkAdressButton->setText(tr("Stop"));
+        ui->pingButton->setText(tr("Stop"));
     }
 
     ui->adressLineEdit->setEnabled(checkerRunning);
-    ui->interval->setEnabled(checkerRunning);
-    ui->timeout->setEnabled(checkerRunning);
+    ui->intervalSpin->setEnabled(checkerRunning);
+    ui->timeoutSpin->setEnabled(checkerRunning);
 }

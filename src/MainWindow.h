@@ -34,7 +34,7 @@ private Q_SLOTS:
     /**
      * @brief on start/stop button clicked.
      */
-    void checkAdressButtonClicked();
+    void pingButtonClicked();
 
 Q_SIGNALS:
     /**

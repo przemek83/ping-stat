@@ -50,9 +50,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="checkAdressButton">
+       <widget class="QPushButton" name="pingButton">
         <property name="text">
-         <string>Check adress</string>
+         <string>Ping</string>
         </property>
        </widget>
       </item>
@@ -71,7 +71,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="timeout">
+       <widget class="QSpinBox" name="timeoutSpin">
         <property name="suffix">
          <string>ms</string>
         </property>
@@ -97,7 +97,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="interval">
+       <widget class="QSpinBox" name="intervalSpin">
         <property name="suffix">
          <string>s</string>
         </property>
