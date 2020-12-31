@@ -66,28 +66,43 @@
       <item>
        <widget class="QLabel" name="timeoutLabel">
         <property name="text">
-         <string>Timeout (ms):</string>
+         <string>Timeout:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="timeoutLineEdit">
-        <property name="text">
-         <string>300</string>
+       <widget class="QSpinBox" name="timeout">
+        <property name="suffix">
+         <string>ms</string>
+        </property>
+        <property name="prefix">
+         <string/>
+        </property>
+        <property name="minimum">
+         <number>100</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+        <property name="value">
+         <number>300</number>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="intervalLabel">
         <property name="text">
-         <string>Interval (s):</string>
+         <string>Interval:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="intervalLineEdit">
-        <property name="text">
-         <string>1</string>
+       <widget class="QSpinBox" name="interval">
+        <property name="suffix">
+         <string>s</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
         </property>
        </widget>
       </item>

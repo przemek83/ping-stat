@@ -20,13 +20,7 @@ public:
     virtual ~MainWindow();
 
 private:
-    void setupValidators();
-
     void setupAdressValidator();
-
-    void setupIntervalValidator();
-
-    void setupTimeoutValidator();
 
     void setupStatsDisplay();
 

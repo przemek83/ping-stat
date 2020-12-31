@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget* parent)
 {
     ui->setupUi(this);
 
-    setupValidators();
+    setupAdressValidator();
     setupStatsDisplay();
     setupPlotWidget();
 
@@ -22,13 +22,6 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::setupValidators()
-{
-    setupAdressValidator();
-    setupIntervalValidator();
-    setupTimeoutValidator();
-}
-
 void MainWindow::setupAdressValidator()
 {
     QString ipRegexp(
@@ -37,22 +30,6 @@ void MainWindow::setupAdressValidator()
     auto adressValidator{
         new QRegExpValidator(QRegExp(ipRegexp), ui->adressLineEdit)};
     ui->adressLineEdit->setValidator(adressValidator);
-}
-
-void MainWindow::setupIntervalValidator()
-{
-    const int maxInterval{99};
-    auto intervalValidator{
-        new QIntValidator(0, maxInterval, ui->intervalLineEdit)};
-    ui->intervalLineEdit->setValidator(intervalValidator);
-}
-
-void MainWindow::setupTimeoutValidator()
-{
-    const int maxTimeout{999};
-    auto timeoutValidator{
-        new QIntValidator(0, maxTimeout, ui->timeoutLineEdit)};
-    ui->timeoutLineEdit->setValidator(timeoutValidator);
 }
 
 void MainWindow::setupStatsDisplay()
@@ -84,15 +61,14 @@ void MainWindow::checkAdressButtonClicked()
     }
     else
     {
-        int timeoutValue{ui->timeoutLineEdit->text().toInt()};
+        int timeoutValue{ui->timeout->value()};
         QString host{ui->adressLineEdit->text()};
-        hostChecker_.start(ui->intervalLineEdit->text().toInt(), timeoutValue,
-                           host);
+        hostChecker_.start(ui->interval->value(), timeoutValue, host);
         Q_EMIT configUpdated(timeoutValue);
         ui->checkAdressButton->setText(tr("Stop"));
     }
 
     ui->adressLineEdit->setEnabled(checkerRunning);
-    ui->intervalLineEdit->setEnabled(checkerRunning);
-    ui->timeoutLineEdit->setEnabled(checkerRunning);
+    ui->interval->setEnabled(checkerRunning);
+    ui->timeout->setEnabled(checkerRunning);
 }
