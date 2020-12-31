@@ -69,8 +69,7 @@ void MainWindow::startPinging()
 
 void MainWindow::pingButtonClicked()
 {
-    const bool isPinging{hostChecker_.isRunning()};
-    if (isPinging)
+    if (hostChecker_.isRunning())
         stopPinging();
     else
         startPinging();
