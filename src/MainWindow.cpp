@@ -65,7 +65,7 @@ void MainWindow::pingButtonClicked()
         const int timeoutValue{ui->timeoutSpin->value()};
         const QString host{ui->adressLineEdit->text()};
         hostChecker_.start(ui->intervalSpin->value(), timeoutValue, host);
-        plotWidget_.configUpdated(timeoutValue);
+        plotWidget_.setTimeoutValue(timeoutValue);
         ui->pingButton->setText(tr("Stop"));
     }
     setEditableFieldsEnabled(checkerRunning);

@@ -11,6 +11,12 @@ public:
 
     ~PlotWidget() = default;
 
+    /**
+     * @brief update timeout.
+     * @param newTimeoutValue new timeout.
+     */
+    void setTimeoutValue(int timeoutValue);
+
 public Q_SLOTS:
     /**
      * @brief add new value for plotting.
@@ -18,12 +24,6 @@ public Q_SLOTS:
      * @param time new average value.
      */
     void updatePlotWidget(int value, const QDateTime& time);
-
-    /**
-     * @brief update timeout.
-     * @param newTimeoutValue new timeout.
-     */
-    void configUpdated(int newTimeoutValue);
 
 protected:
     /**

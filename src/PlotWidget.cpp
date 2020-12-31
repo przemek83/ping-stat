@@ -150,9 +150,9 @@ void PlotWidget::updatePlotWidget(int value, const QDateTime& time)
     update();
 }
 
-void PlotWidget::configUpdated(int newTimeoutValue)
+void PlotWidget::setTimeoutValue(int timeoutValue)
 {
-    timeoutValue_ = newTimeoutValue;
+    timeoutValue_ = timeoutValue;
 }
 
 bool PlotWidget::event(QEvent* event)
