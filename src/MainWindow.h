@@ -39,14 +39,5 @@ private:
     StatsDisplayWidget statsDisplayWidget_;
 
 private Q_SLOTS:
-    /**
-     * @brief on start/stop button clicked.
-     */
     void pingButtonClicked();
-
-Q_SIGNALS:
-    /**
-     * @brief propagate new configuration value.
-     */
-    void configUpdated(int);
 };
