@@ -28,7 +28,11 @@ private:
 
     void setupPlotWidget();
 
-    void setEditableFieldsEnabled(bool enable);
+    void flipEditableFieldsEnablement();
+
+    void stopPinging();
+
+    void startPinging();
 
     Ui::MainWindow* ui;
 

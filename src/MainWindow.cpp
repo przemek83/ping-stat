@@ -45,28 +45,34 @@ void MainWindow::setupPlotWidget()
             &PlotWidget::updatePlotWidget);
 }
 
-void MainWindow::setEditableFieldsEnabled(bool enable)
+void MainWindow::flipEditableFieldsEnablement()
 {
-    ui->adressLineEdit->setEnabled(enable);
-    ui->intervalSpin->setEnabled(enable);
-    ui->timeoutSpin->setEnabled(enable);
+    ui->adressLineEdit->setEnabled(!ui->adressLineEdit->isEnabled());
+    ui->intervalSpin->setEnabled(!ui->intervalSpin->isEnabled());
+    ui->timeoutSpin->setEnabled(!ui->timeoutSpin->isEnabled());
+}
+
+void MainWindow::stopPinging()
+{
+    hostChecker_.stop();
+    ui->pingButton->setText(tr("Ping"));
+}
+
+void MainWindow::startPinging()
+{
+    const int timeoutValue{ui->timeoutSpin->value()};
+    const QString host{ui->adressLineEdit->text()};
+    hostChecker_.start(ui->intervalSpin->value(), timeoutValue, host);
+    plotWidget_.setTimeoutValue(timeoutValue);
+    ui->pingButton->setText(tr("Stop"));
 }
 
 void MainWindow::pingButtonClicked()
 {
-    const bool checkerRunning{hostChecker_.isRunning()};
-    if (checkerRunning)
-    {
-        hostChecker_.stop();
-        ui->pingButton->setText(tr("Ping"));
-    }
+    const bool isPinging{hostChecker_.isRunning()};
+    if (isPinging)
+        stopPinging();
     else
-    {
-        const int timeoutValue{ui->timeoutSpin->value()};
-        const QString host{ui->adressLineEdit->text()};
-        hostChecker_.start(ui->intervalSpin->value(), timeoutValue, host);
-        plotWidget_.setTimeoutValue(timeoutValue);
-        ui->pingButton->setText(tr("Stop"));
-    }
-    setEditableFieldsEnabled(checkerRunning);
+        startPinging();
+    flipEditableFieldsEnablement();
 }
