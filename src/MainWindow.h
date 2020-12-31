@@ -20,6 +20,18 @@ public:
     virtual ~MainWindow();
 
 private:
+    void setupValidators();
+
+    void setupAdressValidator();
+
+    void setupIntervalValidator();
+
+    void setupTimeoutValidator();
+
+    void setupStatsDisplay();
+
+    void setupPlotWidget();
+
     Ui::MainWindow* ui;
 
     HostChecker hostChecker_;
