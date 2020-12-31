@@ -21,7 +21,7 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::setupAdressValidator()
 {
-    QString ipRegexp(
+    const QString ipRegexp(
         QStringLiteral("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:"
                        "25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"));
     auto adressValidator{
@@ -46,9 +46,16 @@ void MainWindow::setupPlotWidget()
             &PlotWidget::updatePlotWidget);
 }
 
+void MainWindow::setEditableFieldsEnabled(bool enable)
+{
+    ui->adressLineEdit->setEnabled(enable);
+    ui->intervalSpin->setEnabled(enable);
+    ui->timeoutSpin->setEnabled(enable);
+}
+
 void MainWindow::pingButtonClicked()
 {
-    bool checkerRunning{hostChecker_.isRunning()};
+    const bool checkerRunning{hostChecker_.isRunning()};
     if (checkerRunning)
     {
         hostChecker_.stop();
@@ -56,14 +63,11 @@ void MainWindow::pingButtonClicked()
     }
     else
     {
-        int timeoutValue{ui->timeoutSpin->value()};
-        QString host{ui->adressLineEdit->text()};
+        const int timeoutValue{ui->timeoutSpin->value()};
+        const QString host{ui->adressLineEdit->text()};
         hostChecker_.start(ui->intervalSpin->value(), timeoutValue, host);
         Q_EMIT configUpdated(timeoutValue);
         ui->pingButton->setText(tr("Stop"));
     }
-
-    ui->adressLineEdit->setEnabled(checkerRunning);
-    ui->intervalSpin->setEnabled(checkerRunning);
-    ui->timeoutSpin->setEnabled(checkerRunning);
+    setEditableFieldsEnabled(checkerRunning);
 }

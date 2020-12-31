@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget* parent = nullptr);
 
-    virtual ~MainWindow();
+    ~MainWindow();
 
 private:
     void setupAdressValidator();
@@ -25,6 +25,8 @@ private:
     void setupStatsDisplay();
 
     void setupPlotWidget();
+
+    void setEditableFieldsEnabled(bool enable);
 
     Ui::MainWindow* ui;
 
