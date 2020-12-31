@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 
+#include "HostChecker.h"
+
 class HostChecker;
 
 namespace Ui
@@ -12,7 +14,6 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     explicit MainWindow(QWidget* parent = nullptr);
 
@@ -21,8 +22,7 @@ public:
 private:
     Ui::MainWindow* ui;
 
-    /// Host checker object.
-    HostChecker* hostChecker_;
+    HostChecker hostChecker_;
 
 private Q_SLOTS:
     /**

@@ -2,14 +2,13 @@
 #include <QRegExpValidator>
 
 #include "Constants.h"
-#include "HostChecker.h"
 #include "MainWindow.h"
 #include "PlotWidget.h"
 #include "StatsDisplayWidget.h"
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow), hostChecker_(this)
 {
     ui->setupUi(this);
 
@@ -37,12 +36,10 @@ MainWindow::MainWindow(QWidget* parent)
     ui->verticalLayout->addWidget(plot);
     connect(this, &MainWindow::configUpdated, plot, &PlotWidget::configUpdated);
 
-    hostChecker_ = new HostChecker(this);
-
-    connect(hostChecker_, &HostChecker::updatePlotWidget, plot,
+    connect(&hostChecker_, &HostChecker::updatePlotWidget, plot,
             &PlotWidget::updatePlotWidget);
 
-    connect(hostChecker_, &HostChecker::updateStatDisplay, stats,
+    connect(&hostChecker_, &HostChecker::updateStatDisplay, stats,
             &StatsDisplayWidget::updateStatDisplay);
 
     connect(ui->checkAdressButton, &QPushButton::clicked, this,
@@ -53,18 +50,18 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::checkAdressButtonClicked()
 {
-    bool checkerRunning{hostChecker_->isRunning()};
+    bool checkerRunning{hostChecker_.isRunning()};
     if (checkerRunning)
     {
-        hostChecker_->stop();
+        hostChecker_.stop();
         ui->checkAdressButton->setText(tr("Check address"));
     }
     else
     {
         int timeoutValue{ui->timeoutLineEdit->text().toInt()};
         QString host{ui->adressLineEdit->text()};
-        hostChecker_->start(ui->intervalLineEdit->text().toInt(), timeoutValue,
-                            host);
+        hostChecker_.start(ui->intervalLineEdit->text().toInt(), timeoutValue,
+                           host);
         Q_EMIT configUpdated(timeoutValue);
         ui->checkAdressButton->setText(tr("Stop"));
     }
