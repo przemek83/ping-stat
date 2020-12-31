@@ -3,6 +3,8 @@
 #include <QMainWindow>
 
 #include "HostChecker.h"
+#include "PlotWidget.h"
+#include "StatsDisplayWidget.h"
 
 class HostChecker;
 
@@ -31,6 +33,10 @@ private:
     Ui::MainWindow* ui;
 
     HostChecker hostChecker_;
+
+    PlotWidget plotWidget_;
+
+    StatsDisplayWidget statsDisplayWidget_;
 
 private Q_SLOTS:
     /**

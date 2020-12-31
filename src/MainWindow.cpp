@@ -1,11 +1,13 @@
 #include "MainWindow.h"
 
-#include "PlotWidget.h"
-#include "StatsDisplayWidget.h"
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), hostChecker_(this)
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow),
+      hostChecker_(this),
+      plotWidget_(this),
+      statsDisplayWidget_(this)
 {
     ui->setupUi(this);
 
@@ -31,18 +33,15 @@ void MainWindow::setupAdressValidator()
 
 void MainWindow::setupStatsDisplay()
 {
-    auto stats{new StatsDisplayWidget(this)};
-    ui->verticalLayout->addWidget(stats);
-    connect(&hostChecker_, &HostChecker::updateStatDisplay, stats,
-            &StatsDisplayWidget::updateStatDisplay);
+    ui->verticalLayout->addWidget(&statsDisplayWidget_);
+    connect(&hostChecker_, &HostChecker::updateStatDisplay,
+            &statsDisplayWidget_, &StatsDisplayWidget::updateStatDisplay);
 }
 
 void MainWindow::setupPlotWidget()
 {
-    auto plot{new PlotWidget(this)};
-    ui->verticalLayout->addWidget(plot);
-    connect(this, &MainWindow::configUpdated, plot, &PlotWidget::configUpdated);
-    connect(&hostChecker_, &HostChecker::updatePlotWidget, plot,
+    ui->verticalLayout->addWidget(&plotWidget_);
+    connect(&hostChecker_, &HostChecker::updatePlotWidget, &plotWidget_,
             &PlotWidget::updatePlotWidget);
 }
 
@@ -66,7 +65,7 @@ void MainWindow::pingButtonClicked()
         const int timeoutValue{ui->timeoutSpin->value()};
         const QString host{ui->adressLineEdit->text()};
         hostChecker_.start(ui->intervalSpin->value(), timeoutValue, host);
-        Q_EMIT configUpdated(timeoutValue);
+        plotWidget_.configUpdated(timeoutValue);
         ui->pingButton->setText(tr("Stop"));
     }
     setEditableFieldsEnabled(checkerRunning);
