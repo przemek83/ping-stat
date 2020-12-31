@@ -32,9 +32,8 @@ void MainWindow::setupValidators()
 void MainWindow::setupAdressValidator()
 {
     QString ipRegexp(
-        QStringLiteral("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)"));
-    ipRegexp.append(
-        QStringLiteral("{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"));
+        QStringLiteral("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:"
+                       "25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"));
     auto adressValidator{
         new QRegExpValidator(QRegExp(ipRegexp), ui->adressLineEdit)};
     ui->adressLineEdit->setValidator(adressValidator);
@@ -42,13 +41,15 @@ void MainWindow::setupAdressValidator()
 
 void MainWindow::setupIntervalValidator()
 {
-    auto intervalValidator{new QIntValidator(0, INT_MAX, ui->intervalLineEdit)};
+    const int maxInterval{99};
+    auto intervalValidator{
+        new QIntValidator(0, maxInterval, ui->intervalLineEdit)};
     ui->intervalLineEdit->setValidator(intervalValidator);
 }
 
 void MainWindow::setupTimeoutValidator()
 {
-    const int maxTimeout{1000};
+    const int maxTimeout{999};
     auto timeoutValidator{
         new QIntValidator(0, maxTimeout, ui->timeoutLineEdit)};
     ui->timeoutLineEdit->setValidator(timeoutValidator);

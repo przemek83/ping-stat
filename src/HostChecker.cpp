@@ -7,13 +7,13 @@
 
 HostChecker::HostChecker(QObject* parent) : QObject(parent) {}
 
-void HostChecker::start(int interval, int timeout, const QString& host)
+void HostChecker::start(int intervalInSeconds, int timeout, const QString& host)
 {
     if (isRunning())
         stop();
     host_ = host;
     timeout_ = timeout;
-    timerId_ = startTimer(interval);
+    timerId_ = startTimer(intervalInSeconds * 1000);
 }
 
 void HostChecker::stop()

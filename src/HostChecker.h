@@ -23,7 +23,7 @@ public:
      * @param timeout maximum time ping wits for reply.
      * @param host IP of host.
      */
-    void start(int interval, int timeout, const QString& host);
+    void start(int intervalInSeconds, int timeout, const QString& host);
 
     /**
      * @brief stop host checker.
