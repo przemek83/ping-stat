@@ -16,33 +16,14 @@ public:
     void updatePlotWidget(int avgReturnTime, const QDateTime& time);
 
 protected:
-    /**
-     * @brief overridden paint method for drawing.
-     * @param event event
-     */
-    virtual void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event) override;
 
-    /**
-     * @brief overridden event method to use custom tooltip.
-     * @param event event
-     * @return true if event recognized and accepted.
-     */
-    virtual bool event(QEvent* event);
+    bool event(QEvent* event) override;
 
 private:
-    Q_DISABLE_COPY(PlotWidget)
-
-    /**
-     * @brief draw scales for plot.
-     * @param painter painter.
-     */
     void drawScales(QPainter& painter);
 
-    /**
-     * @brief get minimum value from average return type.
-     * @return minimum value.
-     */
-    int getMin() const;
+    int getMinAvgReturnTime() const;
 
     /**
      * @brief Calculate item width.
@@ -50,25 +31,21 @@ private:
      */
     int getItemWidth();
 
-    /// Container with average values.
-    QVector<int> data_;
+    QVector<int> avgReturnTimes_;
 
     /// Container with time values.
     QVector<QDateTime> timeData_;
 
     /// Margin size used for scale size and spacing.
-    const static int marginSize_;
+    const int marginSize_{10};
 
-    /// Size used for axis names.
-    const static int axisNameSize_;
+    const int axisNameSize_{50};
 
-    /// Size used for axis arrow.
-    const static int axisArrowSize_;
+    const int axisArrowSize_{5};
 
-    static const int maxPlotItems_{50};
+    const int maxPlotItems_{50};
 
-    static const int minPlotItemsToResize_{10};
+    const int minPlotItemsToResize_{10};
 
-    /// Current timeout value.
-    int timeoutValue_;
+    int timeoutValue_{0};
 };

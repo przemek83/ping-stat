@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <QApplication>
 #include <QDebug>
 #include <QHelpEvent>
@@ -8,13 +10,7 @@
 #include "Constants.h"
 #include "PlotWidget.h"
 
-const int PlotWidget::marginSize_ = 10;
-
-const int PlotWidget::axisNameSize_ = 50;
-
-const int PlotWidget::axisArrowSize_ = 5;
-
-PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent), timeoutValue_(0)
+PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent)
 {
     setMinimumHeight(100);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -22,7 +18,7 @@ PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent), timeoutValue_(0)
 
 void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
 {
-    int dataSize{data_.size()};
+    const int dataSize{avgReturnTimes_.size()};
     if (dataSize == 0)
         return;
 
@@ -62,7 +58,7 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
     // Set items spacing.
     int itemSpacing = marginSize_ * 2;
 
-    int min = getMin();
+    const int minAvgReturnTime{getMinAvgReturnTime()};
 
     // Draw items.
     for (int i = 0; i < dataSize; ++i)
@@ -70,8 +66,9 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
         int x{itemStartX + itemWidth * i};
         int width{itemWidth - itemSpacing / 2};
         int itemHeight{plotAreaHeight};
-        float factor{1 - static_cast<float>(data_.at(i) - min) /
-                             static_cast<float>(timeoutValue_ - min)};
+        float factor{
+            1 - static_cast<float>(avgReturnTimes_.at(i) - minAvgReturnTime) /
+                    static_cast<float>(timeoutValue_ - minAvgReturnTime)};
         int height{static_cast<int>(static_cast<float>(itemHeight) * factor)};
         painter.drawRect(x, itemStartY, width, -height);
     }
@@ -104,29 +101,17 @@ void PlotWidget::drawScales(QPainter& painter)
     painter.restore();
 }
 
-int PlotWidget::getMin() const
+int PlotWidget::getMinAvgReturnTime() const
 {
-    int dataSize = data_.size();
-    if (dataSize < 1)
-    {
+    if (avgReturnTimes_.isEmpty())
         return 0;
-    }
-
-    int currentMin = data_[0];
-    for (int i = 1; i < dataSize; ++i)
-    {
-        if (data_[i] < currentMin)
-        {
-            currentMin = data_[i];
-        }
-    }
-
-    return currentMin;
+    return *std::min_element(avgReturnTimes_.constBegin(),
+                             avgReturnTimes_.constEnd());
 }
 
 int PlotWidget::getItemWidth()
 {
-    int dataSize = data_.size();
+    int dataSize = avgReturnTimes_.size();
 
     // Used 3 * scale because need space for scale, margin from scale to plot
     // and margin from plot to end.
@@ -139,13 +124,13 @@ int PlotWidget::getItemWidth()
 
 void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
 {
-    if (data_.size() >= maxPlotItems_)
+    if (avgReturnTimes_.size() >= maxPlotItems_)
     {
-        data_.pop_front();
+        avgReturnTimes_.pop_front();
         timeData_.pop_front();
     }
 
-    data_.push_back(avgReturnTime);
+    avgReturnTimes_.push_back(avgReturnTime);
     timeData_.push_back(time);
 
     update();
@@ -165,10 +150,10 @@ bool PlotWidget::event(QEvent* event)
         int itemWidth{getItemWidth()};
         int item{(helpEvent->pos().x() - 2 * marginSize_) / itemWidth};
 
-        if (item <= data_.size() && item >= 0)
+        if (item <= avgReturnTimes_.size() && item >= 0)
         {
             QString tooltip(tr("Average return time: "));
-            tooltip.append(QString::number(data_[item]));
+            tooltip.append(QString::number(avgReturnTimes_[item]));
             tooltip.append(QStringLiteral("\n"));
             tooltip.append(tr("Time: "));
             tooltip.append(
