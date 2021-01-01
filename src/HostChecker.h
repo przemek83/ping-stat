@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QProcess>
 
+#include "PingData.h"
+
 class QTimerEvent;
 
 /**
@@ -75,13 +77,5 @@ private Q_SLOTS:
     void pingFinished(int, QProcess::ExitStatus exitStatus);
 
 Q_SIGNALS:
-    /**
-     * @brief Signal used to update display with new values.
-     */
-    void updateStatDisplay(QDateTime, int, int, int, int, int);
-
-    /**
-     * @brief signal used to update plot using average value and time.
-     */
-    void updatePlotWidget(int, QDateTime);
+    void newPingData(PingData);
 };

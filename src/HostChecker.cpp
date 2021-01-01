@@ -105,8 +105,6 @@ void HostChecker::pingFinished([[maybe_unused]] int exitCode,
         max = timeout_;
     }
 
-    // Update GUI.
-    Q_EMIT updateStatDisplay(time, packetsSent, packetsLost, avgReturnTime, min,
-                             max);
-    Q_EMIT updatePlotWidget(avgReturnTime, time);
+    Q_EMIT newPingData(
+        {time, packetsSent, packetsLost, avgReturnTime, min, max});
 }

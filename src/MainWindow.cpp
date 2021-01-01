@@ -17,8 +17,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->pingButton, &QPushButton::clicked, this,
             &MainWindow::pingButtonClicked);
 
-    connect(&hostChecker_, &HostChecker::updateStatDisplay, this,
-            &MainWindow::updateStatDisplay);
+    connect(&hostChecker_, &HostChecker::newPingData, this,
+            &MainWindow::updatePingData);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -36,8 +36,6 @@ void MainWindow::setupAdressValidator()
 void MainWindow::setupPlotWidget()
 {
     ui->verticalLayout->addWidget(&plotWidget_);
-    connect(&hostChecker_, &HostChecker::updatePlotWidget, &plotWidget_,
-            &PlotWidget::updatePlotWidget);
 }
 
 void MainWindow::flipEditableFieldsEnablement()
@@ -71,15 +69,16 @@ void MainWindow::pingButtonClicked()
     flipEditableFieldsEnablement();
 }
 
-void MainWindow::updateStatDisplay(const QDateTime& time, int packetsSent,
-                                   int packetsLost, int avgReturnTime, int min,
-                                   int max)
+void MainWindow::updatePingData(PingData pingData)
 {
+    plotWidget_.updatePlotWidget(pingData.avgReturnTime, pingData.time);
+
     ui->timeLabelValue->setText(
-        time.toString(Constants::getDisplayTimeFormat()));
-    ui->packetsSentValue->setText(QString::number(packetsSent));
-    ui->packetsLostValue->setText(QString::number(packetsLost));
-    ui->avgTimeValue->setText(QString::number(avgReturnTime) + tr("ms"));
-    ui->minTimeValue->setText(QString::number(min) + tr("ms"));
-    ui->maxTimeValue->setText(QString::number(max) + tr("ms"));
+        pingData.time.toString(Constants::getDisplayTimeFormat()));
+    ui->packetsSentValue->setText(QString::number(pingData.packetsSent));
+    ui->packetsLostValue->setText(QString::number(pingData.packetsLost));
+    ui->avgTimeValue->setText(QString::number(pingData.avgReturnTime) +
+                              tr("ms"));
+    ui->minTimeValue->setText(QString::number(pingData.min) + tr("ms"));
+    ui->maxTimeValue->setText(QString::number(pingData.max) + tr("ms"));
 }

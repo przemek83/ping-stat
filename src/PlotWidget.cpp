@@ -137,7 +137,7 @@ int PlotWidget::getItemWidth()
                 : (plotAreaWidth) / minPlotItemsToResize_);
 }
 
-void PlotWidget::updatePlotWidget(int value, const QDateTime& time)
+void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
 {
     if (data_.size() >= maxPlotItems_)
     {
@@ -145,7 +145,7 @@ void PlotWidget::updatePlotWidget(int value, const QDateTime& time)
         timeData_.pop_front();
     }
 
-    data_.push_back(value);
+    data_.push_back(avgReturnTime);
     timeData_.push_back(time);
 
     update();

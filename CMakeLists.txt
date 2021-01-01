@@ -26,6 +26,7 @@ set(${PROJECT_NAME}_SOURCES
     src/Logger.h
     src/Constants.h
     src/Constants.cpp
+    src/PingData.h
     )
 
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})

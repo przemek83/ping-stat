@@ -42,7 +42,5 @@ private:
 private Q_SLOTS:
     void pingButtonClicked();
 
-    void updateStatDisplay(const QDateTime& time, int packetsSent,
-                           int packetsLost, int avgReturnTime, int min,
-                           int max);
+    void updatePingData(PingData pingData);
 };
