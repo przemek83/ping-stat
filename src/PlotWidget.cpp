@@ -17,6 +17,7 @@ const int PlotWidget::axisArrowSize_ = 5;
 PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent), timeoutValue_(0)
 {
     setMinimumHeight(100);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)

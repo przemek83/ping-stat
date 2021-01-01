@@ -1,22 +1,24 @@
 #include "MainWindow.h"
 
+#include "Constants.h"
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       hostChecker_(this),
-      plotWidget_(this),
-      statsDisplayWidget_(this)
+      plotWidget_(this)
 {
     ui->setupUi(this);
 
     setupAdressValidator();
-    setupStatsDisplay();
     setupPlotWidget();
 
     connect(ui->pingButton, &QPushButton::clicked, this,
             &MainWindow::pingButtonClicked);
+
+    connect(&hostChecker_, &HostChecker::updateStatDisplay, this,
+            &MainWindow::updateStatDisplay);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -29,13 +31,6 @@ void MainWindow::setupAdressValidator()
     auto adressValidator{
         new QRegExpValidator(QRegExp(ipRegexp), ui->adressLineEdit)};
     ui->adressLineEdit->setValidator(adressValidator);
-}
-
-void MainWindow::setupStatsDisplay()
-{
-    ui->verticalLayout->addWidget(&statsDisplayWidget_);
-    connect(&hostChecker_, &HostChecker::updateStatDisplay,
-            &statsDisplayWidget_, &StatsDisplayWidget::updateStatDisplay);
 }
 
 void MainWindow::setupPlotWidget()
@@ -74,4 +69,17 @@ void MainWindow::pingButtonClicked()
     else
         startPinging();
     flipEditableFieldsEnablement();
+}
+
+void MainWindow::updateStatDisplay(const QDateTime& time, int packetsSent,
+                                   int packetsLost, int avgReturnTime, int min,
+                                   int max)
+{
+    ui->timeLabelValue->setText(
+        time.toString(Constants::getDisplayTimeFormat()));
+    ui->packetsSentValue->setText(QString::number(packetsSent));
+    ui->packetsLostValue->setText(QString::number(packetsLost));
+    ui->avgTimeValue->setText(QString::number(avgReturnTime) + tr("ms"));
+    ui->minTimeValue->setText(QString::number(min) + tr("ms"));
+    ui->maxTimeValue->setText(QString::number(max) + tr("ms"));
 }

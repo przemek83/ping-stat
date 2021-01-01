@@ -15,9 +15,6 @@ add_definitions( ${QT_DEFINITIONS} )
 
 set(${PROJECT_NAME}_SOURCES
     src/main.cpp
-    src/StatsDisplayWidget.cpp
-    src/StatsDisplayWidget.h
-    src/StatsDisplayWidget.ui
     src/PlotWidget.cpp
     src/PlotWidget.h
     src/MainWindow.cpp

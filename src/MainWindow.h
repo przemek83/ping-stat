@@ -4,7 +4,6 @@
 
 #include "HostChecker.h"
 #include "PlotWidget.h"
-#include "StatsDisplayWidget.h"
 
 class HostChecker;
 
@@ -40,8 +39,10 @@ private:
 
     PlotWidget plotWidget_;
 
-    StatsDisplayWidget statsDisplayWidget_;
-
 private Q_SLOTS:
     void pingButtonClicked();
+
+    void updateStatDisplay(const QDateTime& time, int packetsSent,
+                           int packetsLost, int avgReturnTime, int min,
+                           int max);
 };
