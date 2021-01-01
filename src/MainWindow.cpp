@@ -12,7 +12,8 @@ MainWindow::MainWindow(QWidget* parent)
     ui->setupUi(this);
 
     setupAdressValidator();
-    setupPlotWidget();
+
+    ui->verticalLayout->addWidget(&plotWidget_);
 
     connect(ui->pingButton, &QPushButton::clicked, this,
             &MainWindow::pingButtonClicked);
@@ -31,11 +32,6 @@ void MainWindow::setupAdressValidator()
     auto adressValidator{
         new QRegExpValidator(QRegExp(ipRegexp), ui->adressLineEdit)};
     ui->adressLineEdit->setValidator(adressValidator);
-}
-
-void MainWindow::setupPlotWidget()
-{
-    ui->verticalLayout->addWidget(&plotWidget_);
 }
 
 void MainWindow::flipEditableFieldsEnablement()
@@ -60,6 +56,18 @@ void MainWindow::startPinging()
     ui->pingButton->setText(tr("Stop"));
 }
 
+void MainWindow::updatePingStatistics(const PingData& pingData)
+{
+    ui->timeLabelValue->setText(
+        pingData.time.toString(Constants::getDisplayTimeFormat()));
+    ui->packetsSentValue->setText(QString::number(pingData.packetsSent));
+    ui->packetsLostValue->setText(QString::number(pingData.packetsLost));
+    ui->avgTimeValue->setText(QString::number(pingData.avgReturnTime) +
+                              tr("ms"));
+    ui->minTimeValue->setText(QString::number(pingData.min) + tr("ms"));
+    ui->maxTimeValue->setText(QString::number(pingData.max) + tr("ms"));
+}
+
 void MainWindow::pingButtonClicked()
 {
     if (hostChecker_.isRunning())
@@ -72,13 +80,5 @@ void MainWindow::pingButtonClicked()
 void MainWindow::updatePingData(PingData pingData)
 {
     plotWidget_.updatePlotWidget(pingData.avgReturnTime, pingData.time);
-
-    ui->timeLabelValue->setText(
-        pingData.time.toString(Constants::getDisplayTimeFormat()));
-    ui->packetsSentValue->setText(QString::number(pingData.packetsSent));
-    ui->packetsLostValue->setText(QString::number(pingData.packetsLost));
-    ui->avgTimeValue->setText(QString::number(pingData.avgReturnTime) +
-                              tr("ms"));
-    ui->minTimeValue->setText(QString::number(pingData.min) + tr("ms"));
-    ui->maxTimeValue->setText(QString::number(pingData.max) + tr("ms"));
+    updatePingStatistics(pingData);
 }

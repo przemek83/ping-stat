@@ -23,15 +23,13 @@ public:
 private:
     void setupAdressValidator();
 
-    void setupStatsDisplay();
-
-    void setupPlotWidget();
-
     void flipEditableFieldsEnablement();
 
     void stopPinging();
 
     void startPinging();
+
+    void updatePingStatistics(const PingData& pingData);
 
     Ui::MainWindow* ui;
 
