@@ -25,11 +25,9 @@ private:
 
     int getMinAvgReturnTime() const;
 
-    /**
-     * @brief Calculate item width.
-     * @return item width.
-     */
-    int getItemWidth();
+    int getPlotItemWidth() const;
+
+    QSize getPlotAreaSize() const;
 
     QVector<int> avgReturnTimes_;
 

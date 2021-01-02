@@ -45,11 +45,9 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
     // Draw scales.
     drawScales(painter);
 
-    // Used 3 * scale because need space for scale, margin from scale to plot
-    // and
-    int plotAreaHeight = height() - 3 * marginSize_;
+    const int plotAreaHeight{getPlotAreaSize().height()};
 
-    int itemWidth = getItemWidth();
+    int plotItemWidth{getPlotItemWidth()};
 
     // Calculate x and y where items should start.
     int itemStartX = 2 * marginSize_;
@@ -63,8 +61,8 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
     // Draw items.
     for (int i = 0; i < dataSize; ++i)
     {
-        int x{itemStartX + itemWidth * i};
-        int width{itemWidth - itemSpacing / 2};
+        int x{itemStartX + plotItemWidth * i};
+        int width{plotItemWidth - itemSpacing / 2};
         int itemHeight{plotAreaHeight};
         float factor{
             1 - static_cast<float>(avgReturnTimes_.at(i) - minAvgReturnTime) /
@@ -109,17 +107,20 @@ int PlotWidget::getMinAvgReturnTime() const
                              avgReturnTimes_.constEnd());
 }
 
-int PlotWidget::getItemWidth()
+int PlotWidget::getPlotItemWidth() const
 {
-    int dataSize = avgReturnTimes_.size();
-
-    // Used 3 * scale because need space for scale, margin from scale to plot
-    // and margin from plot to end.
-    int plotAreaWidth = width() - 3 * marginSize_;
-
+    const int dataSize{avgReturnTimes_.size()};
+    const int plotAreaWidth{getPlotAreaSize().width()};
     return (dataSize > minPlotItemsToResize_
                 ? (plotAreaWidth) / dataSize
                 : (plotAreaWidth) / minPlotItemsToResize_);
+}
+
+QSize PlotWidget::getPlotAreaSize() const
+{
+    // One margin size for scale, one for distance between first plotItem
+    // and scale, one for distance from last item to end.
+    return {width() - 3 * marginSize_, height() - 3 * marginSize_};
 }
 
 void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
@@ -147,8 +148,8 @@ bool PlotWidget::event(QEvent* event)
     {
         auto helpEvent{dynamic_cast<QHelpEvent*>(event)};
 
-        int itemWidth{getItemWidth()};
-        int item{(helpEvent->pos().x() - 2 * marginSize_) / itemWidth};
+        const int plotItemWidth{getPlotItemWidth()};
+        int item{(helpEvent->pos().x() - 2 * marginSize_) / plotItemWidth};
 
         if (item <= avgReturnTimes_.size() && item >= 0)
         {
