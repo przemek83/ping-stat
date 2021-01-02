@@ -38,27 +38,8 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
     QPainter painter(this);
     setupPainter(painter);
 
+    drawItems(painter);
     drawScales(painter);
-
-    const int plotAreaHeight{getPlotAreaSize().height()};
-    const int plotItemWidth{getPlotItemWidth()};
-    const int itemStartX = 2 * marginSize_;
-    const int itemStartY = marginSize_ + plotAreaHeight;
-    const int itemSpacing = marginSize_ * 2;
-    const int minAvgReturnTime{getMinAvgReturnTime()};
-
-    // Draw items.
-    for (int i = 0; i < dataSize; ++i)
-    {
-        int x{itemStartX + plotItemWidth * i};
-        int width{plotItemWidth - itemSpacing / 2};
-        int itemHeight{plotAreaHeight};
-        float factor{
-            1 - static_cast<float>(avgReturnTimes_.at(i) - minAvgReturnTime) /
-                    static_cast<float>(timeoutValue_ - minAvgReturnTime)};
-        int height{static_cast<int>(static_cast<float>(itemHeight) * factor)};
-        painter.drawRect(x, itemStartY, width, -height);
-    }
 }
 
 void PlotWidget::drawScales(QPainter& painter)
@@ -86,6 +67,30 @@ void PlotWidget::drawScales(QPainter& painter)
     painter.rotate(270);  // or 270
     painter.drawText(-axisNameSize_, marginSize_ - 2, tr("ping"));
     painter.restore();
+}
+
+void PlotWidget::drawItems(QPainter& painter)
+{
+    const int plotAreaHeight{getPlotAreaSize().height()};
+    const int plotItemWidth{getPlotItemWidth()};
+    const int itemStartX = 2 * marginSize_;
+    const int itemStartY = marginSize_ + plotAreaHeight;
+    const int itemSpacing = marginSize_ * 2;
+    const int minAvgReturnTime{getMinAvgReturnTime()};
+    const int dataSize{avgReturnTimes_.size()};
+
+    // Draw items.
+    for (int i = 0; i < dataSize; ++i)
+    {
+        int x{itemStartX + plotItemWidth * i};
+        int width{plotItemWidth - itemSpacing / 2};
+        int itemHeight{plotAreaHeight};
+        float factor{
+            1 - static_cast<float>(avgReturnTimes_.at(i) - minAvgReturnTime) /
+                    static_cast<float>(timeoutValue_ - minAvgReturnTime)};
+        int height{static_cast<int>(static_cast<float>(itemHeight) * factor)};
+        painter.drawRect(x, itemStartY, width, -height);
+    }
 }
 
 int PlotWidget::getMinAvgReturnTime() const
