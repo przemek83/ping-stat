@@ -122,31 +122,28 @@ void PlotWidget::setTimeoutValue(int timeoutValue)
 
 bool PlotWidget::event(QEvent* event)
 {
-    if (event->type() == QEvent::ToolTip)
+    if (event->type() != QEvent::ToolTip)
+        return QWidget::event(event);
+
+    auto helpEvent{dynamic_cast<QHelpEvent*>(event)};
+    int item{(helpEvent->pos().x() - marginSize_) / getPlotItemWidth()};
+    if (item < data_.size() && item >= 0)
     {
-        auto helpEvent{dynamic_cast<QHelpEvent*>(event)};
+        QString tooltip(tr("Average return time: "));
+        tooltip.append(QString::number(data_[item].second));
+        tooltip.append(QStringLiteral("\n"));
+        tooltip.append(tr("Time: "));
+        tooltip.append(
+            data_[item].first.toString(Constants::getDisplayTimeFormat()));
 
-        const int plotItemWidth{getPlotItemWidth()};
-        int item{(helpEvent->pos().x() - 2 * marginSize_) / plotItemWidth};
-
-        if (item <= data_.size() && item >= 0)
-        {
-            QString tooltip(tr("Average return time: "));
-            tooltip.append(QString::number(data_[item].second));
-            tooltip.append(QStringLiteral("\n"));
-            tooltip.append(tr("Time: "));
-            tooltip.append(
-                data_[item].first.toString(Constants::getDisplayTimeFormat()));
-
-            QToolTip::showText(helpEvent->globalPos(), tooltip);
-        }
-        else
-        {
-            QToolTip::hideText();
-            event->ignore();
-        }
-
-        return true;
+        QToolTip::hideText();
+        QToolTip::showText(helpEvent->globalPos(), tooltip);
+        event->accept();
     }
-    return QWidget::event(event);
+    else
+    {
+        QToolTip::hideText();
+        event->ignore();
+    }
+    return true;
 }
