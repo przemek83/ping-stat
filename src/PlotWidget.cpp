@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 
 #include <QApplication>
 #include <QDebug>
@@ -71,34 +72,19 @@ void PlotWidget::drawScales(QPainter& painter)
 
 void PlotWidget::drawItems(QPainter& painter)
 {
-    const int plotAreaHeight{getPlotAreaSize().height()};
-    const int plotItemWidth{getPlotItemWidth()};
-    const int itemStartX = 2 * marginSize_;
-    const int itemStartY = marginSize_ + plotAreaHeight;
-    const int itemSpacing = marginSize_ * 2;
-    const int minAvgReturnTime{getMinAvgReturnTime()};
-    const int dataSize{avgReturnTimes_.size()};
+    const int itemWidth{getPlotItemWidth()};
+    const int startY{height() - marginSize_};
 
-    // Draw items.
-    for (int i = 0; i < dataSize; ++i)
+    int counter{0};
+    for (const auto item : avgReturnTimes_)
     {
-        int x{itemStartX + plotItemWidth * i};
-        int width{plotItemWidth - itemSpacing / 2};
-        int itemHeight{plotAreaHeight};
-        float factor{
-            1 - static_cast<float>(avgReturnTimes_.at(i) - minAvgReturnTime) /
-                    static_cast<float>(timeoutValue_ - minAvgReturnTime)};
-        int height{static_cast<int>(static_cast<float>(itemHeight) * factor)};
-        painter.drawRect(x, itemStartY, width, -height);
+        const int startX{marginSize_ + itemWidth * counter++};
+        const float sizeFactor{static_cast<float>(item) /
+                               static_cast<float>(timeoutValue_)};
+        const int itemHeight{
+            static_cast<int>(round(sizeFactor * getPlotAreaSize().height()))};
+        painter.drawRect(startX, startY, itemWidth, -itemHeight);
     }
-}
-
-int PlotWidget::getMinAvgReturnTime() const
-{
-    if (avgReturnTimes_.isEmpty())
-        return 0;
-    return *std::min_element(avgReturnTimes_.constBegin(),
-                             avgReturnTimes_.constEnd());
 }
 
 int PlotWidget::getPlotItemWidth() const

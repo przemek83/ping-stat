@@ -29,8 +29,6 @@ private:
 
     void drawItems(QPainter& painter);
 
-    int getMinAvgReturnTime() const;
-
     int getPlotItemWidth() const;
 
     QSize getPlotAreaSize() const;
