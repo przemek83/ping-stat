@@ -6,7 +6,7 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
-      hostChecker_(this),
+      pinger_(this),
       plotWidget_(this)
 {
     ui->setupUi(this);
@@ -18,8 +18,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->pingButton, &QPushButton::clicked, this,
             &MainWindow::pingButtonClicked);
 
-    connect(&hostChecker_, &HostChecker::newPingData, this,
-            &MainWindow::updatePingData);
+    connect(&pinger_, &Pinger::newPingData, this, &MainWindow::updatePingData);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -43,7 +42,7 @@ void MainWindow::flipEditableFieldsEnablement()
 
 void MainWindow::stopPinging()
 {
-    hostChecker_.stop();
+    pinger_.stop();
     ui->pingButton->setText(tr("Ping"));
 }
 
@@ -51,7 +50,7 @@ void MainWindow::startPinging()
 {
     const int timeoutValue{ui->timeoutSpin->value()};
     const QString host{ui->adressLineEdit->text()};
-    hostChecker_.start(ui->intervalSpin->value(), timeoutValue, host);
+    pinger_.start(ui->intervalSpin->value(), timeoutValue, host);
     plotWidget_.setTimeoutValue(timeoutValue);
     ui->pingButton->setText(tr("Stop"));
 }
@@ -70,7 +69,7 @@ void MainWindow::updatePingStatistics(const PingData& pingData)
 
 void MainWindow::pingButtonClicked()
 {
-    if (hostChecker_.isRunning())
+    if (pinger_.isRunning())
         stopPinging();
     else
         startPinging();

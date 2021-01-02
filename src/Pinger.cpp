@@ -2,12 +2,12 @@
 #include <QDebug>
 
 #include "Constants.h"
-#include "HostChecker.h"
 #include "Logger.h"
+#include "Pinger.h"
 
-HostChecker::HostChecker(QObject* parent) : QObject(parent) {}
+Pinger::Pinger(QObject* parent) : QObject(parent) {}
 
-void HostChecker::start(int intervalInSeconds, int timeout, const QString& host)
+void Pinger::start(int intervalInSeconds, int timeout, const QString& host)
 {
     if (isRunning())
         stop();
@@ -17,15 +17,15 @@ void HostChecker::start(int intervalInSeconds, int timeout, const QString& host)
     timerId_ = startTimer(intervalInSeconds * milisecondsInSecond);
 }
 
-void HostChecker::stop()
+void Pinger::stop()
 {
     killTimer(timerId_);
     timerId_ = 0;
 }
 
-bool HostChecker::isRunning() { return timerId_ != 0; }
+bool Pinger::isRunning() { return timerId_ != 0; }
 
-void HostChecker::timerEvent([[maybe_unused]] QTimerEvent* event)
+void Pinger::timerEvent([[maybe_unused]] QTimerEvent* event)
 {
     if (!isRunning())
         return;
@@ -34,14 +34,14 @@ void HostChecker::timerEvent([[maybe_unused]] QTimerEvent* event)
     connect(pingProcess,
             static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
                 &QProcess::finished),
-            this, &HostChecker::pingFinished);
+            this, &Pinger::pingFinished);
 
     pingProcess->start(QStringLiteral("ping.exe -w ") +
                        QString::number(timeout_) + " -n 4 " + host_);
 }
 
-int HostChecker::getValue(QString& resultString, const QString& valueName,
-                          int fromIndex, int& endIndex)
+int Pinger::getValue(QString& resultString, const QString& valueName,
+                     int fromIndex, int& endIndex)
 {
     int startIndex{resultString.indexOf(valueName, fromIndex)};
     int length{valueName.length()};
@@ -52,8 +52,8 @@ int HostChecker::getValue(QString& resultString, const QString& valueName,
         .toInt();
 }
 
-void HostChecker::pingFinished([[maybe_unused]] int exitCode,
-                               [[maybe_unused]] QProcess::ExitStatus exitStatus)
+void Pinger::pingFinished([[maybe_unused]] int exitCode,
+                          [[maybe_unused]] QProcess::ExitStatus exitStatus)
 {
     auto ping{qobject_cast<QProcess*>(sender())};
     QDateTime time{QDateTime::currentDateTime()};

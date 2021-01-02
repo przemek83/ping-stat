@@ -2,7 +2,7 @@
 
 #include <QMainWindow>
 
-#include "HostChecker.h"
+#include "Pinger.h"
 #include "PlotWidget.h"
 
 class HostChecker;
@@ -33,7 +33,7 @@ private:
 
     Ui::MainWindow* ui;
 
-    HostChecker hostChecker_;
+    Pinger pinger_;
 
     PlotWidget plotWidget_;
 

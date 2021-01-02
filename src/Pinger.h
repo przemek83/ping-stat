@@ -9,15 +9,15 @@
 class QTimerEvent;
 
 /**
- * @brief The HostChecker class used for pinging given host.
+ * @brief The Pinger class used for pinging given host.
  */
-class HostChecker : public QObject
+class Pinger : public QObject
 {
     Q_OBJECT
 public:
-    explicit HostChecker(QObject* parent = nullptr);
+    explicit Pinger(QObject* parent = nullptr);
 
-    ~HostChecker() = default;
+    ~Pinger() = default;
 
     /**
      * @brief start host checker using giving parameters.
@@ -46,7 +46,7 @@ protected:
     void timerEvent(QTimerEvent* event);
 
 private:
-    Q_DISABLE_COPY(HostChecker)
+    Q_DISABLE_COPY(Pinger)
 
     /**
      * @brief Get value from ping results  string.

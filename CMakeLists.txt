@@ -20,8 +20,8 @@ set(${PROJECT_NAME}_SOURCES
     src/MainWindow.cpp
     src/MainWindow.h
     src/MainWindow.ui
-    src/HostChecker.cpp
-    src/HostChecker.h
+    src/Pinger.cpp
+    src/Pinger.h
     src/Logger.cpp
     src/Logger.h
     src/Constants.h
