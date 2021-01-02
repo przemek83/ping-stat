@@ -1,15 +1,12 @@
-#include <algorithm>
+#include "PlotWidget.h"
+
 #include <cmath>
 
-#include <QApplication>
-#include <QDebug>
 #include <QHelpEvent>
 #include <QPainter>
-#include <QTimer>
 #include <QToolTip>
 
 #include "Constants.h"
-#include "PlotWidget.h"
 
 PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent)
 {
