@@ -3,6 +3,8 @@
 #include <QDateTime>
 #include <QWidget>
 
+class Painter;
+
 class PlotWidget : public QWidget
 {
     Q_OBJECT
@@ -21,6 +23,8 @@ protected:
     bool event(QEvent* event) override;
 
 private:
+    void setupPainter(QPainter& painter);
+
     void drawScales(QPainter& painter);
 
     int getMinAvgReturnTime() const;

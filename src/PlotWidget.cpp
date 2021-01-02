@@ -16,6 +16,19 @@ PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent)
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
+void PlotWidget::setupPainter(QPainter& painter)
+{
+    painter.setRenderHint(QPainter::Antialiasing);
+    QColor color(Qt::darkBlue);
+    QBrush brush{QBrush(color)};
+    QPen pen;
+    pen.setColor(color);
+    pen.setWidth(1);
+    pen.setStyle(Qt::SolidLine);
+    painter.setPen(pen);
+    painter.setBrush(brush);
+}
+
 void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
 {
     const int dataSize{avgReturnTimes_.size()};
@@ -23,39 +36,15 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
         return;
 
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+    setupPainter(painter);
 
-    static bool initialized = false;
-
-    // Set color, pen and brush style.
-    QColor color(Qt::darkBlue);
-    QBrush brush{QBrush(color)};
-    QPen pen;
-    if (!initialized)
-    {
-        pen.setColor(color);
-        pen.setWidth(1);
-        pen.setStyle(Qt::SolidLine);
-        initialized = true;
-    }
-
-    painter.setPen(pen);
-    painter.setBrush(brush);
-
-    // Draw scales.
     drawScales(painter);
 
     const int plotAreaHeight{getPlotAreaSize().height()};
-
-    int plotItemWidth{getPlotItemWidth()};
-
-    // Calculate x and y where items should start.
-    int itemStartX = 2 * marginSize_;
-    int itemStartY = marginSize_ + plotAreaHeight;
-
-    // Set items spacing.
-    int itemSpacing = marginSize_ * 2;
-
+    const int plotItemWidth{getPlotItemWidth()};
+    const int itemStartX = 2 * marginSize_;
+    const int itemStartY = marginSize_ + plotAreaHeight;
+    const int itemSpacing = marginSize_ * 2;
     const int minAvgReturnTime{getMinAvgReturnTime()};
 
     // Draw items.
