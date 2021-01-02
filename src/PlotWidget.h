@@ -33,6 +33,8 @@ private:
 
     QSize getPlotAreaSize() const;
 
+    void doublePenSize(QPainter& painter);
+
     QVector<std::pair<QDateTime, int>> data_;
 
     int timeoutValue_{0};

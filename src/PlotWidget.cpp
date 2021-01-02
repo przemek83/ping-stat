@@ -51,9 +51,7 @@ void PlotWidget::drawScales(QPainter& painter)
     const int yTo{marginSize_};
     const int arrowSize{marginSize_ / 2};
 
-    QPen pen{painter.pen()};
-    pen.setWidth(pen.width() * 2);
-    painter.setPen(pen);
+    doublePenSize(painter);
 
     // Draw X axis.
     painter.drawLine(xFrom, yFrom, xTo, yFrom);
@@ -103,6 +101,13 @@ QSize PlotWidget::getPlotAreaSize() const
     // One margin size for scale, one for distance between first plotItem
     // and scale, one for distance from last item to end.
     return {width() - 3 * marginSize_, height() - 3 * marginSize_};
+}
+
+void PlotWidget::doublePenSize(QPainter& painter)
+{
+    QPen pen{painter.pen()};
+    pen.setWidth(pen.width() * 2);
+    painter.setPen(pen);
 }
 
 void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
