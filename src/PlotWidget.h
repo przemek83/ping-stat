@@ -35,6 +35,8 @@ private:
 
     void doublePenSize(QPainter& painter);
 
+    QString buildToolTip(int item) const;
+
     QVector<std::pair<QDateTime, int>> data_;
 
     int timeoutValue_{0};

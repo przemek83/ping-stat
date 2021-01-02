@@ -107,6 +107,17 @@ void PlotWidget::doublePenSize(QPainter& painter)
     painter.setPen(pen);
 }
 
+QString PlotWidget::buildToolTip(int item) const
+{
+    QString tooltip(tr("Average return time: "));
+    tooltip.append(QString::number(data_[item].second));
+    tooltip.append(QStringLiteral("\n"));
+    tooltip.append(tr("Time: "));
+    tooltip.append(
+        data_[item].first.toString(Constants::getDisplayTimeFormat()));
+    return tooltip;
+}
+
 void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
 {
     if (data_.size() >= maxPlotItems_)
@@ -129,15 +140,9 @@ bool PlotWidget::event(QEvent* event)
     int item{(helpEvent->pos().x() - marginSize_) / getPlotItemWidth()};
     if (item < data_.size() && item >= 0)
     {
-        QString tooltip(tr("Average return time: "));
-        tooltip.append(QString::number(data_[item].second));
-        tooltip.append(QStringLiteral("\n"));
-        tooltip.append(tr("Time: "));
-        tooltip.append(
-            data_[item].first.toString(Constants::getDisplayTimeFormat()));
-
+        QString tooltipText(buildToolTip(item));
         QToolTip::hideText();
-        QToolTip::showText(helpEvent->globalPos(), tooltip);
+        QToolTip::showText(helpEvent->globalPos(), tooltipText);
         event->accept();
     }
     else
