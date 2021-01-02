@@ -32,7 +32,7 @@ void PlotWidget::setupPainter(QPainter& painter)
 
 void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
 {
-    const int dataSize{avgReturnTimes_.size()};
+    const int dataSize{data_.size()};
     if (dataSize == 0)
         return;
 
@@ -76,10 +76,10 @@ void PlotWidget::drawItems(QPainter& painter)
     const int startY{height() - marginSize_};
 
     int counter{0};
-    for (const auto item : avgReturnTimes_)
+    for (const auto [time, value] : data_)
     {
         const int startX{marginSize_ + itemWidth * counter++};
-        const float sizeFactor{static_cast<float>(item) /
+        const float sizeFactor{static_cast<float>(value) /
                                static_cast<float>(timeoutValue_)};
         const int itemHeight{
             static_cast<int>(round(sizeFactor * getPlotAreaSize().height()))};
@@ -89,7 +89,7 @@ void PlotWidget::drawItems(QPainter& painter)
 
 int PlotWidget::getPlotItemWidth() const
 {
-    const int dataSize{avgReturnTimes_.size()};
+    const int dataSize{data_.size()};
     const int plotAreaWidth{getPlotAreaSize().width()};
     return (dataSize > minPlotItemsToResize_
                 ? (plotAreaWidth) / dataSize
@@ -105,15 +105,9 @@ QSize PlotWidget::getPlotAreaSize() const
 
 void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
 {
-    if (avgReturnTimes_.size() >= maxPlotItems_)
-    {
-        avgReturnTimes_.pop_front();
-        timeData_.pop_front();
-    }
-
-    avgReturnTimes_.push_back(avgReturnTime);
-    timeData_.push_back(time);
-
+    if (data_.size() >= maxPlotItems_)
+        data_.pop_front();
+    data_.push_back({time, avgReturnTime});
     update();
 }
 
@@ -131,14 +125,14 @@ bool PlotWidget::event(QEvent* event)
         const int plotItemWidth{getPlotItemWidth()};
         int item{(helpEvent->pos().x() - 2 * marginSize_) / plotItemWidth};
 
-        if (item <= avgReturnTimes_.size() && item >= 0)
+        if (item <= data_.size() && item >= 0)
         {
             QString tooltip(tr("Average return time: "));
-            tooltip.append(QString::number(avgReturnTimes_[item]));
+            tooltip.append(QString::number(data_[item].second));
             tooltip.append(QStringLiteral("\n"));
             tooltip.append(tr("Time: "));
             tooltip.append(
-                timeData_.at(item).toString(Constants::getDisplayTimeFormat()));
+                data_[item].first.toString(Constants::getDisplayTimeFormat()));
 
             QToolTip::showText(helpEvent->globalPos(), tooltip);
         }

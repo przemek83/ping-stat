@@ -33,10 +33,7 @@ private:
 
     QSize getPlotAreaSize() const;
 
-    QVector<int> avgReturnTimes_;
-
-    /// Container with time values.
-    QVector<QDateTime> timeData_;
+    QVector<std::pair<QDateTime, int>> data_;
 
     int timeoutValue_{0};
 
