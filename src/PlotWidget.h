@@ -37,6 +37,8 @@ private:
 
     QString buildToolTip(int item) const;
 
+    int getMaxYAxisValue() const;
+
     QVector<std::pair<QDateTime, int>> data_;
 
     int timeoutValue_{0};

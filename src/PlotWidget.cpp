@@ -77,7 +77,7 @@ void PlotWidget::drawItems(QPainter& painter)
     {
         const int startX{marginSize_ + itemWidth * counter++};
         const float sizeFactor{static_cast<float>(value) /
-                               static_cast<float>(timeoutValue_)};
+                               static_cast<float>(getMaxYAxisValue())};
         const int itemHeight{
             static_cast<int>(round(sizeFactor * getPlotAreaSize().height()))};
         painter.drawRect(startX, startY, itemWidth, -itemHeight);
@@ -116,6 +116,17 @@ QString PlotWidget::buildToolTip(int item) const
     tooltip.append(
         data_[item].first.toString(Constants::getDisplayTimeFormat()));
     return tooltip;
+}
+
+int PlotWidget::getMaxYAxisValue() const
+{
+    auto comparator{[](const std::pair<QDateTime, int>& left,
+                       const std::pair<QDateTime, int>& right) {
+        return left.second < right.second;
+    }};
+    const std::pair<QDateTime, int> maxDataValue{
+        *std::max_element(data_.constBegin(), data_.constEnd(), comparator)};
+    return std::max(timeoutValue_, maxDataValue.second);
 }
 
 void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
