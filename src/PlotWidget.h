@@ -39,7 +39,6 @@ private:
 
     const int marginSize_{10};
     const int axisNameSize_{50};
-    const int axisArrowSize_{5};
     const int maxPlotItems_{50};
     const int minPlotItemsToResize_{10};
 };

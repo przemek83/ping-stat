@@ -45,29 +45,31 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
 
 void PlotWidget::drawScales(QPainter& painter)
 {
-    // int dataSize = data_.size();
-    int xFrom = marginSize_;
-    int yFrom = height() - marginSize_;
-    int xTo = width() - marginSize_;
-    int yTo = marginSize_;
+    const int xFrom{marginSize_};
+    const int yFrom{height() - marginSize_};
+    const int xTo{width() - marginSize_};
+    const int yTo{marginSize_};
+    const int arrowSize{marginSize_ / 2};
+
+    QPen pen{painter.pen()};
+    pen.setWidth(pen.width() * 2);
+    painter.setPen(pen);
 
     // Draw X axis.
     painter.drawLine(xFrom, yFrom, xTo, yFrom);
-    painter.drawLine(xTo, yFrom, xTo - axisArrowSize_, yFrom - axisArrowSize_);
-    painter.drawLine(xTo, yFrom, xTo - axisArrowSize_, yFrom + axisArrowSize_);
+    painter.drawLine(xTo, yFrom, xTo - arrowSize, yFrom - arrowSize);
+    painter.drawLine(xTo, yFrom, xTo - arrowSize, yFrom + arrowSize);
 
     // Draw Y axis.
     painter.drawLine(xFrom, yFrom, xFrom, yTo);
-    painter.drawLine(xFrom, yTo, xFrom - axisArrowSize_, yTo + axisArrowSize_);
-    painter.drawLine(xFrom, yTo, xFrom + axisArrowSize_, yTo + axisArrowSize_);
+    painter.drawLine(xFrom, yTo, xFrom - arrowSize, yTo + arrowSize);
+    painter.drawLine(xFrom, yTo, xFrom + arrowSize, yTo + arrowSize);
 
-    // Name "0" and axis.
+    // place "0" and axis names.
     painter.drawText(0, height(), tr("0"));
     painter.drawText(width() - axisNameSize_, height(), tr("time"));
-    painter.save();
-    painter.rotate(270);  // or 270
+    painter.rotate(270);
     painter.drawText(-axisNameSize_, marginSize_ - 2, tr("ping"));
-    painter.restore();
 }
 
 void PlotWidget::drawItems(QPainter& painter)
