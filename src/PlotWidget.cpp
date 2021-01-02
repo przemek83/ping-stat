@@ -14,11 +14,11 @@ PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent)
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
-void PlotWidget::setupPainter(QPainter& painter)
+void PlotWidget::setupPainter(QPainter& painter) const
 {
     painter.setRenderHint(QPainter::Antialiasing);
-    QColor color(Qt::darkBlue);
-    QBrush brush{QBrush(color)};
+    const QColor color(Qt::darkBlue);
+    const QBrush brush{QBrush(color)};
     QPen pen;
     pen.setColor(color);
     pen.setWidth(1);
@@ -40,7 +40,7 @@ void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
     drawScales(painter);
 }
 
-void PlotWidget::drawScales(QPainter& painter)
+void PlotWidget::drawScales(QPainter& painter) const
 {
     const int xFrom{marginSize_};
     const int yFrom{height() - marginSize_};
@@ -67,7 +67,7 @@ void PlotWidget::drawScales(QPainter& painter)
     painter.drawText(-axisNameSize_, marginSize_ - 2, tr("ping"));
 }
 
-void PlotWidget::drawItems(QPainter& painter)
+void PlotWidget::drawItems(QPainter& painter) const
 {
     const int itemWidth{getPlotItemWidth()};
     const int startY{height() - marginSize_};
@@ -100,7 +100,7 @@ QSize PlotWidget::getPlotAreaSize() const
     return {width() - 3 * marginSize_, height() - 3 * marginSize_};
 }
 
-void PlotWidget::doublePenSize(QPainter& painter)
+void PlotWidget::doublePenSize(QPainter& painter) const
 {
     QPen pen{painter.pen()};
     pen.setWidth(pen.width() * 2);
@@ -148,7 +148,7 @@ bool PlotWidget::event(QEvent* event)
         return QWidget::event(event);
 
     auto helpEvent{dynamic_cast<QHelpEvent*>(event)};
-    int item{(helpEvent->pos().x() - marginSize_) / getPlotItemWidth()};
+    const int item{(helpEvent->pos().x() - marginSize_) / getPlotItemWidth()};
     if (item < data_.size() && item >= 0)
     {
         QString tooltipText(buildToolTip(item));

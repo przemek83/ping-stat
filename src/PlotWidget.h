@@ -23,17 +23,17 @@ protected:
     bool event(QEvent* event) override;
 
 private:
-    void setupPainter(QPainter& painter);
+    void setupPainter(QPainter& painter) const;
 
-    void drawScales(QPainter& painter);
+    void drawScales(QPainter& painter) const;
 
-    void drawItems(QPainter& painter);
+    void drawItems(QPainter& painter) const;
 
     int getPlotItemWidth() const;
 
     QSize getPlotAreaSize() const;
 
-    void doublePenSize(QPainter& painter);
+    void doublePenSize(QPainter& painter) const;
 
     QString buildToolTip(int item) const;
 
