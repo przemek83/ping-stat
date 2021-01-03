@@ -41,7 +41,7 @@ void Pinger::timerEvent([[maybe_unused]] QTimerEvent* event)
 }
 
 int Pinger::getValue(QString& resultString, const QString& valueName,
-                     int fromIndex, int& endIndex)
+                     int fromIndex, int& endIndex) const
 {
     int startIndex{resultString.indexOf(valueName, fromIndex)};
     int length{valueName.length()};
@@ -52,59 +52,77 @@ int Pinger::getValue(QString& resultString, const QString& valueName,
         .toInt();
 }
 
-void Pinger::pingFinished([[maybe_unused]] int exitCode,
-                          [[maybe_unused]] QProcess::ExitStatus exitStatus)
+PingData Pinger::extractPingData(QString pingOutput) const
 {
-    auto ping{qobject_cast<QProcess*>(sender())};
+    int fromIndex{0};
+    int endIndex{0};
+    const QString equalString{QStringLiteral(" = ")};
+    int packetsSent{getValue(pingOutput, equalString, fromIndex, endIndex)};
+
+    fromIndex = endIndex;
+    getValue(pingOutput, equalString, fromIndex, endIndex);
+    fromIndex = endIndex;
+    int packetsLost{getValue(pingOutput, equalString, fromIndex, endIndex)};
+    fromIndex = endIndex;
+    int min{getValue(pingOutput, equalString, fromIndex, endIndex)};
+    fromIndex = endIndex;
+    int max{getValue(pingOutput, equalString, fromIndex, endIndex)};
+    fromIndex = endIndex;
+    int avgReturnTime{getValue(pingOutput, equalString, fromIndex, endIndex)};
+    QDateTime time{QDateTime::currentDateTime()};
+
+    return {time, packetsSent, packetsLost, avgReturnTime, min, max};
+}
+
+void Pinger::logPingData(const PingData& pingData) const
+{
+    QString logMsg;
+    QTextStream out(&logMsg);
+    out << pingData.time.toString(logTimeFormat_) << ",";
+    out << host_ << "," << pingData.packetsSent << "," << pingData.packetsLost
+        << "," << pingData.min << "," << pingData.max << ","
+        << pingData.avgReturnTime << "\n";
+    Logger::getInstance().log(logMsg);
+}
+
+void Pinger::logError(const QString& errorMsg) const
+{
     QDateTime time{QDateTime::currentDateTime()};
     QString logMsg;
     QTextStream out(&logMsg);
     out << time.toString(logTimeFormat_) << ",";
+    out << errorMsg << "\n";
+    Logger::getInstance().log(logMsg);
+}
 
+void Pinger::pingFinished([[maybe_unused]] int exitCode,
+                          [[maybe_unused]] QProcess::ExitStatus exitStatus)
+{
+    auto ping{qobject_cast<QProcess*>(sender())};
     if (ping == nullptr)
     {
-        out << tr("Error: internal.") << "\n";
-        Logger::getInstance().log(logMsg);
+        logError("Error: internal.");
         return;
     }
 
     // Read output and use it for info extraction.
     QString result{QString::fromLatin1(ping->readAllStandardOutput())};
-    int fromIndex{0};
-    int endIndex{0};
-    const QString equalString{QStringLiteral(" = ")};
-    int packetsSent{getValue(result, equalString, fromIndex, endIndex)};
-
-    if (packetsSent == 0)
+    PingData pingData{extractPingData(result)};
+    if (pingData.packetsSent == 0)
     {
-        out << tr("Error: wrong return results.") << "\n";
-        Logger::getInstance().log(logMsg);
+        logError("Error: wrong return results.");
         return;
     }
-    fromIndex = endIndex;
-    getValue(result, equalString, fromIndex, endIndex);
-    fromIndex = endIndex;
-    int packetsLost{getValue(result, equalString, fromIndex, endIndex)};
-    fromIndex = endIndex;
-    int min{getValue(result, equalString, fromIndex, endIndex)};
-    fromIndex = endIndex;
-    int max{getValue(result, equalString, fromIndex, endIndex)};
-    fromIndex = endIndex;
-    int avgReturnTime{getValue(result, equalString, fromIndex, endIndex)};
-
-    // Log.
-    out << host_ << "," << packetsSent << "," << packetsLost << "," << min
-        << "," << max << "," << avgReturnTime << "\n";
-    Logger::getInstance().log(logMsg);
 
     // If host not found/host down.
-    if (packetsSent == packetsLost)
+    if (pingData.packetsSent == pingData.packetsLost)
     {
-        avgReturnTime = timeout_;
-        min = timeout_;
-        max = timeout_;
+        pingData.avgReturnTime = timeout_;
+        pingData.min = timeout_;
+        pingData.max = timeout_;
     }
 
-    Q_EMIT newPingData(
-        {time, packetsSent, packetsLost, avgReturnTime, min, max});
+    logPingData(pingData);
+
+    Q_EMIT newPingData(pingData);
 }

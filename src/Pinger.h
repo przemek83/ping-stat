@@ -57,7 +57,13 @@ private:
      * @return extracted value or 0 if not found.
      */
     int getValue(QString& resultString, const QString& valueName, int fromIndex,
-                 int& endIndex);
+                 int& endIndex) const;
+
+    PingData extractPingData(QString pingOutput) const;
+
+    void logPingData(const PingData& pingData) const;
+
+    void logError(const QString& errorMsg) const;
 
     /// Host IP.
     QString host_;
