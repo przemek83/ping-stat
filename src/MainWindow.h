@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <QMainWindow>
 
 #include "Pinger.h"
@@ -33,7 +35,7 @@ private:
 
     Ui::MainWindow* ui;
 
-    Pinger pinger_;
+    std::unique_ptr<Pinger> pinger_{nullptr};
 
     PlotWidget plotWidget_;
 

@@ -1,14 +1,16 @@
 #include "MainWindow.h"
 
 #include "Constants.h"
+#include "PingerWindows.h"
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent),
-      ui(new Ui::MainWindow),
-      pinger_(this),
-      plotWidget_(this)
+    : QMainWindow(parent), ui(new Ui::MainWindow), plotWidget_(this)
 {
+#ifdef _WIN32
+    pinger_ = std::make_unique<PingerWindows>(this);
+#else
+#endif
     ui->setupUi(this);
 
     setupAdressValidator();
@@ -18,7 +20,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->pingButton, &QPushButton::clicked, this,
             &MainWindow::pingButtonClicked);
 
-    connect(&pinger_, &Pinger::newPingData, this, &MainWindow::updatePingData);
+    connect(&*pinger_, &Pinger::newPingData, this, &MainWindow::updatePingData);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -42,7 +44,7 @@ void MainWindow::flipEditableFieldsEnablement()
 
 void MainWindow::stopPinging()
 {
-    pinger_.stop();
+    pinger_->stop();
     ui->pingButton->setText(tr("Ping"));
 }
 
@@ -50,7 +52,7 @@ void MainWindow::startPinging()
 {
     const int timeoutValue{ui->timeoutSpin->value()};
     const QString host{ui->adressLineEdit->text()};
-    pinger_.start(ui->intervalSpin->value(), timeoutValue, host);
+    pinger_->start(ui->intervalSpin->value(), timeoutValue, host);
     plotWidget_.setTimeoutValue(timeoutValue);
     ui->pingButton->setText(tr("Stop"));
 }
@@ -69,7 +71,7 @@ void MainWindow::updatePingStatistics(const PingData& pingData)
 
 void MainWindow::pingButtonClicked()
 {
-    if (pinger_.isRunning())
+    if (pinger_->isRunning())
         stopPinging();
     else
         startPinging();
