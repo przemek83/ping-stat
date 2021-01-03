@@ -14,7 +14,7 @@ protected:
     PingData extractPingData(QString pingOutput) const override;
 
 private:
-    std::pair<int, int> getPacketsInfo(const QString& packetsLine) const;
+    std::pair<int, int> getPacketsInfo(const QString& line) const;
 
-    std::tuple<int, int, int> getTimesInfo(const QString& timesLine) const;
+    std::tuple<int, int, int> getTimesInfo(const QString& line) const;
 };

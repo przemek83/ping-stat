@@ -38,30 +38,28 @@ PingData PingerLinux::extractPingData(QString pingOutput) const
             max};
 }
 
-std::pair<int, int> PingerLinux::getPacketsInfo(
-    const QString& packetsLine) const
+std::pair<int, int> PingerLinux::getPacketsInfo(const QString& line) const
 {
-    int endIndex{packetsLine.indexOf(" ")};
-    const int packetsSent{packetsLine.midRef(0, endIndex).toInt()};
+    int endIndex{line.indexOf(" ")};
+    const int packetsSent{line.midRef(0, endIndex).toInt()};
     const QString startSubString{", "};
-    const int startIndex{packetsLine.indexOf(startSubString)};
-    endIndex =
-        packetsLine.indexOf(" received", startIndex + startSubString.size());
+    const int startIndex{line.indexOf(startSubString)};
+    endIndex = line.indexOf(" received", startIndex + startSubString.size());
     const int packetsReceived{
-        packetsLine
-            .midRef(startIndex + startSubString.size(),
+        line.midRef(startIndex + startSubString.size(),
                     endIndex - startIndex - startSubString.size())
             .toInt()};
     return {packetsSent, packetsReceived};
 }
 
-std::tuple<int, int, int> PingerLinux::getTimesInfo(
-    const QString& timesLine) const
+std::tuple<int, int, int> PingerLinux::getTimesInfo(const QString& line) const
 {
-    const int startIndex{timesLine.indexOf(" = ")};
-    const int endIndex{timesLine.lastIndexOf(" ms")};
+    const QString startSubString{" = "};
+    const int startIndex{line.indexOf(startSubString)};
+    const int endIndex{line.lastIndexOf(" ms")};
     const QString timesString{
-        timesLine.mid(startIndex + 3, endIndex - startIndex - 3)};
+        line.mid(startIndex + startSubString.size(),
+                 endIndex - startIndex - startSubString.size())};
     const QStringList times{timesString.split('/')};
     if (times.size() < 3)
         return {0, 0, 0};
