@@ -59,6 +59,8 @@ private:
     int getValue(QString& resultString, const QString& valueName, int fromIndex,
                  int& endIndex) const;
 
+    QString getPingCommand() const;
+
     PingData extractPingData(QString pingOutput) const;
 
     void logPingData(const PingData& pingData) const;

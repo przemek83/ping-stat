@@ -36,8 +36,7 @@ void Pinger::timerEvent([[maybe_unused]] QTimerEvent* event)
                 &QProcess::finished),
             this, &Pinger::pingFinished);
 
-    pingProcess->start(QStringLiteral("ping.exe -w ") +
-                       QString::number(timeout_) + " -n 4 " + host_);
+    pingProcess->start(getPingCommand());
 }
 
 int Pinger::getValue(QString& resultString, const QString& valueName,
@@ -50,6 +49,12 @@ int Pinger::getValue(QString& resultString, const QString& valueName,
     return resultString
         .midRef(startIndex + length, endIndex - startIndex - length)
         .toInt();
+}
+
+QString Pinger::getPingCommand() const
+{
+    return QStringLiteral("ping.exe -w ") + QString::number(timeout_) +
+           " -n 4 " + host_;
 }
 
 PingData Pinger::extractPingData(QString pingOutput) const
@@ -105,7 +110,6 @@ void Pinger::pingFinished([[maybe_unused]] int exitCode,
         return;
     }
 
-    // Read output and use it for info extraction.
     QString result{QString::fromLatin1(ping->readAllStandardOutput())};
     PingData pingData{extractPingData(result)};
     if (pingData.packetsSent == 0)
