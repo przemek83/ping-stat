@@ -80,7 +80,7 @@ void MainWindow::pingButtonClicked()
     flipEditableFieldsEnablement();
 }
 
-void MainWindow::updatePingData(PingData pingData)
+void MainWindow::updatePingData(const PingData& pingData)
 {
     plotWidget_.updatePlotWidget(pingData.avgReturnTime, pingData.time);
     updatePingStatistics(pingData);

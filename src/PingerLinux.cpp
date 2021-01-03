@@ -13,14 +13,15 @@ PingData PingerLinux::extractPingData(QString pingOutput) const
 {
     const QStringList outputLines{
         pingOutput.split('\n', QString::SkipEmptyParts)};
-    const int packetsLineIndex{
-        outputLines.indexOf(QRegExp(".+packets transmitted.*"))};
+    const int packetsLineIndex{outputLines.indexOf(
+        QRegExp(QStringLiteral(".+packets transmitted.*")))};
     if (packetsLineIndex == -1)
         return {};
 
     const auto [packetsSent, packetsReceived] =
         getPacketsInfo(outputLines[packetsLineIndex]);
-    const int timesIndex{outputLines.lastIndexOf(QRegExp(".+=.+"))};
+    const int timesIndex{
+        outputLines.lastIndexOf(QRegExp(QStringLiteral(".+=.+")))};
     if (timesIndex == -1)
         return {QDateTime::currentDateTime(),
                 packetsSent,
@@ -40,11 +41,12 @@ PingData PingerLinux::extractPingData(QString pingOutput) const
 
 std::pair<int, int> PingerLinux::getPacketsInfo(const QString& line) const
 {
-    int endIndex{line.indexOf(" ")};
+    int endIndex{line.indexOf(QStringLiteral(" "))};
     const int packetsSent{line.midRef(0, endIndex).toInt()};
-    const QString startSubString{", "};
+    const QString startSubString{QStringLiteral(", ")};
     const int startIndex{line.indexOf(startSubString)};
-    endIndex = line.indexOf(" received", startIndex + startSubString.size());
+    endIndex = line.indexOf(QStringLiteral(" received"),
+                            startIndex + startSubString.size());
     const int packetsReceived{
         line.midRef(startIndex + startSubString.size(),
                     endIndex - startIndex - startSubString.size())
@@ -54,9 +56,9 @@ std::pair<int, int> PingerLinux::getPacketsInfo(const QString& line) const
 
 std::tuple<int, int, int> PingerLinux::getTimesInfo(const QString& line) const
 {
-    const QString startSubString{" = "};
+    const QString startSubString{QStringLiteral(" = ")};
     const int startIndex{line.indexOf(startSubString)};
-    const int endIndex{line.lastIndexOf(" ms")};
+    const int endIndex{line.lastIndexOf(QStringLiteral(" ms"))};
     const QString timesString{
         line.mid(startIndex + startSubString.size(),
                  endIndex - startIndex - startSubString.size())};

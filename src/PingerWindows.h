@@ -4,9 +4,10 @@
 
 class PingerWindows : public Pinger
 {
+    Q_OBJECT
 public:
     explicit PingerWindows(QObject* parent = nullptr);
-    ~PingerWindows() = default;
+    ~PingerWindows() override = default;
 
 protected:
     QString getPingCommand() const override;

@@ -70,7 +70,7 @@ void Pinger::pingFinished([[maybe_unused]] int exitCode,
     auto ping{qobject_cast<QProcess*>(sender())};
     if (ping == nullptr)
     {
-        logError("Error: internal.");
+        logError(QStringLiteral("Error: internal."));
         return;
     }
 
@@ -78,7 +78,7 @@ void Pinger::pingFinished([[maybe_unused]] int exitCode,
     PingData pingData{extractPingData(result)};
     if (pingData.packetsSent == 0)
     {
-        logError("Error: wrong return results.");
+        logError(QStringLiteral("Error: wrong return results."));
         return;
     }
 

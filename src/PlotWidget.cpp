@@ -73,13 +73,13 @@ void PlotWidget::drawItems(QPainter& painter) const
     const int startY{height() - marginSize_};
 
     int counter{0};
-    for (const auto [time, value] : data_)
+    for (const auto& [time, value] : data_)
     {
         const int startX{marginSize_ + itemWidth * counter++};
         const float sizeFactor{static_cast<float>(value) /
                                static_cast<float>(getMaxYAxisValue())};
-        const int itemHeight{
-            static_cast<int>(round(sizeFactor * getPlotAreaSize().height()))};
+        const int itemHeight{static_cast<int>(std::round(
+            sizeFactor * static_cast<float>(getPlotAreaSize().height())))};
         painter.drawRect(startX, startY, itemWidth, -itemHeight);
     }
 }

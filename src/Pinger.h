@@ -13,7 +13,7 @@ class Pinger : public QObject
 public:
     explicit Pinger(QObject* parent = nullptr);
 
-    ~Pinger() = default;
+    ~Pinger() override = default;
 
     /**
      * @brief start host checker using giving parameters.

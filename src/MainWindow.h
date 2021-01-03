@@ -42,5 +42,5 @@ private:
 private Q_SLOTS:
     void pingButtonClicked();
 
-    void updatePingData(PingData pingData);
+    void updatePingData(const PingData& pingData);
 };

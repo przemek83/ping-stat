@@ -11,7 +11,7 @@ class PlotWidget : public QWidget
 public:
     explicit PlotWidget(QWidget* parent = nullptr);
 
-    ~PlotWidget() = default;
+    ~PlotWidget() override = default;
 
     void setTimeoutValue(int timeoutValue);
 
