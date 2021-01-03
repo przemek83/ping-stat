@@ -1,5 +1,6 @@
 ## Ping statistics on chart
 Program drawing pinging server response time on chart.
+![](screen.png?raw=true "")
 
 ## Table of content
 - [Problem description](#problem-description)
