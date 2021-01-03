@@ -1,5 +1,5 @@
 ## Ping statistics on chart
-Program drawing pinging server response time on chart.  
+Program drawing pinging server response time on chart. Pinging of the hosts is done using call of `ping` command from operating system and parsing output.   
 ![](screen.png?raw=true "")
 
 ## Table of content
@@ -42,7 +42,7 @@ Use QtCreator or Cmake.
 | QtCreator | 4.12.0 | 4.13.0 |
 
 ## Usage
-<TODO>
+Pick one host and get its IP (you can use `ping -a <name>` command in console). Copy IP address into application field `Address`. Optionally change `Timeout` field value to adjust time which ping command will wait for answer from address. Also optionally modify `Interval` field value to change frequency of calling system ping command.
 
 ## License
 Project is distributed under the MIT License. See `LICENSE` for more information.
