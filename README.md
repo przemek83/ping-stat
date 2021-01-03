@@ -42,7 +42,8 @@ Use QtCreator or Cmake.
 | QtCreator | 4.12.0 | 4.13.0 |
 
 ## Usage
-Pick one host and get its IP (you can use `ping -a <name>` command in console). Copy IP address into application field `Address`. Optionally change `Timeout` field value to adjust time which ping command will wait for answer from address. Also optionally modify `Interval` field value to change frequency of calling system ping command.
+Pick one host and get its IP (you can use `ping -a <name>` command in console). Copy IP address into application field `Address`. Optionally change `Timeout` field value to adjust time which ping command will wait for answer from address. Also optionally modify `Interval` field value to change frequency of calling system ping command. if all fields are as intended, than hit ping button to start pinging. Click it again to stop.  
+There might be few seconds delay between clicking ping/stop button. It is a result of system `ping` command which needs time to perform its job.
 
 ## License
 Project is distributed under the MIT License. See `LICENSE` for more information.
