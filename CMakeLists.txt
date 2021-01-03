@@ -29,6 +29,8 @@ set(${PROJECT_NAME}_SOURCES
     src/PingData.h
     src/PingerWindows.cpp
     src/PingerWindows.h
+    src/PingerLinux.cpp
+    src/PingerLinux.h
     )
 
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})

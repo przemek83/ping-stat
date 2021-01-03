@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 
 #include "Constants.h"
+#include "PingerLinux.h"
 #include "PingerWindows.h"
 #include "ui_MainWindow.h"
 
@@ -10,6 +11,7 @@ MainWindow::MainWindow(QWidget* parent)
 #ifdef _WIN32
     pinger_ = std::make_unique<PingerWindows>(this);
 #else
+    pinger_ = std::make_unique<PingerLinux>(this);
 #endif
     ui->setupUi(this);
 
