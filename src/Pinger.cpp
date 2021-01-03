@@ -1,9 +1,9 @@
-#include <QDateTime>
-#include <QDebug>
-
-#include "Constants.h"
-#include "Logger.h"
 #include "Pinger.h"
+
+#include <QDateTime>
+#include <QTextStream>
+
+#include "Logger.h"
 
 Pinger::Pinger(QObject* parent) : QObject(parent) {}
 

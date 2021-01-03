@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QDateTime>
 #include <QObject>
 #include <QProcess>
 
@@ -8,9 +7,6 @@
 
 class QTimerEvent;
 
-/**
- * @brief The Pinger class used for pinging given host.
- */
 class Pinger : public QObject
 {
     Q_OBJECT
@@ -27,27 +23,14 @@ public:
      */
     void start(int intervalInSeconds, int timeout, const QString& host);
 
-    /**
-     * @brief stop host checker.
-     */
     void stop();
 
-    /**
-     * @brief Check state of host checker.
-     * @return true if host checker is running.
-     */
     bool isRunning();
 
 protected:
-    /**
-     * @brief called every interval by timer.
-     * @param event event.
-     */
-    void timerEvent(QTimerEvent* event);
+    void timerEvent(QTimerEvent* event) override;
 
 private:
-    Q_DISABLE_COPY(Pinger)
-
     /**
      * @brief Get value from ping results  string.
      * @param resultString output of ping.
@@ -67,21 +50,15 @@ private:
 
     void logError(const QString& errorMsg) const;
 
-    /// Host IP.
     QString host_;
 
-    /// Timer id.
     int timerId_{0};
 
-    /// Timeout value.
     int timeout_{0};
 
     const QString logTimeFormat_{QStringLiteral("HH:mm:ss")};
 
 private Q_SLOTS:
-    /**
-     * @brief called when ping is finished. Uses output of ping.
-     */
     void pingFinished(int, QProcess::ExitStatus exitStatus);
 
 Q_SIGNALS:
