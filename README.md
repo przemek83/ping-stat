@@ -12,11 +12,11 @@ Program drawing pinging server response time on chart.
 - [License](#license)
 
 ## Problem description
-Create small application which will ping given address, draw plot with responses times over time and logging data to log file (one per day).  
+Create small application which will ping given address, draw plot with responses times over time and will log data to file (one log file per day).  
 Given as offline interview task.
 
 **Input**:  
-On window it is possible to insert:
+Editable fields:
 - host IP - IP of host to ping
 - timeout value - max time which ping command should wait for answer in milliseconds,
 - interval value - frequency of pings in seconds.
@@ -28,7 +28,7 @@ Plot with ping response statistics over time.
 This section describes briefly how to setup environment and build project.
 
 ### Prerequisites
-C++ compiler with C++17 support as a minimum and CMake 3.8+. As application is based on Qt you will also needed it to build application.
+C++ compiler with C++17 support as a minimum and CMake 3.8+. As application is based on Qt you will also needed it to build this application.
 
 ### Building
 Use QtCreator or Cmake.  
