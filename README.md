@@ -1,5 +1,5 @@
 ## Ping statistics on chart
-Program drawing pinging server response time on chart. Pinging of the hosts is done using call of `ping` command from operating system and parsing output.   
+Program drawing given server response time on chart. Pinging of the hosts is done using call of `ping` command from operating system and parsing output.   
 ![](screen.png?raw=true "")
 
 ## Table of content
