@@ -35,12 +35,9 @@ void Pinger::timerEvent([[maybe_unused]] QTimerEvent* event)
         return;
 
     auto pingProcess{new QProcess(this)};
-    connect(pingProcess,
-            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
-                &QProcess::finished),
-            this, &Pinger::pingFinished);
+    connect(pingProcess, &QProcess::finished, this, &Pinger::pingFinished);
 
-    pingProcess->start(getPingCommand());
+    pingProcess->startCommand(getPingCommand());
 }
 
 void Pinger::logPingData(const PingData& pingData) const

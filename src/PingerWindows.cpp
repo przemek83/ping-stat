@@ -1,5 +1,7 @@
 #include "PingerWindows.h"
 
+#include <QRegularExpression>
+
 PingerWindows::PingerWindows(QObject* parent) : Pinger(parent) {}
 
 QString PingerWindows::getPingCommand() const
@@ -13,19 +15,22 @@ PingData PingerWindows::extractPingData(QString pingOutput) const
     int fromIndex{0};
     int endIndex{0};
     const QString equalString{QStringLiteral(" = ")};
-    int packetsSent{getValue(pingOutput, equalString, fromIndex, endIndex)};
+    const int packetsSent{
+        getValue(pingOutput, equalString, fromIndex, endIndex)};
 
     fromIndex = endIndex;
     getValue(pingOutput, equalString, fromIndex, endIndex);
     fromIndex = endIndex;
-    int packetsLost{getValue(pingOutput, equalString, fromIndex, endIndex)};
+    const int packetsLost{
+        getValue(pingOutput, equalString, fromIndex, endIndex)};
     fromIndex = endIndex;
-    int min{getValue(pingOutput, equalString, fromIndex, endIndex)};
+    const int min{getValue(pingOutput, equalString, fromIndex, endIndex)};
     fromIndex = endIndex;
-    int max{getValue(pingOutput, equalString, fromIndex, endIndex)};
+    const int max{getValue(pingOutput, equalString, fromIndex, endIndex)};
     fromIndex = endIndex;
-    int avgReturnTime{getValue(pingOutput, equalString, fromIndex, endIndex)};
-    QDateTime time{QDateTime::currentDateTime()};
+    const int avgReturnTime{
+        getValue(pingOutput, equalString, fromIndex, endIndex)};
+    const QDateTime time{QDateTime::currentDateTime()};
 
     return {time, packetsSent, packetsLost, avgReturnTime, min, max};
 }
@@ -33,11 +38,10 @@ PingData PingerWindows::extractPingData(QString pingOutput) const
 int PingerWindows::getValue(QString& resultString, const QString& valueName,
                             int fromIndex, int& endIndex) const
 {
-    int startIndex{resultString.indexOf(valueName, fromIndex)};
-    int length{valueName.length()};
-    endIndex = resultString.indexOf(QRegExp(QStringLiteral("\\D")),
+    qsizetype startIndex{resultString.indexOf(valueName, fromIndex)};
+    qsizetype length{valueName.length()};
+    endIndex = resultString.indexOf(QRegularExpression(QStringLiteral("\\D")),
                                     startIndex + length);
-    return resultString
-        .midRef(startIndex + length, endIndex - startIndex - length)
+    return resultString.mid(startIndex + length, endIndex - startIndex - length)
         .toInt();
 }

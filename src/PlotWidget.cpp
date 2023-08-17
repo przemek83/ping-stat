@@ -29,7 +29,7 @@ void PlotWidget::setupPainter(QPainter& painter) const
 
 void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
 {
-    const int dataSize{data_.size()};
+    const qsizetype dataSize{data_.size()};
     if (dataSize == 0)
         return;
 
@@ -86,7 +86,7 @@ void PlotWidget::drawItems(QPainter& painter) const
 
 int PlotWidget::getPlotItemWidth() const
 {
-    const int dataSize{data_.size()};
+    const qsizetype dataSize{data_.size()};
     const int plotAreaWidth{getPlotAreaSize().width()};
     return (dataSize > minPlotItemsToResize_
                 ? (plotAreaWidth) / dataSize
@@ -100,7 +100,7 @@ QSize PlotWidget::getPlotAreaSize() const
     return {width() - 3 * marginSize_, height() - 3 * marginSize_};
 }
 
-void PlotWidget::doublePenSize(QPainter& painter) const
+void PlotWidget::doublePenSize(QPainter& painter)
 {
     QPen pen{painter.pen()};
     pen.setWidth(pen.width() * 2);
@@ -147,11 +147,11 @@ bool PlotWidget::event(QEvent* event)
     if (event->type() != QEvent::ToolTip)
         return QWidget::event(event);
 
-    auto helpEvent{dynamic_cast<QHelpEvent*>(event)};
+    auto* helpEvent{dynamic_cast<QHelpEvent*>(event)};
     const int item{(helpEvent->pos().x() - marginSize_) / getPlotItemWidth()};
     if (item < data_.size() && item >= 0)
     {
-        QString tooltipText(buildToolTip(item));
+        const QString tooltipText(buildToolTip(item));
         QToolTip::hideText();
         QToolTip::showText(helpEvent->globalPos(), tooltipText);
         event->accept();

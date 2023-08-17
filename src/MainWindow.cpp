@@ -1,7 +1,6 @@
 #include "MainWindow.h"
 
 #include "Constants.h"
-#include "PingerLinux.h"
 #include "PingerWindows.h"
 #include "ui_MainWindow.h"
 
@@ -32,8 +31,8 @@ void MainWindow::setupAdressValidator()
     const QString ipRegexp(
         QStringLiteral("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:"
                        "25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"));
-    auto adressValidator{
-        new QRegExpValidator(QRegExp(ipRegexp), ui->adressLineEdit)};
+    auto adressValidator{new QRegularExpressionValidator(
+        QRegularExpression(ipRegexp), ui->adressLineEdit)};
     ui->adressLineEdit->setValidator(adressValidator);
 }
 

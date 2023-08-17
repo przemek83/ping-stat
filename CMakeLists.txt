@@ -1,38 +1,44 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.16)
 
-project(ping-stat LANGUAGES CXX VERSION 0.0.1 DESCRIPTION "Host pinging statistics")
+project(ping-stat
+        LANGUAGES CXX
+        VERSION 1.0.0
+        DESCRIPTION "Tool for given host pinging with visual statistics"
+        HOMEPAGE_URL "https://github.com/przemek83/ping-stat")
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Qt5 COMPONENTS Widgets Core REQUIRED)
-add_definitions( ${QT_DEFINITIONS} )
+find_package(Qt6 REQUIRED COMPONENTS Widgets Core)
+qt_standard_project_setup()
 
-set(${PROJECT_NAME}_SOURCES
+set(SOURCES
     src/main.cpp
     src/PlotWidget.cpp
-    src/PlotWidget.h
     src/MainWindow.cpp
-    src/MainWindow.h
-    src/MainWindow.ui
     src/Pinger.cpp
-    src/Pinger.h
     src/Logger.cpp
+    src/Constants.cpp
+    src/PingerWindows.cpp
+    src/PingerLinux.cpp
+)
+
+set(HEADERS
+    src/PlotWidget.h
+    src/MainWindow.h
+    src/Pinger.h
     src/Logger.h
     src/Constants.h
-    src/Constants.cpp
     src/PingData.h
-    src/PingerWindows.cpp
     src/PingerWindows.h
-    src/PingerLinux.cpp
     src/PingerLinux.h
-    )
+ )
 
-add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
+set(UI
+    src/MainWindow.ui
+)
+source_group("UI Files" FILES ${UI})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Widgets)
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS} ${UI})
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Widgets)

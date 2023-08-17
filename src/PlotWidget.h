@@ -11,8 +11,6 @@ class PlotWidget : public QWidget
 public:
     explicit PlotWidget(QWidget* parent = nullptr);
 
-    ~PlotWidget() override = default;
-
     void setTimeoutValue(int timeoutValue);
 
     void updatePlotWidget(int avgReturnTime, const QDateTime& time);
@@ -33,7 +31,7 @@ private:
 
     QSize getPlotAreaSize() const;
 
-    void doublePenSize(QPainter& painter) const;
+    static void doublePenSize(QPainter& painter);
 
     QString buildToolTip(int item) const;
 
