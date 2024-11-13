@@ -20,7 +20,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget* parent = nullptr);
 
-    ~MainWindow();
+    ~MainWindow() override;
 
 private:
     void setupAdressValidator();
