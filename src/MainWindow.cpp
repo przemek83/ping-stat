@@ -1,7 +1,11 @@
 #include "MainWindow.h"
 
 #include "Constants.h"
+#ifdef _WIN32
 #include "PingerWindows.h"
+#else
+#include "PingerLinux.h"
+#endif
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
