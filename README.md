@@ -1,3 +1,13 @@
+[![Build & test](https://github.com/przemek83/ping-stat/actions/workflows/buld-and-test.yml/badge.svg)](https://github.com/przemek83/ping-stat/actions/workflows/buld-and-test.yml)
+[![CodeQL analysis](https://github.com/przemek83/ping-stat/actions/workflows/codeql.yml/badge.svg)](https://github.com/przemek83/ping-stat/actions/workflows/codeql.yml)
+[![codecov](https://codecov.io/github/przemek83/ping-stat/graph/badge.svg?token=EP1UNV6W35)](https://codecov.io/github/przemek83/ping-stat)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=przemek83_ping-stat&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=przemek83_ping-stat)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=przemek83_ping-stat&metric=bugs)](https://sonarcloud.io/summary/new_code?id=przemek83_ping-stat)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=przemek83_ping-stat&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=przemek83_ping-stat)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=przemek83_ping-stat&metric=coverage)](https://sonarcloud.io/summary/new_code?id=przemek83_ping-stat)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=przemek83_ping-stat&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=przemek83_ping-stat)
+
 ## Ping statistics on chart
 Program drawing given server response time on chart. Pinging of the hosts is done using call of `ping` command from operating system and parsing output.   
 ![](screen.png?raw=true "")
