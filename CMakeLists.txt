@@ -37,6 +37,8 @@ set(${PROJECT_NAME}_SOURCES
     src/PingerWindows.cpp
     src/PingerLinux.h
     src/PingerLinux.cpp
+    src/Parser.h
+    src/Parser.cpp
 )
 
 set(UI
