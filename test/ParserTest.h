@@ -12,4 +12,6 @@ private slots:
     void testNonPingableHostOnLinux() const;
 
     void testNoNetworkOnLinux() const;
+
+    void testPacketsLostOnLinux() const;
 };

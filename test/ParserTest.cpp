@@ -46,4 +46,20 @@ void ParserTest::testNoNetworkOnLinux() const
     QCOMPARE(currentPingData.max, 0);
 }
 
+void ParserTest::testPacketsLostOnLinux() const
+{
+    QString pingOutput{
+        "PING 212.77.98.9 (212.77.98.9) 56(84) bytes of data.\n\n--- "
+        "212.77.98.9 ping statistics ---\n4 packets transmitted, 1 received, "
+        "75% packet loss, time 3030ms\nrtt min/avg/max/mdev = "
+        "19.708/19.708/19.708/0.000 ms\n"};
+
+    PingData currentPingData{parser::getPingDataFromlinuxOutput(pingOutput)};
+    QCOMPARE(currentPingData.packetsSent, 4);
+    QCOMPARE(currentPingData.packetsLost, 3);
+    QCOMPARE(currentPingData.avgReturnTime, 20);
+    QCOMPARE(currentPingData.min, 20);
+    QCOMPARE(currentPingData.max, 20);
+}
+
 QTEST_MAIN(ParserTest)
