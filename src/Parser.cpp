@@ -105,7 +105,7 @@ PingData getPingDataFromWindowsOutput(QString pingOutput)
     int max{0};
     int avgReturnTime{0};
 
-    if(pingOutput.count(equalString) > 3)
+    if (pingOutput.count(equalString) > 3)
     {
         min = getValue(pingOutput, equalString, fromIndex, endIndex);
         fromIndex = endIndex;

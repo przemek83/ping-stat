@@ -3,16 +3,17 @@
 #include <src/Parser.h>
 #include <src/PingData.h>
 
-namespace{
-    void check(PingData current, PingData expected)
-    {
-        QCOMPARE(current.packetsSent, expected.packetsSent);
-        QCOMPARE(current.packetsLost, expected.packetsLost);
-        QCOMPARE(current.avgReturnTime, expected.avgReturnTime);
-        QCOMPARE(current.min, expected.min);
-        QCOMPARE(current.max, expected.max);
-    }
-};
+namespace
+{
+void check(PingData current, PingData expected)
+{
+    QCOMPARE(current.packetsSent, expected.packetsSent);
+    QCOMPARE(current.packetsLost, expected.packetsLost);
+    QCOMPARE(current.avgReturnTime, expected.avgReturnTime);
+    QCOMPARE(current.min, expected.min);
+    QCOMPARE(current.max, expected.max);
+}
+};  // namespace
 
 void ParserTest::testPingableHostOnLinux() const
 {
@@ -60,7 +61,14 @@ void ParserTest::testPacketsLostOnLinux() const
 void ParserTest::testPingableHostOnWindows() const
 {
     QString pingOutput{
-        "\r\nPinging 212.77.98.9 with 32 bytes of data:\r\nReply from 212.77.98.9: bytes=32 time=17ms TTL=53\r\nReply from 212.77.98.9: bytes=32 time=25ms TTL=53\r\nReply from 212.77.98.9: bytes=32 time=30ms TTL=53\r\nReply from 212.77.98.9: bytes=32 time=18ms TTL=53\r\n\r\nPing statistics for 212.77.98.9:\r\n    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),\r\nApproximate round trip times in milli-seconds:\r\n    Minimum = 17ms, Maximum = 30ms, Average = 22ms\r\n"};
+        "\r\nPinging 212.77.98.9 with 32 bytes of data:\r\nReply from "
+        "212.77.98.9: bytes=32 time=17ms TTL=53\r\nReply from 212.77.98.9: "
+        "bytes=32 time=25ms TTL=53\r\nReply from 212.77.98.9: bytes=32 "
+        "time=30ms TTL=53\r\nReply from 212.77.98.9: bytes=32 time=18ms "
+        "TTL=53\r\n\r\nPing statistics for 212.77.98.9:\r\n    Packets: Sent = "
+        "4, Received = 4, Lost = 0 (0% loss),\r\nApproximate round trip times "
+        "in milli-seconds:\r\n    Minimum = 17ms, Maximum = 30ms, Average = "
+        "22ms\r\n"};
 
     PingData currentPingData{parser::getPingDataFromWindowsOutput(pingOutput)};
     check(currentPingData, {QDateTime::currentDateTime(), 4, 0, 22, 17, 30});
@@ -69,7 +77,10 @@ void ParserTest::testPingableHostOnWindows() const
 void ParserTest::testNonPingableHostOnWindows() const
 {
     QString pingOutput{
-        "\r\nPinging 212.77.1.2 with 32 bytes of data:\r\nRequest timed out.\r\nRequest timed out.\r\nRequest timed out.\r\nRequest timed out.\r\n\r\nPing statistics for 212.77.1.2:\r\n    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),\r\n"};
+        "\r\nPinging 212.77.1.2 with 32 bytes of data:\r\nRequest timed "
+        "out.\r\nRequest timed out.\r\nRequest timed out.\r\nRequest timed "
+        "out.\r\n\r\nPing statistics for 212.77.1.2:\r\n    Packets: Sent = 4, "
+        "Received = 0, Lost = 4 (100% loss),\r\n"};
 
     PingData currentPingData{parser::getPingDataFromWindowsOutput(pingOutput)};
     check(currentPingData, {QDateTime::currentDateTime(), 4, 4, 0, 0, 0});
@@ -86,7 +97,13 @@ void ParserTest::testNoNetworkOnWindows() const
 void ParserTest::testPacketsLostOnWindows() const
 {
     QString pingOutput{
-"\r\nPinging 212.77.98.9 with 32 bytes of data:\r\nPING: transmit failed. General failure. \r\nPING: transmit failed. General failure. \r\nReply from 212.77.98.9: bytes=32 time=14ms TTL=53\r\nReply from 212.77.98.9: bytes=32 time=18ms TTL=53\r\n\r\nPing statistics for 212.77.98.9:\r\n    Packets: Sent = 4, Received = 2, Lost = 2 (50% loss),\r\nApproximate round trip times in milli-seconds:\r\n    Minimum = 14ms, Maximum = 18ms, Average = 16ms\r\n"};
+        "\r\nPinging 212.77.98.9 with 32 bytes of data:\r\nPING: transmit "
+        "failed. General failure. \r\nPING: transmit failed. General failure. "
+        "\r\nReply from 212.77.98.9: bytes=32 time=14ms TTL=53\r\nReply from "
+        "212.77.98.9: bytes=32 time=18ms TTL=53\r\n\r\nPing statistics for "
+        "212.77.98.9:\r\n    Packets: Sent = 4, Received = 2, Lost = 2 (50% "
+        "loss),\r\nApproximate round trip times in milli-seconds:\r\n    "
+        "Minimum = 14ms, Maximum = 18ms, Average = 16ms\r\n"};
 
     PingData currentPingData{parser::getPingDataFromWindowsOutput(pingOutput)};
     check(currentPingData, {QDateTime::currentDateTime(), 4, 2, 16, 14, 18});
