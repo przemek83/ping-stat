@@ -122,9 +122,10 @@ int PlotWidget::getMaxYAxisValue() const
     auto comparator{[](const std::pair<QDateTime, int>& left,
                        const std::pair<QDateTime, int>& right)
                     { return left.second < right.second; }};
-    const std::pair<QDateTime, int> maxDataValue{
+
+    const auto [_, value]{
         *std::max_element(data_.constBegin(), data_.constEnd(), comparator)};
-    return std::max(timeoutValue_, maxDataValue.second);
+    return std::max(timeoutValue_, value);
 }
 
 void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
@@ -145,7 +146,7 @@ bool PlotWidget::event(QEvent* event)
     if (event->type() != QEvent::ToolTip)
         return QWidget::event(event);
 
-    auto* helpEvent{dynamic_cast<QHelpEvent*>(event)};
+    const auto* helpEvent{dynamic_cast<QHelpEvent*>(event)};
     const int item{(helpEvent->pos().x() - marginSize_) / getPlotItemWidth()};
     if (item < data_.size() && item >= 0)
     {

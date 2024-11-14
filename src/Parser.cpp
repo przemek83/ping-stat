@@ -44,7 +44,7 @@ std::tuple<int, int, int> getTimesInfo(const QString& line)
  * @return extracted value or 0 if not found.
  */
 int getValue(const QString& resultString, const QString& valueName,
-             int fromIndex, int& endIndex)
+             qsizetype fromIndex, qsizetype& endIndex)
 {
     qsizetype startIndex{resultString.indexOf(valueName, fromIndex)};
     qsizetype length{valueName.length()};
@@ -88,8 +88,8 @@ PingData getPingDataFromlinuxOutput(QString pingOutput)
 
 PingData getPingDataFromWindowsOutput(QString pingOutput)
 {
-    int fromIndex{0};
-    int endIndex{0};
+    qsizetype fromIndex{0};
+    qsizetype endIndex{0};
     const QString equalString{QStringLiteral(" = ")};
     const int packetsSent{
         getValue(pingOutput, equalString, fromIndex, endIndex)};
