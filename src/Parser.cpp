@@ -100,12 +100,20 @@ PingData getPingDataFromWindowsOutput(QString pingOutput)
     const int packetsLost{
         getValue(pingOutput, equalString, fromIndex, endIndex)};
     fromIndex = endIndex;
-    const int min{getValue(pingOutput, equalString, fromIndex, endIndex)};
-    fromIndex = endIndex;
-    const int max{getValue(pingOutput, equalString, fromIndex, endIndex)};
-    fromIndex = endIndex;
-    const int avgReturnTime{
-        getValue(pingOutput, equalString, fromIndex, endIndex)};
+
+    int min{0};
+    int max{0};
+    int avgReturnTime{0};
+
+    if(pingOutput.count(equalString) > 3)
+    {
+        min = getValue(pingOutput, equalString, fromIndex, endIndex);
+        fromIndex = endIndex;
+        max = getValue(pingOutput, equalString, fromIndex, endIndex);
+        fromIndex = endIndex;
+        avgReturnTime = getValue(pingOutput, equalString, fromIndex, endIndex);
+    }
+
     const QDateTime time{QDateTime::currentDateTime()};
 
     return {time, packetsSent, packetsLost, avgReturnTime, min, max};
