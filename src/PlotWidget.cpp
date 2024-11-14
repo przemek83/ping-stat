@@ -29,8 +29,7 @@ void PlotWidget::setupPainter(QPainter& painter) const
 
 void PlotWidget::paintEvent([[maybe_unused]] QPaintEvent* event)
 {
-    const qsizetype dataSize{data_.size()};
-    if (dataSize == 0)
+    if (data_.size() == 0)
         return;
 
     QPainter painter(this);
@@ -89,8 +88,8 @@ int PlotWidget::getPlotItemWidth() const
     const qsizetype dataSize{data_.size()};
     const int plotAreaWidth{getPlotAreaSize().width()};
     return (dataSize > minPlotItemsToResize_
-                ? (plotAreaWidth) / dataSize
-                : (plotAreaWidth) / minPlotItemsToResize_);
+                ? plotAreaWidth / dataSize
+                : plotAreaWidth / minPlotItemsToResize_);
 }
 
 QSize PlotWidget::getPlotAreaSize() const
@@ -121,9 +120,8 @@ QString PlotWidget::buildToolTip(int item) const
 int PlotWidget::getMaxYAxisValue() const
 {
     auto comparator{[](const std::pair<QDateTime, int>& left,
-                       const std::pair<QDateTime, int>& right) {
-        return left.second < right.second;
-    }};
+                       const std::pair<QDateTime, int>& right)
+                    { return left.second < right.second; }};
     const std::pair<QDateTime, int> maxDataValue{
         *std::max_element(data_.constBegin(), data_.constEnd(), comparator)};
     return std::max(timeoutValue_, maxDataValue.second);

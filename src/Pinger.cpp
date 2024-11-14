@@ -23,7 +23,7 @@ void Pinger::stop()
     timerId_ = 0;
 }
 
-bool Pinger::isRunning() { return timerId_ != 0; }
+bool Pinger::isRunning() const { return timerId_ != 0; }
 
 QString Pinger::getHost() const { return host_; }
 

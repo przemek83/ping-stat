@@ -1,5 +1,7 @@
 #include "MainWindow.h"
 
+#include <memory>
+
 #include "Constants.h"
 #ifdef _WIN32
 #include "PingerWindows.h"
@@ -9,69 +11,71 @@
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), plotWidget_(this)
+    : QMainWindow(parent),
+      ui_{std::make_unique<Ui::MainWindow>()},
+      plotWidget_(this)
 {
 #ifdef _WIN32
     pinger_ = std::make_unique<PingerWindows>(this);
 #else
     pinger_ = std::make_unique<PingerLinux>(this);
 #endif
-    ui->setupUi(this);
+    ui_->setupUi(this);
 
     setupAdressValidator();
 
-    ui->verticalLayout->addWidget(&plotWidget_);
+    ui_->verticalLayout->addWidget(&plotWidget_);
 
-    connect(ui->pingButton, &QPushButton::clicked, this,
+    connect(ui_->pingButton, &QPushButton::clicked, this,
             &MainWindow::pingButtonClicked);
 
     connect(&*pinger_, &Pinger::newPingData, this, &MainWindow::updatePingData);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() = default;
 
 void MainWindow::setupAdressValidator()
 {
-    const QString ipRegexp(
+    const auto ipRegexp(
         QStringLiteral("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:"
                        "25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"));
     auto adressValidator{new QRegularExpressionValidator(
-        QRegularExpression(ipRegexp), ui->adressLineEdit)};
-    ui->adressLineEdit->setValidator(adressValidator);
+        QRegularExpression(ipRegexp), ui_->adressLineEdit)};
+    ui_->adressLineEdit->setValidator(adressValidator);
 }
 
 void MainWindow::flipEditableFieldsEnablement()
 {
-    ui->adressLineEdit->setEnabled(!ui->adressLineEdit->isEnabled());
-    ui->intervalSpin->setEnabled(!ui->intervalSpin->isEnabled());
-    ui->timeoutSpin->setEnabled(!ui->timeoutSpin->isEnabled());
+    ui_->adressLineEdit->setEnabled(!ui_->adressLineEdit->isEnabled());
+    ui_->intervalSpin->setEnabled(!ui_->intervalSpin->isEnabled());
+    ui_->timeoutSpin->setEnabled(!ui_->timeoutSpin->isEnabled());
 }
 
 void MainWindow::stopPinging()
 {
     pinger_->stop();
-    ui->pingButton->setText(tr("Ping"));
+    ui_->pingButton->setText(tr("Ping"));
 }
 
 void MainWindow::startPinging()
 {
-    const int timeoutValue{ui->timeoutSpin->value()};
-    const QString host{ui->adressLineEdit->text()};
-    pinger_->start(ui->intervalSpin->value(), timeoutValue, host);
+    const int timeoutValue{ui_->timeoutSpin->value()};
+    const QString host{ui_->adressLineEdit->text()};
+    pinger_->start(ui_->intervalSpin->value(), timeoutValue, host);
     plotWidget_.setTimeoutValue(timeoutValue);
-    ui->pingButton->setText(tr("Stop"));
+    ui_->pingButton->setText(tr("Stop"));
 }
 
 void MainWindow::updatePingStatistics(const PingData& pingData)
 {
-    ui->timeLabelValue->setText(
+    ui_->timeLabelValue->setText(
         pingData.time.toString(Constants::getDisplayTimeFormat()));
-    ui->packetsSentValue->setText(QString::number(pingData.packetsSent));
-    ui->packetsLostValue->setText(QString::number(pingData.packetsLost));
-    ui->avgTimeValue->setText(QString::number(pingData.avgReturnTime) +
-                              tr("ms"));
-    ui->minTimeValue->setText(QString::number(pingData.min) + tr("ms"));
-    ui->maxTimeValue->setText(QString::number(pingData.max) + tr("ms"));
+    ui_->packetsSentValue->setText(QString::number(pingData.packetsSent));
+    ui_->packetsLostValue->setText(QString::number(pingData.packetsLost));
+    ui_->avgTimeValue->setText(QString::number(pingData.avgReturnTime) +
+                               tr("ms"));
+    ui_->minTimeValue->setText(QString::number(pingData.min) + tr("ms"));
+    ui_->maxTimeValue->setText(QString::number(pingData.max) + tr("ms"));
 }
 
 void MainWindow::pingButtonClicked()

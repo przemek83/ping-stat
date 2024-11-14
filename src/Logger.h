@@ -30,7 +30,7 @@ private:
 
     bool isNewDay() const;
 
-    QDate currentLogDate_;
+    QDate currentLogDate_{QDate::currentDate()};
 
     QFile logFile_;
 };

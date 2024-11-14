@@ -33,7 +33,7 @@ private:
 
     void updatePingStatistics(const PingData& pingData);
 
-    Ui::MainWindow* ui;
+    std::unique_ptr<Ui::MainWindow> ui_;
 
     std::unique_ptr<Pinger> pinger_{nullptr};
 

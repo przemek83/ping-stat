@@ -2,10 +2,7 @@
 
 #include <QTextStream>
 
-Logger::Logger() : currentLogDate_(QDate::currentDate())
-{
-    logFile_.setFileName(getLogFileName());
-}
+Logger::Logger() { logFile_.setFileName(getLogFileName()); }
 
 bool Logger::isLogFileReady()
 {

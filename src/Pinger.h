@@ -25,7 +25,7 @@ public:
 
     void stop();
 
-    bool isRunning();
+    bool isRunning() const;
 
 protected:
     void timerEvent(QTimerEvent* event) override;

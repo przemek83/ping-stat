@@ -43,8 +43,8 @@ std::tuple<int, int, int> getTimesInfo(const QString& line)
  * @param endIndex remember last end index.
  * @return extracted value or 0 if not found.
  */
-int getValue(QString& resultString, const QString& valueName, int fromIndex,
-             int& endIndex)
+int getValue(const QString& resultString, const QString& valueName,
+             int fromIndex, int& endIndex)
 {
     qsizetype startIndex{resultString.indexOf(valueName, fromIndex)};
     qsizetype length{valueName.length()};
