@@ -3,8 +3,8 @@ SET(PROJECT_TEST ${PROJECT_NAME}-test)
 include_directories(${CMAKE_SOURCE_DIR})
 
 set(${PROJECT_TEST}_SOURCES
-    Test.h
-    Test.cpp
+    ParserTest.h
+    ParserTest.cpp
 )
 
 add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
