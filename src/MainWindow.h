@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QValidator>
 #include <memory>
 
 #include <QMainWindow>
@@ -38,6 +39,8 @@ private:
     std::unique_ptr<Pinger> pinger_{nullptr};
 
     PlotWidget plotWidget_;
+
+    QRegularExpressionValidator validator_;
 
 private Q_SLOTS:
     void pingButtonClicked();

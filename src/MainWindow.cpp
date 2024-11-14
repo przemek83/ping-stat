@@ -1,7 +1,5 @@
 #include "MainWindow.h"
 
-#include <memory>
-
 #include "Constants.h"
 #ifdef _WIN32
 #include "PingerWindows.h"
@@ -39,9 +37,9 @@ void MainWindow::setupAdressValidator()
     const auto ipRegexp(
         QStringLiteral("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:"
                        "25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"));
-    auto adressValidator{new QRegularExpressionValidator(
-        QRegularExpression(ipRegexp), ui_->adressLineEdit)};
-    ui_->adressLineEdit->setValidator(adressValidator);
+
+    validator_.setRegularExpression(QRegularExpression(ipRegexp));
+    ui_->adressLineEdit->setValidator(&validator_);
 }
 
 void MainWindow::flipEditableFieldsEnablement()
