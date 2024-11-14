@@ -8,4 +8,8 @@ class ParserTest : public QObject
 
 private slots:
     void testPingableHostOnLinux() const;
+
+    void testNonPingableHostOnLinux() const;
+
+    void testNoNetworkOnLinux() const;
 };
