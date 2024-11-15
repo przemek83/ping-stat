@@ -65,12 +65,8 @@ PingData getPingDataFromlinuxOutput(QString pingOutput)
     const qsizetype timesIndex{
         outputLines.lastIndexOf(QRegularExpression(QStringLiteral(".+=.+")))};
     if (timesIndex == -1)
-        return {QDateTime::currentDateTime(),
-                packetsSent,
-                packetsSent - packetsReceived,
-                0,
-                0,
-                0};
+        return {QDateTime::currentDateTime(), packetsSent,
+                packetsSent - packetsReceived};
 
     const auto [min, avg, max] = getTimesInfo(outputLines[timesIndex]);
     return {QDateTime::currentDateTime(),
