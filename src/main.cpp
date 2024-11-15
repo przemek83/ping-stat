@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 {
     const QApplication a(argc, argv);
 #ifdef _WIN32
-    MainWindow w(std::make_shared<PingerWindows>());
+    MainWindow w(std::make_unique<PingerWindows>());
 #else
     MainWindow w(std::make_unique<PingerLinux>());
 #endif
