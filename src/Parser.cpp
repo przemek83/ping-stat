@@ -4,7 +4,7 @@
 
 namespace
 {
-std::pair<int, int> getPacketsInfo(const QString& line)
+std::pair<int, int> getLinuxPacketsInfo(const QString& line)
 {
     qsizetype endIndex{line.indexOf(QStringLiteral(" "))};
     const int packetsSent{line.mid(0, endIndex).toInt()};
@@ -35,23 +35,18 @@ std::tuple<int, int, int> getTimesInfo(const QString& line)
             std::round(times[2].toFloat())};
 }
 
-/**
- * @brief Get value from ping results  string.
- * @param resultString output of ping.
- * @param valueName substring to find.
- * @param fromIndex search result from index.
- * @param endIndex remember last end index.
- * @return extracted value or 0 if not found.
- */
-int getValue(const QString& resultString, const QString& valueName,
-             qsizetype fromIndex, qsizetype& endIndex)
+QStringList getWindowsPacketsInfo(const QString& pingOutput)
 {
-    qsizetype startIndex{resultString.indexOf(valueName, fromIndex)};
-    qsizetype length{valueName.length()};
-    endIndex = resultString.indexOf(QRegularExpression(QStringLiteral("\\D")),
-                                    startIndex + length);
-    return resultString.mid(startIndex + length, endIndex - startIndex - length)
-        .toInt();
+    const QString equalString{QStringLiteral(" = ")};
+    const QRegularExpression regex(R"( = (\d+)(ms,|,|ms\r))");
+    QStringList values;
+    QRegularExpressionMatchIterator it{regex.globalMatch(pingOutput)};
+    while (it.hasNext())
+    {
+        QRegularExpressionMatch match = it.next();
+        values.push_back(match.captured(1));
+    }
+    return values;
 }
 }  // namespace
 
@@ -66,7 +61,7 @@ PingData getPingDataFromlinuxOutput(QString pingOutput)
         return {};
 
     const auto [packetsSent, packetsReceived] =
-        getPacketsInfo(outputLines[packetsLineIndex]);
+        getLinuxPacketsInfo(outputLines[packetsLineIndex]);
     const qsizetype timesIndex{
         outputLines.lastIndexOf(QRegularExpression(QStringLiteral(".+=.+")))};
     if (timesIndex == -1)
@@ -88,34 +83,23 @@ PingData getPingDataFromlinuxOutput(QString pingOutput)
 
 PingData getPingDataFromWindowsOutput(QString pingOutput)
 {
-    qsizetype fromIndex{0};
-    qsizetype endIndex{0};
-    const QString equalString{QStringLiteral(" = ")};
-    const int packetsSent{
-        getValue(pingOutput, equalString, fromIndex, endIndex)};
+    PingData data{QDateTime::currentDateTime()};
 
-    fromIndex = endIndex;
-    getValue(pingOutput, equalString, fromIndex, endIndex);
-    fromIndex = endIndex;
-    const int packetsLost{
-        getValue(pingOutput, equalString, fromIndex, endIndex)};
-    fromIndex = endIndex;
+    QStringList values{getWindowsPacketsInfo(pingOutput)};
+    if (values.size() < 2)
+        return data;
 
-    int min{0};
-    int max{0};
-    int avgReturnTime{0};
+    data.packetsSent = values[0].toInt();
+    const int packetsReceived{values[1].toInt()};
+    data.packetsLost = data.packetsSent - packetsReceived;
 
-    if (pingOutput.count(equalString) > 3)
-    {
-        min = getValue(pingOutput, equalString, fromIndex, endIndex);
-        fromIndex = endIndex;
-        max = getValue(pingOutput, equalString, fromIndex, endIndex);
-        fromIndex = endIndex;
-        avgReturnTime = getValue(pingOutput, equalString, fromIndex, endIndex);
-    }
+    if (values.size() < 5)
+        return data;
 
-    const QDateTime time{QDateTime::currentDateTime()};
+    data.min = values[2].toInt();
+    data.max = values[3].toInt();
+    data.avgReturnTime = values[4].toInt();
 
-    return {time, packetsSent, packetsLost, avgReturnTime, min, max};
+    return data;
 }
 };  // namespace parser
