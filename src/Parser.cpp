@@ -37,7 +37,6 @@ std::tuple<int, int, int> getTimesInfo(const QString& line)
 
 QStringList getWindowsPacketsInfo(const QString& pingOutput)
 {
-    const QString equalString{QStringLiteral(" = ")};
     const QRegularExpression regex(R"( = (\d+)(ms,|,|ms\r))");
     QStringList values;
     QRegularExpressionMatchIterator it{regex.globalMatch(pingOutput)};
