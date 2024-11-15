@@ -25,6 +25,10 @@ private:
 
     void drawScales(QPainter& painter) const;
 
+    int calculateItemHeight(int value) const;
+
+    void drawItem(QPainter& painter, int& counter, int value) const;
+
     void drawItems(QPainter& painter) const;
 
     int getPlotItemWidth() const;

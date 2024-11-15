@@ -66,21 +66,29 @@ void PlotWidget::drawScales(QPainter& painter) const
     painter.drawText(-axisNameSize_, marginSize_ - 2, tr("ping"));
 }
 
-void PlotWidget::drawItems(QPainter& painter) const
+int PlotWidget::calculateItemHeight(int value) const
+{
+    const float sizeFactor{static_cast<float>(value) /
+                           static_cast<float>(getMaxYAxisValue())};
+    const int itemHeight{static_cast<int>(std::round(
+        sizeFactor * static_cast<float>(getPlotAreaSize().height())))};
+    return itemHeight;
+}
+
+void PlotWidget::drawItem(QPainter& painter, int& counter, int value) const
 {
     const int itemWidth{getPlotItemWidth()};
     const int startY{height() - marginSize_};
+    const int startX{marginSize_ + itemWidth * counter++};
+    const int itemHeight{calculateItemHeight(value)};
+    painter.drawRect(startX, startY, itemWidth, -itemHeight);
+}
 
+void PlotWidget::drawItems(QPainter& painter) const
+{
     int counter{0};
     for (const auto& [time, value] : data_)
-    {
-        const int startX{marginSize_ + itemWidth * counter++};
-        const float sizeFactor{static_cast<float>(value) /
-                               static_cast<float>(getMaxYAxisValue())};
-        const int itemHeight{static_cast<int>(std::round(
-            sizeFactor * static_cast<float>(getPlotAreaSize().height())))};
-        painter.drawRect(startX, startY, itemWidth, -itemHeight);
-    }
+        drawItem(painter, counter, value);
 }
 
 int PlotWidget::getPlotItemWidth() const

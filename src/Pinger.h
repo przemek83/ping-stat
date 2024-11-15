@@ -43,6 +43,8 @@ private:
 
     void logError(const QString& errorMsg) const;
 
+    void fillFieldsWithTimeout(PingData& pingData) const;
+
     QString host_;
 
     int timerId_{0};

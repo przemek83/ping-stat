@@ -61,6 +61,13 @@ void Pinger::logError(const QString& errorMsg) const
     Logger::getInstance().log(logMsg);
 }
 
+void Pinger::fillFieldsWithTimeout(PingData& pingData) const
+{
+    pingData.avgReturnTime = timeout_;
+    pingData.min = timeout_;
+    pingData.max = timeout_;
+}
+
 void Pinger::pingFinished([[maybe_unused]] int exitCode,
                           [[maybe_unused]] QProcess::ExitStatus exitStatus)
 {
@@ -79,13 +86,8 @@ void Pinger::pingFinished([[maybe_unused]] int exitCode,
         return;
     }
 
-    // If host not found/host down.
     if (pingData.packetsSent == pingData.packetsLost)
-    {
-        pingData.avgReturnTime = timeout_;
-        pingData.min = timeout_;
-        pingData.max = timeout_;
-    }
+        fillFieldsWithTimeout(pingData);
 
     logPingData(pingData);
 
