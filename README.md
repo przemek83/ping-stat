@@ -20,12 +20,12 @@
 - [License](#license)
 
 ## About
-Program drawing given server response time on chart. Pinging of the hosts is done using call of `ping` command from operating system and parsing output. Example screenshot:
+Program drawing given server response time on chart. Pinging of the hosts is done using the call of the `ping` command from the operating system and parsing output. Example screenshot:
 ![](screen.png?raw=true "")
 
 ## Problem description
-Create small application which will ping given address, draw plot with responses times over time and will log data to file (one log file per day).  
-Given as offline interview task.
+Create a small application that will ping a given address, draw a plot with responses times over time, and will log data to a file (one log file per day).  
+Given as an offline interview task.
 
 **Input**:  
 Editable fields:
@@ -37,14 +37,13 @@ Editable fields:
 Plot with ping response statistics over time.
 
 ## Getting Started
-This section describes briefly how to setup environment and build project.
+This section describes briefly how to setup the environment and build the project.  
 
 ### Prerequisites
-Qt in version 6.5 or greater, C++ compiler with C++17 support as a minimum and CMake 3.16+. 
+Qt in version 6.5 or greater, a C++ compiler with C++17 support as a minimum, and CMake 3.16+. 
 
 ### Building
 Clone and use CMake directly or via any IDE supporting it. CMake should:
-
 - configure everything automatically,
 - compile and create binaries.
 
@@ -62,8 +61,8 @@ As a result of compilation, binary for simulations and binary for testing should
 | VS Code | 1.92.0 | 1.94.2 |
 
 ## Usage
-Pick one host and get its IP (you can use `ping -a <name>` command in console). Copy IP address into application field `Address`. Optionally change `Timeout` field value to adjust time which ping command will wait for answer from address. Also optionally modify `Interval` field value to change frequency of calling system ping command. if all fields are as intended, than hit ping button to start pinging. Click it again to stop.  
-There might be few seconds of delay between clicking ping/stop button and reaction. It is a result of system `ping` command which needs time to perform its job.
+Pick one host and get its IP (you can use the `ping -a <name>` command in console). Copy IP address into application field `Address`. Optionally change the `Timeout` field value to adjust the time at which the ping command will wait for an answer from the address. Also, optionally modify the `Interval` field value to change the frequency of calling the system ping command. If all fields are as intended, then hit the ping button to start pinging. Click it again to stop.  
+There might be a few seconds of delay between clicking the ping/stop button and reaction. It is a result of the system `ping` command, which needs time to perform its job.
 
 ## Testing
 For testing purposes, the QTest framework is used. Build the project first. Make sure that the `ping-stat-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/test` directory, where the⁣ binary `ping-stat-test` should be available. Launching it should produce the following output on Linux:
