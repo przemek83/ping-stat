@@ -1,23 +1,15 @@
 #include "MainWindow.h"
 
 #include "Constants.h"
-#ifdef _WIN32
-#include "PingerWindows.h"
-#else
-#include "PingerLinux.h"
-#endif
+#include "Pinger.h"
 #include "ui_MainWindow.h"
 
-MainWindow::MainWindow(QWidget* parent)
+MainWindow::MainWindow(std::unique_ptr<Pinger> pinger, QWidget* parent)
     : QMainWindow(parent),
       ui_{std::make_unique<Ui::MainWindow>()},
+      pinger_{std::move(pinger)},
       plotWidget_(this)
 {
-#ifdef _WIN32
-    pinger_ = std::make_unique<PingerWindows>(this);
-#else
-    pinger_ = std::make_unique<PingerLinux>(this);
-#endif
     ui_->setupUi(this);
 
     setupAdressValidator();

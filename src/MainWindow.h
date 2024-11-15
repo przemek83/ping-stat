@@ -5,10 +5,11 @@
 
 #include <QMainWindow>
 
-#include "Pinger.h"
 #include "PlotWidget.h"
 
 class HostChecker;
+class Pinger;
+struct PingData;
 
 namespace Ui
 {
@@ -19,7 +20,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget* parent = nullptr);
+    explicit MainWindow(std::unique_ptr<Pinger> pinger,
+                        QWidget* parent = nullptr);
 
     ~MainWindow() override;
 
