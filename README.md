@@ -8,18 +8,20 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=przemek83_ping-stat&metric=coverage)](https://sonarcloud.io/summary/new_code?id=przemek83_ping-stat)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=przemek83_ping-stat&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=przemek83_ping-stat)
 
-## Ping statistics on chart
-Program drawing given server response time on chart. Pinging of the hosts is done using call of `ping` command from operating system and parsing output.   
-![](screen.png?raw=true "")
-
-## Table of content
+## Table of contents
+- [About](#about)
 - [Problem description](#problem-description)
 - [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Building](#building)
-- [Built with](#built-with)
+   * [Prerequisites](#prerequisites)
+   * [Building](#building)
+   * [Built with](#built-with)
 - [Usage](#usage)
+- [Testing](#testing)
 - [License](#license)
+
+## About
+Program drawing given server response time on chart. Pinging of the hosts is done using call of `ping` command from operating system and parsing output. Example screenshot:
+![](screen.png?raw=true "")
 
 ## Problem description
 Create small application which will ping given address, draw plot with responses times over time and will log data to file (one log file per day).  
@@ -38,18 +40,26 @@ Plot with ping response statistics over time.
 This section describes briefly how to setup environment and build project.
 
 ### Prerequisites
-C++ compiler with C++17 support as a minimum and CMake 3.8+. As application is based on Qt you will also needed it to build this application.
+Qt in version 6.5 or greater, C++ compiler with C++17 support as a minimum and CMake 3.16+. 
 
 ### Building
-Use QtCreator or Cmake.  
+Clone and use CMake directly or via any IDE supporting it. CMake should:
 
-## Built with
-| Tool |  Windows 10 | Lubuntu 20.04 |
+- configure everything automatically,
+- compile and create binaries.
+
+As a result of compilation, binary for simulations and binary for testing should be created.
+
+### Built with
+| Tool |  Windows | Ubuntu |
 | --- | --- | --- |
-| GCC | 7.3.0 | 9.3.0 |
-| Cmake | 3.14 | 3.17 |
-| Git | 2.20 | 2.25 |
-| QtCreator | 4.12.0 | 4.13.0 |
+| OS version | 10 22H2 | 22.04 |
+| GCC | 13.1.0 | 13.2.0 |
+| CMake | 3.30.2 | 3.28.3 |
+| Git | 2.46.0 | 2.43.0 |
+| Qt | 6.5.2 | 6.5.2 |
+| Qt Creator | 10.0.2 | 10.0.2 |
+| VS Code | 1.92.0 | 1.94.2 |
 
 ## Usage
 Pick one host and get its IP (you can use `ping -a <name>` command in console). Copy IP address into application field `Address`. Optionally change `Timeout` field value to adjust time which ping command will wait for answer from address. Also optionally modify `Interval` field value to change frequency of calling system ping command. if all fields are as intended, than hit ping button to start pinging. Click it again to stop.  
