@@ -65,10 +65,10 @@ Pick one host and get its IP (you can use the `ping -a <name>` command in consol
 There might be a few seconds of delay between clicking the ping/stop button and reaction. It is a result of the system `ping` command, which needs time to perform its job.
 
 ## Testing
-For testing purposes, the QTest framework is used. Build the project first. Make sure that the `ping-stat-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/test` directory, where the⁣ binary `ping-stat-test` should be available. Launching it should produce the following output on Linux:
+For testing purposes, the QTest framework is used. Build the project first. Make sure that the `ping-stat-tests` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/tests` directory, where the⁣ binary `ping-stat-tests` should be available. Launching it should produce the following output on Linux:
 Example run:
 ```
-$ ./ping-stat-test
+$ ./ping-stat-tests
 ********* Start testing of ParserTest *********
 Config: Using QtTest library 6.5.2, Qt 6.5.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 10.3.1 20210422 (Red Hat 10.3.1-1)), ubuntu 24.04
 PASS   : ParserTest::initTestCase()
@@ -85,12 +85,12 @@ Totals: 10 passed, 0 failed, 0 skipped, 0 blacklisted, 1ms
 ********* Finished testing of ParserTest *********
 
 ```
-As an alternative, CTest can be used to run tests from the `build/test` directory:
+As an alternative, CTest can be used to run tests from the `build/tests` directory:
 ```
 $ ctest
-Test project <path>/ping-stat/build/test
-    Start 1: ping-stat-test
-1/1 Test #1: ping-stat-test ...................   Passed    0.01 sec
+Test project <path>/ping-stat/build/tests
+    Start 1: ping-stat-tests
+1/1 Test #1: ping-stat-tests ...................   Passed    0.01 sec
 
 100% tests passed, 0 tests failed out of 1
 

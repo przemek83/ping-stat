@@ -53,4 +53,4 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}-lib Qt6::Widgets)
 
 enable_testing()
-add_subdirectory(test)
+add_subdirectory(tests)
