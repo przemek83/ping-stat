@@ -59,13 +59,13 @@ void MainWindow::startPinging()
 void MainWindow::updatePingStatistics(const PingData& pingData)
 {
     ui_->timeLabelValue->setText(
-        pingData.time.toString(Constants::getDisplayTimeFormat()));
-    ui_->packetsSentValue->setText(QString::number(pingData.packetsSent));
-    ui_->packetsLostValue->setText(QString::number(pingData.packetsLost));
-    ui_->avgTimeValue->setText(QString::number(pingData.avgReturnTime) +
+        pingData.time_.toString(Constants::getDisplayTimeFormat()));
+    ui_->packetsSentValue->setText(QString::number(pingData.packetsSent_));
+    ui_->packetsLostValue->setText(QString::number(pingData.packetsLost_));
+    ui_->avgTimeValue->setText(QString::number(pingData.avgReturnTime_) +
                                tr("ms"));
-    ui_->minTimeValue->setText(QString::number(pingData.min) + tr("ms"));
-    ui_->maxTimeValue->setText(QString::number(pingData.max) + tr("ms"));
+    ui_->minTimeValue->setText(QString::number(pingData.min_) + tr("ms"));
+    ui_->maxTimeValue->setText(QString::number(pingData.max_) + tr("ms"));
 }
 
 void MainWindow::pingButtonClicked()
@@ -79,6 +79,6 @@ void MainWindow::pingButtonClicked()
 
 void MainWindow::updatePingData(const PingData& pingData)
 {
-    plotWidget_.updatePlotWidget(pingData.avgReturnTime, pingData.time);
+    plotWidget_.updatePlotWidget(pingData.avgReturnTime_, pingData.time_);
     updatePingStatistics(pingData);
 }

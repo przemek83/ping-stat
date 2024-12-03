@@ -44,10 +44,10 @@ void Pinger::logPingData(const PingData& pingData) const
 {
     QString logMsg;
     QTextStream out(&logMsg);
-    out << pingData.time.toString(logTimeFormat_) << ",";
-    out << host_ << "," << pingData.packetsSent << "," << pingData.packetsLost
-        << "," << pingData.min << "," << pingData.max << ","
-        << pingData.avgReturnTime << "\n";
+    out << pingData.time_.toString(logTimeFormat_) << ",";
+    out << host_ << "," << pingData.packetsSent_ << "," << pingData.packetsLost_
+        << "," << pingData.min_ << "," << pingData.max_ << ","
+        << pingData.avgReturnTime_ << "\n";
     Logger::getInstance().log(logMsg);
 }
 
@@ -63,9 +63,9 @@ void Pinger::logError(const QString& errorMsg) const
 
 void Pinger::fillFieldsWithTimeout(PingData& pingData) const
 {
-    pingData.avgReturnTime = timeout_;
-    pingData.min = timeout_;
-    pingData.max = timeout_;
+    pingData.avgReturnTime_ = timeout_;
+    pingData.min_ = timeout_;
+    pingData.max_ = timeout_;
 }
 
 void Pinger::pingFinished([[maybe_unused]] int exitCode,
@@ -80,13 +80,13 @@ void Pinger::pingFinished([[maybe_unused]] int exitCode,
 
     QString result{QString::fromLatin1(ping->readAllStandardOutput())};
     PingData pingData{extractPingData(result)};
-    if (pingData.packetsSent == 0)
+    if (pingData.packetsSent_ == 0)
     {
         logError(QStringLiteral("Error: wrong return results."));
         return;
     }
 
-    if (pingData.packetsSent == pingData.packetsLost)
+    if (pingData.packetsSent_ == pingData.packetsLost_)
         fillFieldsWithTimeout(pingData);
 
     logPingData(pingData);

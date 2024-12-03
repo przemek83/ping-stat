@@ -7,11 +7,11 @@ namespace
 {
 void check(PingData current, PingData expected)
 {
-    QCOMPARE(current.packetsSent, expected.packetsSent);
-    QCOMPARE(current.packetsLost, expected.packetsLost);
-    QCOMPARE(current.avgReturnTime, expected.avgReturnTime);
-    QCOMPARE(current.min, expected.min);
-    QCOMPARE(current.max, expected.max);
+    QCOMPARE(current.packetsSent_, expected.packetsSent_);
+    QCOMPARE(current.packetsLost_, expected.packetsLost_);
+    QCOMPARE(current.avgReturnTime_, expected.avgReturnTime_);
+    QCOMPARE(current.min_, expected.min_);
+    QCOMPARE(current.max_, expected.max_);
 }
 };  // namespace
 

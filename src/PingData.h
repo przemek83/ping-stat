@@ -4,10 +4,10 @@
 
 struct PingData
 {
-    QDateTime time;
-    int packetsSent{0};
-    int packetsLost{0};
-    int avgReturnTime{0};
-    int min{0};
-    int max{0};
+    QDateTime time_;
+    int packetsSent_{0};
+    int packetsLost_{0};
+    int avgReturnTime_{0};
+    int min_{0};
+    int max_{0};
 };

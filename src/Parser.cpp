@@ -84,16 +84,16 @@ PingData getPingDataFromWindowsOutput(QString pingOutput)
     if (values.size() < 2)
         return data;
 
-    data.packetsSent = values[0].toInt();
+    data.packetsSent_ = values[0].toInt();
     const int packetsReceived{values[1].toInt()};
-    data.packetsLost = data.packetsSent - packetsReceived;
+    data.packetsLost_ = data.packetsSent_ - packetsReceived;
 
     if (values.size() < 5)
         return data;
 
-    data.min = values[2].toInt();
-    data.max = values[3].toInt();
-    data.avgReturnTime = values[4].toInt();
+    data.min_ = values[2].toInt();
+    data.max_ = values[3].toInt();
+    data.avgReturnTime_ = values[4].toInt();
 
     return data;
 }
