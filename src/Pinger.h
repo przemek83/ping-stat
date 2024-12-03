@@ -47,7 +47,7 @@ private:
 
     const QString logTimeFormat_{QStringLiteral("HH:mm:ss")};
 
-private Q_SLOTS:
+private slots:
     void pingFinished(int, QProcess::ExitStatus exitStatus);
 
 signals:
