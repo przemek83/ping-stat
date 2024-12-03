@@ -3,9 +3,6 @@
 #include <QDate>
 #include <QFile>
 
-/**
- * @brief The Logger class for logging ping results.
- */
 class Logger
 {
 public:

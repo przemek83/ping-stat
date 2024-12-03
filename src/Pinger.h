@@ -15,12 +15,6 @@ public:
 
     ~Pinger() override = default;
 
-    /**
-     * @brief start host checker using giving parameters.
-     * @param intervalInSeconds time between calls of ping.
-     * @param timeout maximum time ping wits for reply.
-     * @param host IP of host.
-     */
     void start(int intervalInSeconds, int timeout, const QString& host);
 
     void stop();
@@ -56,6 +50,6 @@ private:
 private Q_SLOTS:
     void pingFinished(int, QProcess::ExitStatus exitStatus);
 
-Q_SIGNALS:
+signals:
     void newPingData(PingData);
 };
