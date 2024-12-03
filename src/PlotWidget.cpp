@@ -79,7 +79,8 @@ void PlotWidget::drawItem(QPainter& painter, int& counter, int value) const
 {
     const int itemWidth{getPlotItemWidth()};
     const int startY{height() - marginSize_};
-    const int startX{marginSize_ + itemWidth * counter++};
+    ++counter;
+    const int startX{marginSize_ + (itemWidth * counter)};
     const int itemHeight{calculateItemHeight(value)};
     painter.drawRect(startX, startY, itemWidth, -itemHeight);
 }
@@ -87,24 +88,25 @@ void PlotWidget::drawItem(QPainter& painter, int& counter, int value) const
 void PlotWidget::drawItems(QPainter& painter) const
 {
     int counter{0};
-    for (const auto& [time, value] : data_)
+    for (const auto& [_, value] : data_)
         drawItem(painter, counter, value);
 }
 
 int PlotWidget::getPlotItemWidth() const
 {
-    const qsizetype dataSize{data_.size()};
+    const int dataSize{static_cast<int>(data_.size())};
     const int plotAreaWidth{getPlotAreaSize().width()};
-    return (dataSize > minPlotItemsToResize_
-                ? plotAreaWidth / dataSize
-                : plotAreaWidth / minPlotItemsToResize_);
+    if (dataSize > minPlotItemsToResize_)
+        return plotAreaWidth / dataSize;
+    else
+        return plotAreaWidth / minPlotItemsToResize_;
 }
 
 QSize PlotWidget::getPlotAreaSize() const
 {
     // One margin size for scale, one for distance between first plotItem
     // and scale, one for distance from last item to end.
-    return {width() - 3 * marginSize_, height() - 3 * marginSize_};
+    return {width() - (3 * marginSize_), height() - (3 * marginSize_)};
 }
 
 void PlotWidget::doublePenSize(QPainter& painter)
@@ -136,11 +138,11 @@ int PlotWidget::getMaxYAxisValue() const
     return std::max(timeoutValue_, value);
 }
 
-void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& time)
+void PlotWidget::updatePlotWidget(int avgReturnTime, const QDateTime& dateTime)
 {
     if (data_.size() >= maxPlotItems_)
         data_.pop_front();
-    data_.push_back({time, avgReturnTime});
+    data_.push_back({dateTime, avgReturnTime});
     update();
 }
 
@@ -155,8 +157,9 @@ bool PlotWidget::event(QEvent* event)
         return QWidget::event(event);
 
     const auto* helpEvent{dynamic_cast<QHelpEvent*>(event)};
-    const int item{(helpEvent->pos().x() - marginSize_) / getPlotItemWidth()};
-    if (item < data_.size() && item >= 0)
+    if (const int item{(helpEvent->pos().x() - marginSize_) /
+                       getPlotItemWidth()};
+        (item < data_.size()) && (item >= 0))
     {
         const QString tooltipText(buildToolTip(item));
         QToolTip::hideText();

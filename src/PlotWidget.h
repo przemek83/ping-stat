@@ -13,7 +13,7 @@ public:
 
     void setTimeoutValue(int timeoutValue);
 
-    void updatePlotWidget(int avgReturnTime, const QDateTime& time);
+    void updatePlotWidget(int avgReturnTime, const QDateTime& dateTime);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
