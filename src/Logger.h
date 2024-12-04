@@ -13,7 +13,7 @@ public:
 
     static Logger& getInstance();
 
-    void log(const QString& msg);
+    void info(const QString& msg);
 
 private:
     Logger();

@@ -39,7 +39,7 @@ Logger& Logger::getInstance()
     return instance;
 }
 
-void Logger::log(const QString& msg)
+void Logger::info(const QString& msg)
 {
     if (!isLogFileReady())
         return;

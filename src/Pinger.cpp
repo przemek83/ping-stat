@@ -34,7 +34,7 @@ void Pinger::timerEvent([[maybe_unused]] QTimerEvent* event)
     if (!isRunning())
         return;
 
-    auto pingProcess{new QProcess(this)};
+    auto* pingProcess{new QProcess(this)};
     connect(pingProcess, &QProcess::finished, this, &Pinger::pingFinished);
 
     pingProcess->startCommand(getPingCommand());
@@ -48,17 +48,17 @@ void Pinger::logPingData(const PingData& pingData) const
     out << host_ << "," << pingData.packetsSent_ << "," << pingData.packetsLost_
         << "," << pingData.min_ << "," << pingData.max_ << ","
         << pingData.avgReturnTime_ << "\n";
-    Logger::getInstance().log(logMsg);
+    Logger::getInstance().info(logMsg);
 }
 
 void Pinger::logError(const QString& errorMsg) const
 {
-    QDateTime time{QDateTime::currentDateTime()};
+    QDateTime dateTime{QDateTime::currentDateTime()};
     QString logMsg;
     QTextStream out(&logMsg);
-    out << time.toString(logTimeFormat_) << ",";
+    out << dateTime.toString(logTimeFormat_) << ",";
     out << errorMsg << "\n";
-    Logger::getInstance().log(logMsg);
+    Logger::getInstance().info(logMsg);
 }
 
 void Pinger::fillFieldsWithTimeout(PingData& pingData) const
@@ -71,7 +71,7 @@ void Pinger::fillFieldsWithTimeout(PingData& pingData) const
 void Pinger::pingFinished([[maybe_unused]] int exitCode,
                           [[maybe_unused]] QProcess::ExitStatus exitStatus)
 {
-    auto ping{qobject_cast<QProcess*>(sender())};
+    auto* ping{::qobject_cast<QProcess*>(sender())};
     if (ping == nullptr)
     {
         logError(QStringLiteral("Error: internal."));
