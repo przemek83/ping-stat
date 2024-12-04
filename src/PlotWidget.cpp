@@ -123,7 +123,7 @@ QString PlotWidget::buildToolTip(int item) const
     tooltip.append(QStringLiteral("\n"));
     tooltip.append(tr("Time: "));
     tooltip.append(
-        data_[item].first.toString(Constants::getDisplayTimeFormat()));
+        data_[item].first.toString(constants::getDisplayTimeFormat()));
     return tooltip;
 }
 

@@ -2,7 +2,7 @@
 
 #include <QString>
 
-namespace Constants
+namespace constants
 {
 QString getDisplayTimeFormat();
-}  // namespace Constants
+}  // namespace constants

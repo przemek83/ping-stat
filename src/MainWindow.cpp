@@ -59,7 +59,7 @@ void MainWindow::startPinging()
 void MainWindow::updatePingStatistics(const PingData& pingData)
 {
     ui_->timeLabelValue->setText(
-        pingData.time_.toString(Constants::getDisplayTimeFormat()));
+        pingData.time_.toString(constants::getDisplayTimeFormat()));
     ui_->packetsSentValue->setText(QString::number(pingData.packetsSent_));
     ui_->packetsLostValue->setText(QString::number(pingData.packetsLost_));
     ui_->avgTimeValue->setText(QString::number(pingData.avgReturnTime_) +
