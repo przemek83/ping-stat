@@ -64,7 +64,7 @@ Pick one host and get its IP (you can use the `ping -a <name>` command in consol
 There might be a few seconds of delay between clicking the ping/stop button and reaction. It is a result of the system `ping` command, which needs time to perform its job.
 
 ## Testing
-For testing purposes, the QTest framework is used. Build the project first. Make sure that the `ping-stat-tests` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/tests` directory, where the⁣ binary `ping-stat-tests` should be available. Launching it should produce the following output on Linux:
+For testing purposes, the QtTest framework is used. Build the project first. Make sure that the `ping-stat-tests` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/tests` directory, where the⁣ binary `ping-stat-tests` should be available. Launching it should produce the following output on Linux:
 Example run:
 ```
 $ ./ping-stat-tests
