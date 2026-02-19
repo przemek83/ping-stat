@@ -28,9 +28,9 @@ Create a small application that will ping a given address, draw a plot with resp
 
 **Input**:  
 Editable fields:
-- host IP - IP of host to ping
-- timeout value - max time which ping command should wait for answer in milliseconds,
-- interval value - frequency of pings in seconds.
+- Host IP: IP of host to ping,
+- Timeout value: The max time for the ping command should wait for an answer in milliseconds,
+- Interval value: frequency of pings in seconds.
 
 **Output**:  
 Plot with ping response statistics over time.
