@@ -14,7 +14,7 @@ PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent)
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
-void PlotWidget::setupPainter(QPainter& painter) const
+void PlotWidget::setupPainter(QPainter& painter)
 {
     painter.setRenderHint(QPainter::Antialiasing);
     const QColor color(Qt::darkBlue);
@@ -98,8 +98,8 @@ int PlotWidget::getPlotItemWidth() const
     const int plotAreaWidth{getPlotAreaSize().width()};
     if (dataSize > minPlotItemsToResize_)
         return plotAreaWidth / dataSize;
-    else
-        return plotAreaWidth / minPlotItemsToResize_;
+
+    return plotAreaWidth / minPlotItemsToResize_;
 }
 
 QSize PlotWidget::getPlotAreaSize() const

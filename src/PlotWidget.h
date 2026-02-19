@@ -9,7 +9,7 @@ class PlotWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlotWidget(QWidget* parent = nullptr);
+    explicit PlotWidget(QWidget* parent);
 
     void setTimeoutValue(int timeoutValue);
 
@@ -21,7 +21,7 @@ protected:
     bool event(QEvent* event) override;
 
 private:
-    void setupPainter(QPainter& painter) const;
+    static void setupPainter(QPainter& painter);
 
     void drawScales(QPainter& painter) const;
 
