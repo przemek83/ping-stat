@@ -6,10 +6,11 @@
 class Logger
 {
 public:
-    Logger& operator=(const Logger& other) = delete;
     Logger(const Logger& other) = delete;
-    Logger& operator=(Logger&& other) = delete;
     Logger(Logger&& other) = delete;
+
+    Logger& operator=(const Logger& other) = delete;
+    Logger& operator=(Logger&& other) = delete;
 
     static Logger& getInstance();
 
