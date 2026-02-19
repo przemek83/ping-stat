@@ -49,4 +49,5 @@ private:
     const int axisNameSize_{50};
     const int maxPlotItems_{50};
     const int minPlotItemsToResize_{10};
+    const int minimumHeight_{100};
 };

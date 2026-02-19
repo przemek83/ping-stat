@@ -10,7 +10,7 @@
 
 PlotWidget::PlotWidget(QWidget* parent) : QWidget(parent)
 {
-    setMinimumHeight(100);
+    setMinimumHeight(minimumHeight_);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
@@ -62,7 +62,8 @@ void PlotWidget::drawScales(QPainter& painter) const
     // place "0" and axis names.
     painter.drawText(0, height(), tr("0"));
     painter.drawText(width() - axisNameSize_, height(), tr("time"));
-    painter.rotate(270);
+    const int verticalRotation{270};
+    painter.rotate(verticalRotation);
     painter.drawText(-axisNameSize_, marginSize_ - 2, tr("ping"));
 }
 
@@ -106,7 +107,9 @@ QSize PlotWidget::getPlotAreaSize() const
 {
     // One margin size for scale, one for distance between first plotItem
     // and scale, one for distance from last item to end.
-    return {width() - (3 * marginSize_), height() - (3 * marginSize_)};
+    const int marginCount{3};
+    return {width() - (marginCount * marginSize_),
+            height() - (marginCount * marginSize_)};
 }
 
 void PlotWidget::doublePenSize(QPainter& painter)
