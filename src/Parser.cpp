@@ -28,7 +28,9 @@ std::tuple<int, int, int> getTimesInfo(const QString& line)
         line.mid(startIndex + startSubString.size(),
                  endIndex - startIndex - startSubString.size())};
     const QStringList times{timesString.split('/')};
-    if (times.size() < 3)
+
+    const int expectedValuesCount{3};
+    if (times.size() < expectedValuesCount)
         return {0, 0, 0};
 
     return {std::round(times[0].toFloat()), std::round(times[1].toFloat()),
