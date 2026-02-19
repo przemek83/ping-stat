@@ -24,7 +24,7 @@ Program drawing given server response time on chart. Pinging of the hosts is don
 ![](screen.png?raw=true "")
 
 ## Problem description
-Create a small application that will ping a given address, draw a plot with responses times over time, and will log data to a file (one log file per day). Given as an offline interview task.
+Create a small application that will ping a given address, draw a plot with response times over time, and log data to a file (one log file per day). Given as an offline interview task.
 
 **Input**:  
 Editable fields:
