@@ -4,8 +4,8 @@
 #include "Pinger.h"
 #include "ui_MainWindow.h"
 
-MainWindow::MainWindow(std::unique_ptr<Pinger> pinger, QWidget* parent)
-    : QMainWindow(parent),
+MainWindow::MainWindow(std::unique_ptr<Pinger> pinger)
+    : QMainWindow(nullptr),
       ui_{std::make_unique<Ui::MainWindow>()},
       pinger_{std::move(pinger)},
       plotWidget_(this)

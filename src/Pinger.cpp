@@ -5,7 +5,7 @@
 
 #include "Logger.h"
 
-Pinger::Pinger(QObject* parent) : QObject(parent) {}
+Pinger::Pinger() : QObject(nullptr) {}
 
 void Pinger::start(int intervalInSeconds, int timeout, const QString& host)
 {

@@ -11,7 +11,7 @@ class Pinger : public QObject
 {
     Q_OBJECT
 public:
-    explicit Pinger(QObject* parent = nullptr);
+    Pinger();
 
     ~Pinger() override = default;
 

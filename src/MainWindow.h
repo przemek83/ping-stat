@@ -20,8 +20,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(std::unique_ptr<Pinger> pinger,
-                        QWidget* parent = nullptr);
+    explicit MainWindow(std::unique_ptr<Pinger> pinger);
 
     ~MainWindow() override;
 
