@@ -48,16 +48,15 @@ Clone and use CMake directly or via any IDE supporting it. CMake should:
 
 As a result of compilation, binary for simulations and binary for testing should be created.
 
-### Built with
-| Tool |  Windows | Ubuntu |
-| --- | --- | --- |
-| OS version | 10 22H2 | 22.04 |
-| GCC | 13.1.0 | 13.2.0 |
-| CMake | 3.30.2 | 3.28.3 |
-| Git | 2.46.0 | 2.43.0 |
-| Qt | 6.5.2 | 6.5.2 |
-| Qt Creator | 10.0.2 | 10.0.2 |
-| VS Code | 1.92.0 | 1.94.2 |
+## Built with
+| |  Windows | Windows | Ubuntu |
+| --- | --- | --- | --- | 
+| OS version | 11 24H2 | 11 24H2 | 24.04 |
+| Qt | 6.8.3 | 6.8.3 | 6.8.3 |
+| compiler | GCC 13.1.0 | MSVC 19.44 | GCC 13.3.0 |
+| CMake | 4.3.4 | 4.3.4 | 4.3.4 |
+| Git | 2.46.0 | 2.46.0 | 2.43.0 |
+
 
 ## Usage
 Pick one host and get its IP (you can use the `ping -a <name>` command in console). Copy IP address into application field `Address`. Optionally change the `Timeout` field value to adjust the time at which the ping command will wait for an answer from the address. Also, optionally modify the `Interval` field value to change the frequency of calling the system ping command. If all fields are as intended, then hit the ping button to start pinging. Click it again to stop.  
