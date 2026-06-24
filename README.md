@@ -39,7 +39,7 @@ Plot with ping response statistics over time.
 This section describes briefly how to setup the environment and build the project.  
 
 ### Prerequisites
-Qt in version 6.5 or greater, a C++ compiler with C++17 support as a minimum, and CMake 3.16+. 
+Qt in version 6.8 or greater, a C++ compiler with C++17 support as a minimum, and CMake 3.16+. 
 
 ### Building
 Clone and use CMake directly or via any IDE supporting it. CMake should:
@@ -68,7 +68,7 @@ Example run:
 ```
 $ ./ping-stat-tests
 ********* Start testing of ParserTest *********
-Config: Using QtTest library 6.5.2, Qt 6.5.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 10.3.1 20210422 (Red Hat 10.3.1-1)), ubuntu 24.04
+Config: Using QtTest library 6.8.3, Qt 6.8.3 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 10.3.1 20210422 (Red Hat 10.3.1-1)), ubuntu 24.04
 PASS   : ParserTest::initTestCase()
 PASS   : ParserTest::testPingableHostOnLinux()
 PASS   : ParserTest::testNonPingableHostOnLinux()
